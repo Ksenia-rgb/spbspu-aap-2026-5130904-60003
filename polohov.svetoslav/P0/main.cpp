@@ -1,5 +1,8 @@
 #include <iostream>
 
-int main() {
+int main()
+{
     std::cout << "polohov.svetoslav\n";
+
+    return 0;
 }
