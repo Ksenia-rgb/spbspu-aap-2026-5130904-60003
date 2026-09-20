@@ -234,7 +234,7 @@ $(addprefix tidy-,$(labs)): tidy-%: check-clang-tidy
 	$(eval tidy_write := ./.clang-tidy)
 
 	@if [ $(check) = 0 ]; then \
-		python3 .github/cg/scripts/info.py; \
+		py .github/cg/scripts/info.py; \
 	fi
 
 	$(eval files_sources := $(call lab_sources,$*))
