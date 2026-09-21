@@ -2,7 +2,5 @@
 
 int main()
 {
-    std::cout << "polohov.svetoslav\n";
-
-    return 0;
+  std::cout << "polohov.svetoslav\n";
 }
