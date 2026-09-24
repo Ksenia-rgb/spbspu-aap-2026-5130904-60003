@@ -1,6 +1,6 @@
-#include<iostream>
+#include <iostream>
 
 int main() {
-    std::cout << "ivanova.sofia\n";
-    return 0;
+  std::cout << "ivanova.sofia\n";
+  return 0;
 }
