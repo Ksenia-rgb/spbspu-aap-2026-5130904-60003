@@ -2,6 +2,8 @@
 #include <limits>
 #include <stdexcept>
 const int n = 10;
+const int errorCountCode = 2;
+const int errorCode = 1;
 
 int divCount(const int arr[n]) {
     int cnt = 0;
@@ -9,7 +11,7 @@ int divCount(const int arr[n]) {
         if (arr[i + 1] == 0) {
             if (i < 1) {
                 std::cerr << "not enough numbers for operation" << "\n";
-                const int errorCode = 2;
+                return errorCountCode;
             }
             break;
         }
@@ -81,17 +83,17 @@ int main() {
 
     catch (const std::invalid_argument &e) {
         std::cerr << e.what();
-        const int errorCode = 1;
+        return errorCode;
     }
 
     catch (const std::overflow_error &e) {
         std::cerr << e.what();
-        const int errorCode = 1;
+        return errorCode;
     }
 
     catch (const std::underflow_error &e) {
         std::cerr << e.what();
-        const int errorCode = 1;
+        return errorCode;
     }
 
     return 0;
