@@ -31,7 +31,7 @@ int cntEvenNumb(const int arr[n]) {
         if (arr[i + 1] == 0) {
             break;
         }
-        if (arr[i] % 2 == 0) {
+        if (arr[i] % div2 == 0) {
             flag = true;
         }
         if (arr[i] % div2 == 0 && arr[i + 1] % div2 == 0) {
