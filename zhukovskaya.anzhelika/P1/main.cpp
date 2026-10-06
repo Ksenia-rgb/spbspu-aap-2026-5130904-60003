@@ -2,6 +2,7 @@
 #include <limits>
 #include <stdexcept>
 const int n = 10;
+    const int div2 = 2;
 const int errorCountCode = 2;
 const int errorCode = 1;
 
@@ -51,7 +52,6 @@ int cntEvenNumb(const int arr[n]) {
 
 void numbering(int arr[n]) {
     long long save = 1;
-    const int div2 = 2;
     int c = 0;
     for (int i = 0; i < n; ++i) {
         std::cout << "enter number, for breaking input enter '0'" << "\n";
