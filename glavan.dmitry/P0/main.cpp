@@ -1,10 +1,6 @@
 #include <iostream>
 
-int main()
-{
+int main() {
   std::cout << "glavan.dmitry\n";
   return 0;
 }
-
-
-
