@@ -59,7 +59,7 @@ void numbering(int arr[n]){
         else if (save < std::numeric_limits<int>::min()){
             throw std::underflow_error("this number too little");
         }
-        
+
         if (save == 0){
             break;
         }
@@ -89,6 +89,6 @@ int main(){
         std::cerr << e.what();
         return 1;
     }
-        
+
     return 0;
 }
