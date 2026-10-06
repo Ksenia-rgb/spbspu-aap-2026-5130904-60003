@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include <stdexcept>
 const int n = 10;
 int div_count(int arr[n]){
     int cnt = 0;
