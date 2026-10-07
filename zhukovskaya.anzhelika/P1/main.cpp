@@ -65,6 +65,7 @@ int cntEvenNumb(const int arr[n])
 }
 
 void numbering(int arr[n])
+void numbering(int arr[n])
 {
   long long save = 1;
   int c = 0;
@@ -76,11 +77,11 @@ void numbering(int arr[n])
     {
       throw std::invalid_argument("error, only integer\n");
     }
-    else if (save > std::numeric_limits<int>::max())
+    else if (save > std::numeric_limits< int >::max())
     {
       throw std::overflow_error("this number is too much");
     }
-    else if (save < std::numeric_limits<int>::min())
+    else if (save < std::numeric_limits< int >::min())
     {
       throw std::underflow_error("this number too little");
     }
@@ -89,7 +90,7 @@ void numbering(int arr[n])
     {
       break;
     }
-    arr[c] = static_cast<int>(save);
+    arr[c] = save;
     c++;
   }
   std::cout << "The number of divisible: " << divCount(arr) << "\n";
@@ -120,4 +121,3 @@ int main()
   }
   return 0;
 }
-
