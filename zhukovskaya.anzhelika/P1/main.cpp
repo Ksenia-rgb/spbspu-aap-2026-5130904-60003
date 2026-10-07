@@ -65,7 +65,6 @@ int cntEvenNumb(const int arr[n])
 }
 
 void numbering(int arr[n])
-void numbering(int arr[n])
 {
   long long save = 1;
   int c = 0;
