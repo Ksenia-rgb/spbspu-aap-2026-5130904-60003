@@ -55,8 +55,7 @@ int lengthOfSeq()
   int num_of_ops = 0;
 
   for (int j = 0; j < length_arr - 1; j++) {
-    if ((arr[j] > 0 && arr[j + 1] < 0) ||
-        (arr[j] < 0 && arr[j + 1] > 0)) {
+    if ((arr[j] > 0 && arr[j + 1] < 0) || (arr[j] < 0 && arr[j + 1] > 0)) {
       num_of_ops++;
     }
   }
