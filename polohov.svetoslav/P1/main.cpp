@@ -2,7 +2,8 @@
 
 const int MAX_NUM = 100;
 
-int length_of_seq() {
+int lengthOfSeq()
+{
   int length_arr = 0;
   int arr[MAX_NUM];
   int length = 0;
@@ -65,6 +66,7 @@ int length_of_seq() {
   return error_code;
 }
 
-int main() {
-  return length_of_seq();
+int main()
+{
+  return lengthOfSeq();
 }
