@@ -1,109 +1,70 @@
-#include <iomanip>
 #include <iostream>
-#include <stdexcept>
 
-const int MAX_SIZE = 100;
+const int MAX_NUM = 100;
 
-void printMatrix(int m[][MAX_SIZE], int rows, int cols) {
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      if (!(std::cin >> m[i][j])) {
-        throw std::invalid_argument("Matrix element must be a number.");
-      }
+int lengthOfSeq() {
+    int lengthArr = 0;
+    int arr[MAX_NUM];
+    int length = 0;
+    bool zeroFound = false;
+    int errorCode = 0;
 
-      if (m[i][j] < -100 || m[i][j] > 100) {
-        throw std::out_of_range(
-            "Matrix element must be between -100 and 100.");
-      }
+    for (int i = 0; i < MAX_NUM; i++) {
+        if (!(std::cin >> arr[i])) {
+            std::cerr << "Invalid input\n";
+            return 1;
+        }
+
+        if (arr[i] == 0) {
+            zeroFound = true;
+            break;
+        }
+
+        lengthArr++;
     }
-  }
 
-  double sum = 0.0;
-  int max = -100;
-
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      sum += m[i][j];
-
-      if (m[i][j] > max) {
-        max = m[i][j];
-      }
+    if (!zeroFound) {
+        std::cerr << "Sequence is too long\n";
+        return 1;
     }
-  }
 
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      std::cout << std::setw(6) << m[i][j] << " ";
+    if (lengthArr == 0) {
+        std::cerr << "Cannot calculate decreasing fragment length\n";
+        errorCode = 2;
+    } else {
+        for (int i = 0; i < lengthArr; i++) {
+            int temp = 1;
+
+            for (int j = i; j < lengthArr - 1; j++) {
+                if (arr[j] < arr[j + 1]) {
+                    break;
+                }
+
+                temp++;
+            }
+
+            if (temp > length) {
+                length = temp;
+            }
+        }
+
+        std::cout << length << "\n";
     }
-    std::cout << '\n';
-  }
 
-  std::cout << sum << '\n';
-  std::cout << max << '\n';
+    int numOfOps = 0;
 
-  if (rows * cols == 0) {
-    throw std::invalid_argument("rows and cols must not be 0.");
-  }
+    for (int j = 0; j < lengthArr - 1; j++) {
+        if ((arr[j] > 0 && arr[j + 1] < 0)
+            || (arr[j] < 0 && arr[j + 1] > 0)) {
+            numOfOps++;
+            }
+    }
 
-  std::cout << sum / (rows * cols) << '\n';
+    std::cout << numOfOps << "\n";
 
-  int cordx, cordy;
-
-  if (!(std::cin >> cordx >> cordy)) {
-    throw std::invalid_argument("Coordinates must be numbers.");
-  }
-
-  if (cordx >= rows || cordy >= cols || cordx < 0 || cordy < 0) {
-    throw std::out_of_range("cords must be between 0 and 100");
-  }
-
-  std::cout << m[cordx][cordy] << '\n';
-}
-
-void sumMult(int fsNum, int scdNum, int& sum, int& mult) {
-  sum = fsNum + scdNum;
-  mult = fsNum * scdNum;
-}
-
-void reverseString(std::string& str) {
-  std::size_t len = str.length();
-
-  for (std::size_t i = 0; i < len / 2; i++) {
-    char tmp = str[i];
-    str[i] = str[len - i - 1];
-    str[len - i - 1] = tmp;
-  }
+    return errorCode;
 }
 
 int main() {
-  try {
-    int rows, cols;
-
-    std::cin >> rows >> cols;
-
-    if (std::cin.fail()) {
-      throw std::invalid_argument("Input error.");
-    }
-
-    if (rows < 1 || cols < 1 || rows > MAX_SIZE || cols > MAX_SIZE) {
-      throw std::out_of_range("rows and cols must be between 1 and 100");
-    }
-
-    int m[MAX_SIZE][MAX_SIZE];
-
-    printMatrix(m, rows, cols);
-
-    std::string str;
-    std::cin >> str;
-
-    if (std::cin.fail()) {
-      throw std::invalid_argument("Input error.");
-    }
-
-    reverseString(str);
-  } catch (std::invalid_argument& e) {
-    std::cerr << e.what() << '\n';
-  } catch (std::out_of_range& e) {
-    std::cerr << e.what() << '\n';
-  }
+    return lengthOfSeq();
 }
