@@ -35,13 +35,13 @@ int main()
     }
     prev = input;
   }
-  
+
   if (std::cin.fail())
   {
     std::cerr << "INVALID INPUT\n";
     return lagunov::INVALID_INPUT;
   }
-  
+
   std::cout << greater_then_prev << '\n' << longest_decreasing_seq << '\n';
 
   return 0;
