@@ -2,7 +2,5 @@
 
 int main()
 {
-std::cout << "zvetkov.yuri\n";
-
-return 0;
+  std::cout << "zvetkov.yuri\n";
 }
