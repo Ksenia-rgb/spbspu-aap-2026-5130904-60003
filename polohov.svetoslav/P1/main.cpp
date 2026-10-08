@@ -2,12 +2,12 @@
 
 const int MAX_NUM = 100;
 
-int lengthOfSeq() {
-  int lengthArr = 0;
+int length_of_seq() {
+  int length_arr = 0;
   int arr[MAX_NUM];
   int length = 0;
-  bool zeroFound = false;
-  int errorCode = 0;
+  bool zero_found = false;
+  int error_code = 0;
 
   for (int i = 0; i < MAX_NUM; i++) {
     if (!(std::cin >> arr[i])) {
@@ -16,26 +16,26 @@ int lengthOfSeq() {
     }
 
     if (arr[i] == 0) {
-      zeroFound = true;
+      zero_found = true;
       break;
     }
 
-    lengthArr++;
+    length_arr++;
   }
 
-  if (!zeroFound) {
+  if (!zero_found) {
     std::cerr << "Sequence is too long\n";
     return 1;
   }
 
-  if (lengthArr == 0) {
+  if (length_arr == 0) {
     std::cerr << "Cannot calculate decreasing fragment length\n";
-    errorCode = 2;
+    error_code = 2;
   } else {
-    for (int i = 0; i < lengthArr; i++) {
+    for (int i = 0; i < length_arr; i++) {
       int temp = 1;
 
-      for (int j = i; j < lengthArr - 1; j++) {
+      for (int j = i; j < length_arr - 1; j++) {
         if (arr[j] < arr[j + 1]) {
           break;
         }
@@ -51,20 +51,20 @@ int lengthOfSeq() {
     std::cout << length << "\n";
   }
 
-  int numOfOps = 0;
+  int num_of_ops = 0;
 
-  for (int j = 0; j < lengthArr - 1; j++) {
-    if ((arr[j] > 0 && arr[j + 1] < 0)
-        || (arr[j] < 0 && arr[j + 1] > 0)) {
-      numOfOps++;
+  for (int j = 0; j < length_arr - 1; j++) {
+    if ((arr[j] > 0 && arr[j + 1] < 0) ||
+        (arr[j] < 0 && arr[j + 1] > 0)) {
+      num_of_ops++;
     }
   }
 
-  std::cout << numOfOps << "\n";
+  std::cout << num_of_ops << "\n";
 
-  return errorCode;
+  return error_code;
 }
 
 int main() {
-  return lengthOfSeq();
+  return length_of_seq();
 }
