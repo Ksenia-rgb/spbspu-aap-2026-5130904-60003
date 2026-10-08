@@ -1,0 +1,43 @@
+#include<iostream>
+int main(){
+  int num;
+  if (!(std::cin >> num)){
+   std::cerr << "Error: invalid argument/n";
+   return 1
+  }
+  if (num==0){
+   std::cer << "empty sequence/n";
+  return 2;
+  }
+  int max_el=num;
+  int max_kol=1;
+  int min_el=num;
+  int min_kol=1;
+  while (std::cin >> num){
+   if (num=0){
+    break;
+   }
+   if (num > max_el){
+    max_el=num;
+    max_count=1;
+   }
+   else if (num==max_el){
+    max_kol++;
+   }
+   if  (num < min_el){
+    min_el=num;
+    min_kol=1;
+   }
+   else if (num==min_el){
+    min_kol++;
+   }
+  }
+  if (!std::cin && num!=0){
+   std::cerr << "Error:invalid argument input sequence/n";
+   return 1;
+  }
+  std::cout << max_kol << "/n";
+  std::cout << min_kol << "/n";
+  return 0;
+}
+
