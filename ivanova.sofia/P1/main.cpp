@@ -49,9 +49,7 @@ int main()
           min_elements_counter++;
         }
 
-        if ((x * x + y * y == z * z) ||
-            (x * x + z * z == y * y) ||
-            (y * y + z * z == x * x)) {
+        if ((x * x + y * y == z * z) || (x * x + z * z == y * y) || (y * y + z * z == x * x)) {
             triple_counter++;
         }
 
