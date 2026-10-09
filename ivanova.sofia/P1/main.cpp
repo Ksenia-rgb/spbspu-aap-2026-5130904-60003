@@ -49,9 +49,9 @@ int main()
           min_elements_counter++;
         }
 
-        bool cond1 = (x * x + y * y == z * z);
-        bool cond2 =(x * x + z * z == y * y);
-        bool cond3 = (y * y + z * z == x * x);
+        const bool cond1 = (x * x + y * y == z * z);
+        const bool cond2 = (x * x + z * z == y * y);
+        const bool cond3 = (y * y + z * z == x * x);
 
         if (cond1 || cond2 || cond3) {
           triple_counter++;
