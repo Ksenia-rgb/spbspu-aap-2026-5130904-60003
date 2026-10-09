@@ -1,6 +1,7 @@
 #include <iostream>
 
-int main() {
+int main()
+{
   int triple_counter = 0;
   int min_elements_counter = 0;
 
@@ -48,9 +49,10 @@ int main() {
           min_elements_counter++;
         }
 
-        if ((x * x + y * y == z * z) || (x * x + z * z == y * y) ||
+        if ((x * x + y * y == z * z) ||
+            (x * x + z * z == y * y) ||
             (y * y + z * z == x * x)) {
-          triple_counter++;
+            triple_counter++;
         }
 
         x = y;
