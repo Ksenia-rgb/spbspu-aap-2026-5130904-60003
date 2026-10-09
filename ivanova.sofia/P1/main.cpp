@@ -49,8 +49,12 @@ int main()
           min_elements_counter++;
         }
 
-        if ((x * x + y * y == z * z) || (x * x + z * z == y * y) || (y * y + z * z == x * x)) {
-            triple_counter++;
+        bool cond1 = (x * x + y * y == z * z);
+        bool cond2 =(x * x + z * z == y * y);
+        bool cond3 = (y * y + z * z == x * x);
+
+        if (cond1 || cond2 || cond3) {
+          triple_counter++;
         }
 
         x = y;
