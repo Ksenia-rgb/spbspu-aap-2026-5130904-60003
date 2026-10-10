@@ -3,13 +3,13 @@
 int main()
 {
   int min = 0;
-  int countMin = 0;
-  int countDiv = 0;
+  int count_min = 0;
+  int count_div = 0;
 
   int prev = 0;
   bool first = true;
 
-  int countGlobal = 0;
+  int count_global = 0;
   int x = 0;
 
   while (std::cin >> x)
@@ -25,20 +25,20 @@ int main()
       first = false;
       prev = x;
       min = x;
-      countGlobal += 1;
+      count_global += 1;
     }
 
-    else if ((countGlobal > 0) && (!first))
+    else if ((count_global > 0) && (!first))
     {
       if (x == 0)
       {
-        if (countGlobal == 1)
+        if (count_global == 1)
         {
           std::cerr << "Error: not enough numbers.\n";
           return 2;
         }
-        std::cout << countMin << "\n";
-        std::cout << countDiv << "\n";
+        std::cout << count_min << "\n";
+        std::cout << count_div << "\n";
 
         break;
       }
@@ -46,21 +46,21 @@ int main()
       if (x < min)
       {
         min = x;
-        countMin = 1;
+        count_min = 1;
       }
 
       else if (x == min)
       {
-        countMin += 1;
+        count_min += 1;
       }
 
       if (x % prev == 0)
       {
-        countDiv += 1;
+        count_div += 1;
       }
 
       prev = x;
-      countGlobal += 1;
+      count_global += 1;
     }
   }
 
