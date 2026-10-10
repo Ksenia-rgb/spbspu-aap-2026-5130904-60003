@@ -1,121 +1,71 @@
 #include <iostream>
-
+ 
 namespace kovalenko {
-
-  struct SequenceResult {
-    int sumDupCount;
-    int secondMax;
-    int elementCount;
-    bool sumDupPossible;
-    bool subMaxPossible;
-  };
-
-  bool readSequence(SequenceResult &result)
+  static const int invalidInputCode = 1;
+  static const int calculationErrorCode = 2;
+  static const int secondMaxMinSize = 2;
+  static const int sumDupMinSize = 3;
+ 
+  static bool readSequence(int &size, int &secondMax, int &sumDupCount)
   {
-    result.sumDupCount = 0;
-    result.secondMax = 0;
-    result.elementCount = 0;
-    result.sumDupPossible = false;
-    result.subMaxPossible = false;
-
-    long long prevPrev = 0;
-    long long prev = 0;
-
-    long long maxValue = 0;
-    long long secondMaxValue = 0;
-    bool hasMax = false;
-    bool hasSecondMax = false;
-
-    long long current = 0;
-
+    int max = 0;
+    int previous = 0;
+    int beforePrevious = 0;
+    int current = 0;
+ 
     while (std::cin >> current) {
       if (current == 0) {
-        break;
+        return true;
       }
-
-      if (result.elementCount >= 2) {
-        if (current == prevPrev + prev) {
-          ++result.sumDupCount;
-        }
+ 
+      const long long sum = static_cast< long long >(previous) + beforePrevious;
+      if ((size >= (sumDupMinSize - 1)) && (current == sum)) {
+        ++sumDupCount;
       }
-
-      prevPrev = prev;
-      prev = current;
-
-      if (!hasMax) {
-        maxValue = current;
-        hasMax = true;
-      } else if (current > maxValue) {
-        secondMaxValue = maxValue;
-        hasSecondMax = true;
-        maxValue = current;
-      } else if (current < maxValue) {
-        if (!hasSecondMax || current > secondMaxValue) {
-          secondMaxValue = current;
-          hasSecondMax = true;
-        }
-      } else {
-        if (!hasSecondMax || current > secondMaxValue) {
-          secondMaxValue = current;
-          hasSecondMax = true;
-        }
+ 
+      if (size == 0) {
+        max = current;
+      } else if (current > max) {
+        secondMax = max;
+        max = current;
+      } else if ((size == 1) || (current > secondMax)) {
+        secondMax = current;
       }
-
-      ++result.elementCount;
+ 
+      beforePrevious = previous;
+      previous = current;
+      ++size;
     }
-
-    if (!std::cin && !std::cin.eof()) {
-      return false;
-    }
-
-    if (result.elementCount >= 2) {
-      result.sumDupPossible = true;
-    }
-
-    if (hasSecondMax) {
-      result.subMaxPossible = true;
-      result.secondMax = static_cast<int>(secondMaxValue);
-    }
-
-    return true;
+    return false;
   }
-
 }
-
+ 
 int main()
 {
-  using namespace kovalenko;
-
-  SequenceResult result;
-
-  if (!readSequence(result)) {
-    std::cerr << "Error: input is not a sequence of integers." << std::endl;
-    return 1;
+  int size = 0;
+  int secondMax = 0;
+  int sumDupCount = 0;
+ 
+  if (!kovalenko::readSequence(size, secondMax, sumDupCount)) {
+    std::cerr << "Error: input is not a valid sequence of integers\n";
+    return kovalenko::invalidInputCode;
   }
-
-  bool hasError = false;
-
-  // Задача 15: SUM-DUP
-  if (!result.sumDupPossible) {
-    std::cerr << "Error: cannot compute SUM-DUP "
-              << "(sequence is too short)." << std::endl;
-    hasError = true;
+ 
+  int exitCode = 0;
+ 
+  if (size >= kovalenko::sumDupMinSize) {
+    std::cout << sumDupCount << '\n';
   } else {
-    std::cout << result.sumDupCount << std::endl;
+    std::cerr << "Error: cannot compute SUM-DUP, sequence is too short\n";
+    exitCode = kovalenko::calculationErrorCode;
   }
-
-  // Задача 2: SUB-MAX
-  if (!result.subMaxPossible) {
-    std::cerr << "Error: cannot compute SUB-MAX "
-              << "(sequence is too short)." << std::endl;
-    hasError = true;
+ 
+  if (size >= kovalenko::secondMaxMinSize) {
+    std::cout << secondMax << '\n';
   } else {
-    std::cout << result.secondMax << std::endl;
+    std::cerr << "Error: cannot compute SUB-MAX, sequence is too short\n";
+    exitCode = kovalenko::calculationErrorCode;
   }
-
-  if (hasError) {
-    return 2;
-  }
-
-  return 0;
+ 
+  return exitCode;
 }
