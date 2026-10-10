@@ -27,9 +27,7 @@ namespace khaustov {
     const unsigned long long second_element = 2;
     const unsigned long long third_element = 3;
 
-    while (std::cin >> current_number)
-      {
-
+    while (std::cin >> current_number) {
       if (current_number == 0) {
         terminated = true;
         break;
