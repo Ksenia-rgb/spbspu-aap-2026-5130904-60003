@@ -5,21 +5,21 @@ int main()
   using std::cin;
   using std::cout;
 
-  const int successCode = 0;
-  const int errorCode = 2;
+  const int success_code = 0;
+  const int error_code = 2;
   const int terminator = 0;
 
   int count = 0;
 
-  int maxRun = 0;
-  int currentRun = 0;
-  int previousForRun = 0;
+  int max_run = 0;
+  int current_run = 0;
+  int previous_for_run = 0;
 
-  int localMaxima = 0;
-  int prevPrev = 0;
+  int local_maxima = 0;
+  int prev_prev = 0;
   int prev = 0;
-  bool hasPrev = false;
-  bool hasPrevPrev = false;
+  bool has_prev = false;
+  bool has_prev_prev = false;
 
   int value = 0;
   while (cin >> value && value != terminator)
@@ -28,49 +28,49 @@ int main()
 
     if (count == 1)
     {
-      currentRun = 1;
-      maxRun = 1;
+      current_run = 1;
+      max_run = 1;
     }
     else
     {
-      if (value == previousForRun)
+      if (value == previous_for_run)
       {
-        ++currentRun;
+        ++current_run;
       }
       else
       {
-        currentRun = 1;
+        current_run = 1;
       }
 
-      if (currentRun > maxRun)
+      if (current_run > max_run)
       {
-        maxRun = currentRun;
+        max_run = current_run;
       }
     }
-    previousForRun = value;
+    previous_for_run = value;
 
-    if (hasPrevPrev)
+    if (has_prev_prev)
     {
-      if (prev > prevPrev && prev > value)
+      if (prev > prev_prev && prev > value)
       {
-        ++localMaxima;
+        ++local_maxima;
       }
     }
 
-    prevPrev = prev;
+    prev_prev = prev;
     prev = value;
-    hasPrevPrev = hasPrev;
-    hasPrev = true;
+    has_prev_prev = has_prev;
+    has_prev = true;
   }
 
-  cout << maxRun << "\n";
+  cout << max_run << "\n";
 
   if (count == 0)
   {
-    return errorCode;
+    return error_code;
   }
 
-  cout << localMaxima << "\n";
+  cout << local_maxima << "\n";
 
-  return successCode;
+  return success_code;
 }
