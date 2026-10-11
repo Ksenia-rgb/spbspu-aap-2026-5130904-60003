@@ -1,7 +1,7 @@
 #include <iostream>
 
 namespace glavan {
-  int process_sequence(std::istream &in, std::ostream &out, std::ostream &err)
+  int processSequence(std::istream &in, std::ostream &out, std::ostream &err)
   {
     long long prev_1 = 0;
     long long prev_2 = 0;
@@ -51,5 +51,5 @@ namespace glavan {
 
 int main()
 {
-  return glavan::process_sequence(std::cin, std::cout, std::cerr);
+  return glavan::processSequence(std::cin, std::cout, std::cerr);
 }
