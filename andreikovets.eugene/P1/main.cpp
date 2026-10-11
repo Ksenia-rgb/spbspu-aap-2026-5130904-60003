@@ -1,6 +1,7 @@
 #include <iostream>
 
-int main() {
+int main()
+{
   int cur = 0;
   int prev = 0;
   long long count_more_prev = 0;
