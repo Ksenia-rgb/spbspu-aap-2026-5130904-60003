@@ -18,7 +18,7 @@ namespace glavan {
       if (value == 0) {
         break;
       }
-      if (count >= 1 && value % prev_1 == 0) {
+      if (count >= 1 && value % prev_1 != 0 && value % prev_1 == 0 ) {
         ++div_rem;
       }
       if (count >= 2 && value == prev_2 + prev_1) {
