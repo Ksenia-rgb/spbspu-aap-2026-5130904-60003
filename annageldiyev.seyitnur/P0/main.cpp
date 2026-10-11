@@ -1,6 +1,5 @@
 #include <iostream>
-int main()
-{
+int main() {
   std::cout << "annageldiyev.seyitnur";
   return 0;
-} 
+}
