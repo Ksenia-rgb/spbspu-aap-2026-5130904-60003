@@ -47,7 +47,7 @@ namespace glavan {
 
     return result;
   }
-
+}
 int main()
 {
   return glavan::processSequence(std::cin, std::cout, std::cerr);
