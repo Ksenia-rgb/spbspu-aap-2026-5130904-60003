@@ -19,7 +19,7 @@ namespace glavan {
         break;
       }
       if (count >= 1 && value % prev_1 == 0) {
-        ++divRem;
+        ++div_rem;
       }
       if (count >= 2 && value == prev_2 + prev_1) {
         ++sum_dup;
