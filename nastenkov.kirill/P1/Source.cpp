@@ -1,17 +1,17 @@
 #include <iostream>
 
-int main() {
+int main()
+{
   long long max1 = 0, max2 = 0;
   long long prev = 0;
   long long count = 0;
   long long cur = 0, best = 0;
   bool terminated = false;
 
-  long long x;
+  long long x = 0;
   while (std::cin >> x) {
-    int next = std::cin.peek();
-    if (next != EOF && next != ' ' && next != '\n' && next != '\t' &&
-        next != '\r') {
+    const int next = std::cin.peek();
+    if (!std::cin.eof() && next != ' ' && next != '\n' && next != '\t' && next != '\r') {
       std::cerr << "Error: input is not a sequence of integers\n";
       return 1;
     }
@@ -37,12 +37,14 @@ int main() {
         max2 = x;
       }
     }
-    if (count > 0 && x >= prev)
+    if (count > 0 && x >= prev) {
       cur++;
-    else
+    } else {
       cur = 1;
-    if (cur > best)
+    }
+    if (cur > best) {
       best = cur;
+    }
 
     prev = x;
     count++;
@@ -55,9 +57,9 @@ int main() {
 
   int code = 0;
 
-  if (count >= 2)
+  if (count >= 2) {
     std::cout << max2 << "\n";
-  else {
+  } else {
     std::cerr << "Error: SUB-MAX cannot be calculated (sequence too short)\n";
     code = 2;
   }
