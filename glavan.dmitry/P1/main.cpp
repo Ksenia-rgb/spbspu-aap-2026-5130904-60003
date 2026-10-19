@@ -47,7 +47,7 @@ namespace glavan {
 
     return result;
   }
-} // namespace glavan
+}
 int main()
 {
   return glavan::processSequence();
