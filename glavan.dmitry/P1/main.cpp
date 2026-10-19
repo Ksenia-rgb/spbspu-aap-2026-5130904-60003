@@ -1,7 +1,7 @@
 #include <iostream>
 
 namespace glavan {
-  int processSequence(std::istream &in, std::ostream &out, std::ostream &err)
+  int processSequence()
   {
     long long prev_1 = 0;
     long long prev_2 = 0;
@@ -11,14 +11,14 @@ namespace glavan {
     int value = 0;
 
     while (true) {
-      if (!(in >> value)) {
-        err << "Error: input is not a sequence of integers\n";
+      if (!(std::cin >> value)) {
+        std::cerr << "Error: input is not a sequence of integers\n";
         return 1;
       }
       if (value == 0) {
         break;
       }
-      if (count >= 1 && value % prev_1 != 0 && value % prev_1 == 0) {
+      if (count >= 1 && value % prev_1 == 0) {
         ++div_rem;
       }
       if (count >= 2 && value == prev_2 + prev_1) {
@@ -32,23 +32,23 @@ namespace glavan {
     int result = 0;
 
     if (count >= 2) {
-      out << div_rem << '\n';
+      std::cout << div_rem << '\n';
     } else {
-      err << "Error: DIV-REM needs at least 2 elements\n";
+      std::cerr << "Error: DIV-REM needs at least 2 elements\n";
       result = 2;
     }
 
     if (count >= 3) {
-      out << sum_dup << '\n';
+      std::cout << sum_dup << '\n';
     } else {
-      err << "Error: SUM-DUP needs at least 3 elements\n";
+      std::cerr << "Error: SUM-DUP needs at least 3 elements\n";
       result = 2;
     }
 
     return result;
   }
-}
+} // namespace glavan
 int main()
 {
-  return glavan::processSequence(std::cin, std::cout, std::cerr);
+  return glavan::processSequence();
 }
