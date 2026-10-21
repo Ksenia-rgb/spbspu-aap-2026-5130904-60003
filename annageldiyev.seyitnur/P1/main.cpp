@@ -1,3 +1,4 @@
+#include <cstddef> // Added to fix the std::size_t error
 #include <iostream>
 #include <vector>
 
@@ -14,7 +15,7 @@ int countGrtLss(const std::vector<int> &a) {
 int countEvnCnt(const std::vector<int> &a) {
   int max_run = 0;
   int current_run = 0;
-  for (int v : a) {
+  for (const int v : a) { // Added 'const' to fix the warning
     if (v % 2 == 0) {
       ++current_run;
       if (current_run > max_run) {
@@ -29,7 +30,7 @@ int countEvnCnt(const std::vector<int> &a) {
 
 int main() {
   std::vector<int> a;
-  int x;
+  int x = 0; // Initialized to 0 to fix the warning
   while (std::cin >> x && x != 0) {
     a.push_back(x);
   }
