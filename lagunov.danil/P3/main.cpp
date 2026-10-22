@@ -21,7 +21,7 @@ namespace lagunov
 
   int** allocateMatrix(int rows, int cols)
   {
-    int** const matrix = new int* [rows];
+    int** const matrix = new int*[rows];
 
     try
     {
