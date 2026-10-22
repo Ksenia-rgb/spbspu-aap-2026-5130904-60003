@@ -60,7 +60,7 @@ void readmaxspiral(int** matrix, int rows, int cols)
   int lefts = 0;
   int rights = cols - 1;
   int step = 1;
-  int total_elements = rows * cols;
+  const int total_elements = rows * cols;
 
   while (step <= total_elements)
   {
@@ -87,10 +87,10 @@ void readmaxspiral(int** matrix, int rows, int cols)
 
     for (int j = rights; j >= lefts && step <= total_elements; --j)
     {
-      matrix[top][j] += step;
+      matrix[ups][j] += step;
       step++;
     }
-    top++;
+    ups++;
   }
 }
 
@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
     return 1;
   }
 
-  std::string num_param = argv[3];
+  const std::string num_param = argv[3];
   if (num_param != "1" && num_param != "2")
   {
     std::cerr << "Error: First parameter must be 1 or 2" << std::endl;
