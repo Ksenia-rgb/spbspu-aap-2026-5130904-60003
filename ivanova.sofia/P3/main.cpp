@@ -1,9 +1,9 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
+#include <string>
 
-int main(int argvc, char *argv[])
-{
+int main(int argvc, char *argv[]) {
   if (argvc < 4) {
     std::cerr << "Not enough arguments\n";
     return 1;
@@ -106,7 +106,7 @@ int main(int argvc, char *argv[])
       out << "\n";
     }
   } else {
-    int **ptr = new int *[rows] {};
+    int **const ptr = new int *[rows] {};
 
     for (int i = 0; i < rows; i++) {
       ptr[i] = new int[colls];
