@@ -69,7 +69,7 @@ void readmaxspiral(int** matrix, int rows, int cols)
       matrix[i][lefts] += step;
       step++;
     }
-    left++;
+    lefts++;
 
     for (int j = lefts; j <= rights && step <= total_elements; ++j)
     {
@@ -85,10 +85,10 @@ void readmaxspiral(int** matrix, int rows, int cols)
     }
     rights--;
 
-    for (int j = right; j >= left && current_increment <= total_elements; --j)
+    for (int j = rights; j >= lefts && step <= total_elements; --j)
     {
-      matrix[top][j] += current_increment;
-      current_increment++;
+      matrix[top][j] += step;
+      step++;
     }
     top++;
   }
