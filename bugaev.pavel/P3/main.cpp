@@ -74,7 +74,7 @@ int main(int argc, char **argv)
       result = bugaev::findMinSum(matrix, rows, cols);
     }
   } else {
-    int *matrix = new int[size];
+    int *const matrix = new int[size];
     is_read = bugaev::readMatrix(input, matrix, size);
     if (is_read) {
       result = bugaev::findMinSum(matrix, rows, cols);
