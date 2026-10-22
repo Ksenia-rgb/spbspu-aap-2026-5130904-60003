@@ -6,7 +6,7 @@ namespace lagunov
 {
   const int MAX_SIZE = 100;
 
-  void free_matrix(int** matrix, int rows)
+  void freeMatrix(int** matrix, int rows)
   {
     if (matrix == nullptr)
     {
@@ -19,9 +19,9 @@ namespace lagunov
     delete[] matrix;
   }
 
-  int** allocate_matrix(int rows, int cols)
+  int** allocateMatrix(int rows, int cols)
   {
-    int** matrix = new int*[rows]{};
+    int** const matrix = new int*[rows]{};
 
     try
     {
@@ -30,27 +30,36 @@ namespace lagunov
         matrix[i] = new int[cols]{};
       }
     }
-    catch (const std::exception& e)
+    catch (...)
     {
-      free_matrix(matrix, rows);
+      freeMatrix(matrix, rows);
       throw;
     }
 
     return matrix;
   }
 
-  void increment_matrix(int** mat, int rows, int cols)
+  void incrementMatrix(int** mat, int rows, int cols)
   {
-    int layers = std::min(rows, cols) / 2 + std::min(rows, cols) % 2;
+    int min_dim = 0;
+    if (rows < cols)
+    {
+      min_dim = rows;
+    }
+    else
+    {
+      min_dim = cols;
+    }
+    const int layers = min_dim / 2 + min_dim % 2;
 
     for (int i = 0; i < layers; i++)
     {
-      int increment = i + 1;
+      const int increment = i + 1;
 
-      int top_row = i;
-      int bottom_row = rows - 1 - i;
-      int left_col = i;
-      int right_col = cols - 1 - i;
+      const int top_row = i;
+      const int bottom_row = rows - 1 - i;
+      const int left_col = i;
+      const int right_col = cols - 1 - i;
 
       if (top_row > bottom_row || left_col > right_col)
       {
@@ -85,18 +94,27 @@ namespace lagunov
     }
   }
 
-  void increment_matrix(int mat[][MAX_SIZE], int rows, int cols)
+  void incrementMatrix(int mat[][MAX_SIZE], int rows, int cols)
   {
-    int layers = std::min(rows, cols) / 2 + std::min(rows, cols) % 2;
+    int min_dim = 0;
+    if (rows < cols)
+    {
+      min_dim = rows;
+    }
+    else
+    {
+      min_dim = cols;
+    }
+    const int layers = min_dim / 2 + min_dim % 2;
 
     for (int i = 0; i < layers; i++)
     {
-      int increment = i + 1;
+      const int increment = i + 1;
 
-      int top_row = i;
-      int bottom_row = rows - 1 - i;
-      int left_col = i;
-      int right_col = cols - 1 - i;
+      const int top_row = i;
+      const int bottom_row = rows - 1 - i;
+      const int left_col = i;
+      const int right_col = cols - 1 - i;
 
       if (top_row > bottom_row || left_col > right_col)
       {
@@ -150,6 +168,11 @@ int main(int argc, char* argv[])
 
   int rows = 0, cols = 0;
   input >> rows >> cols;
+  if (!input)
+  {
+    std::cerr << "ERROR: empty file\n";
+    return 2;
+  }
   if (rows == 0 && cols == 0)
   {
     std::ofstream output(argv[3]);
@@ -177,13 +200,13 @@ int main(int argc, char* argv[])
         input >> mat[i][j];
       }
     }
-    if (!input.eof())
+    if (!input)
     {
       std::cerr << "ERROR: invalid seqeuence\n";
       return 2;
     }
 
-    lagunov::increment_matrix(mat, rows, cols);
+    lagunov::incrementMatrix(mat, rows, cols);
 
     std::ofstream output(argv[3]);
     if (!output)
@@ -203,7 +226,7 @@ int main(int argc, char* argv[])
   }
   else if (strcmp(argv[1], "2") == 0)
   {
-    int** mat = lagunov::allocate_matrix(rows, cols);
+    int** mat = lagunov::allocateMatrix(rows, cols);
     for (int i = 0; i < rows; ++i)
     {
       for (int j = 0; j < cols; ++j)
@@ -211,14 +234,14 @@ int main(int argc, char* argv[])
         input >> mat[i][j];
       }
     }
-    if (!input.eof())
+    if (!input)
     {
       std::cerr << "ERROR: invalid seqeuence\n";
-      lagunov::free_matrix(mat, rows);
+      lagunov::freeMatrix(mat, rows);
       return 2;
     }
 
-    lagunov::increment_matrix(mat, rows, cols);
+    lagunov::incrementMatrix(mat, rows, cols);
 
     std::ofstream output(argv[3]);
     if (!output)
@@ -236,7 +259,7 @@ int main(int argc, char* argv[])
       }
     }
 
-    lagunov::free_matrix(mat, rows);
+    lagunov::freeMatrix(mat, rows);
     mat = nullptr;
   }
   else
