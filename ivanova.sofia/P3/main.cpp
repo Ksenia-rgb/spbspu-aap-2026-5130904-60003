@@ -59,7 +59,10 @@ int main(int argvc, char *argv[]) {
     int matrix[MAX_SIZE][MAX_SIZE]{};
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < colls; j++) {
-        in >> matrix[i][j];
+        if (!(in >> matrix[i][j])) {
+	  std::cerr << "Not enough data\n";
+	  return 2;
+	}
       }
     }
 
@@ -102,12 +105,19 @@ int main(int argvc, char *argv[]) {
       out << "\n";
     }
   } else {
-    int **ptr = new int *[rows];
+    int **ptr = new int *[rows]{};
 
     for (int i = 0; i < rows; i++) {
       ptr[i] = new int[colls];
       for (int j = 0; j < colls; j++) {
-        in >> ptr[i][j];
+        if (!(in >> ptr[i][j])) {
+	  std::cerr << "Not enough data\n";
+	  for (int k = 0; k <= i; k++) {
+	    delete[] ptr[k];
+	  }
+	  delete[] ptr;
+	  return 2;
+        }
       }
     }
 
