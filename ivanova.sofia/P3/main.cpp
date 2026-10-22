@@ -1,14 +1,12 @@
+#include < fstream>
 #include <exception>
 #include <iostream>
-#include < fstream>
 
-int main(int argvc, char *argv[])
-{
+int main(int argvc, char *argv[]) {
   if (argvc < 4) {
     std::cerr << "Not enough arguments\n";
     return 1;
-  }
-  else if (argvc > 4) {
+  } else if (argvc > 4) {
     std::cerr << "Too many arguments\n";
     return 1;
   }
@@ -16,8 +14,7 @@ int main(int argvc, char *argv[])
   int mode = 0;
   try {
     mode = std::stoi(argv[1]);
-  } 
-  catch (...) {
+  } catch (...) {
     std::cerr << "First parameter is not a number\n";
     return 1;
   }
@@ -104,8 +101,7 @@ int main(int argvc, char *argv[])
       }
       out << "\n";
     }
-  }
-  else {
+  } else {
     int **ptr = new int *[rows];
 
     for (int i = 0; i < rows; i++) {
