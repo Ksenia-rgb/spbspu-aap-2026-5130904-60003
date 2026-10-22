@@ -1,16 +1,18 @@
+#include <cstddef>
 #include <fstream>
 #include <iostream>
+#include <string>
 
 namespace bugaev {
   const int args_code = 1;
   const int input_code = 2;
-  const char stack_mode = '1';
-  const char heap_mode = '2';
-  const int max_size = 10000;
+  const std::string stack_mode = "1";
+  const std::string heap_mode = "2";
+  const std::size_t max_size = 10000;
 
-  bool readMatrix(std::ifstream &in, int *matrix, const int size)
+  bool readMatrix(std::ifstream &in, int *matrix, const std::size_t size)
   {
-    for (int i = 0; i < size; ++i) {
+    for (std::size_t i = 0; i < size; ++i) {
       if (!(in >> matrix[i])) {
         return false;
       }
@@ -46,7 +48,7 @@ int main(int argc, char **argv)
     std::cerr << "Usage: ./lab num input output\n";
     return bugaev::args_code;
   }
-  const char mode = argv[1][0];
+  const std::string mode = argv[1];
   if ((mode != bugaev::stack_mode) && (mode != bugaev::heap_mode)) {
     std::cerr << "Error: num must be 1 or 2\n";
     return bugaev::args_code;
@@ -59,7 +61,7 @@ int main(int argc, char **argv)
     std::cerr << "Error: cannot read matrix size\n";
     return bugaev::input_code;
   }
-  const int size = rows * cols;
+  const std::size_t size = static_cast< std::size_t >(rows * cols);
 
   int result = 0;
   bool is_read = false;
