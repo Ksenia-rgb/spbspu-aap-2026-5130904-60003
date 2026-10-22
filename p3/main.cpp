@@ -5,7 +5,7 @@
 
 int** allocateMatrix(int rows, int cols)
 {
-  int** m = new int*[rows]();
+  const int** m = new int*[rows]();
   try
   {
     for (int i = 0; i < rows; ++i)
