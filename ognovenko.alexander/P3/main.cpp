@@ -6,26 +6,27 @@
 #include <stdexcept>
 #include <string>
 
-namespace ognovenko
-{
+namespace ognovenko {
+  constexpr std::size_t fixed_matrix_capacity = 10000;
+
   int numColLsr(const int* matrix, int rows, int cols)
   {
     if (matrix == nullptr || rows <= 0 || cols <= 0) {
       return 0;
     }
 
-    const std::size_t column_count = static_cast<std::size_t>(cols);
+    const std::size_t column_count = static_cast< std::size_t >(cols);
     int best_column = 0;
     int best_length = 0;
 
     for (int column = 0; column < cols; ++column) {
       int current_length = 1;
       int max_length = 1;
-      const std::size_t column_position = static_cast<std::size_t>(column);
+      const std::size_t column_position = static_cast< std::size_t >(column);
 
       for (int row = 1; row < rows; ++row) {
-        const std::size_t previous_index = static_cast<std::size_t>(row - 1) * column_count + column_position;
-        const std::size_t current_index = static_cast<std::size_t>(row) * column_count + column_position;
+        const std::size_t previous_index = static_cast< std::size_t >(row - 1) * column_count + column_position;
+        const std::size_t current_index = static_cast< std::size_t >(row) * column_count + column_position;
 
         if (matrix[previous_index] == matrix[current_index]) {
           ++current_length;
@@ -72,7 +73,7 @@ namespace ognovenko
 
   bool readMatrix(std::ifstream& input, int* matrix, int rows, int cols)
   {
-    const std::size_t count = static_cast<std::size_t>(rows) * static_cast<std::size_t>(cols);
+    const std::size_t count = static_cast< std::size_t >(rows) * static_cast< std::size_t >(cols);
 
     if (matrix == nullptr && count > 0) {
       return false;
@@ -120,16 +121,16 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  const std::size_t row_count = static_cast<std::size_t>(rows);
-  const std::size_t column_count = static_cast<std::size_t>(cols);
+  const std::size_t row_count = static_cast< std::size_t >(rows);
+  const std::size_t column_count = static_cast< std::size_t >(cols);
 
-  if (rows != 0 && column_count > std::numeric_limits<std::size_t>::max() / row_count) {
+  if (rows != 0 && column_count > std::numeric_limits< std::size_t >::max() / row_count) {
     std::cerr << "Matrix is too large\n";
     return 2;
   }
 
   const std::size_t element_count = row_count * column_count;
-  if (task_number == 1 && element_count > 10000) {
+  if (task_number == 1 && element_count > ognovenko::fixed_matrix_capacity) {
     std::cerr << "Matrix is too large\n";
     return 2;
   }
@@ -137,7 +138,7 @@ int main(int argc, char* argv[])
   int result = 0;
 
   if (task_number == 1) {
-    int matrix[10000] = {};
+    int matrix[ognovenko::fixed_matrix_capacity] = {};
 
     if (!ognovenko::readMatrix(input, matrix, rows, cols)) {
       std::cerr << "Cannot read matrix\n";
