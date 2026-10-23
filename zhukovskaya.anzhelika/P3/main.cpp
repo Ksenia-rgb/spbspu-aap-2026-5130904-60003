@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <new>
+#include <cstddef>
 
 namespace zhukovskaya {
   void freeMatrix(int** m, int rows)
@@ -93,7 +94,7 @@ int main(int argc, char* argv[])
   int ans = 0;
 
   if (num == 1) {
-    constexpr size_t max_size = 100;
+    constexpr size_t max_size = 10000;
     if (static_cast< size_t >(total) > max_size) {
       std::cerr << "Too many elements\n";
       return 2;
