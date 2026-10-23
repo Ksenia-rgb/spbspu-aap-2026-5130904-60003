@@ -16,7 +16,7 @@ namespace zhukovskaya {
 
   int** allocateMatrixDyn(int rows, int cols)
   {
-    int** m = new int*[rows];
+    int** const m = new int*[rows];
     for (int i = 0; i < rows; ++i) {
       try {
         m[i] = new int[cols];
@@ -37,14 +37,10 @@ namespace zhukovskaya {
     for (int i = 1; i < (rows - 1); ++i) {
       for (int j = 1; j < (cols - 1); ++j) {
         const int cur = m[i][j];
-        if ((cur < m[i - 1][j])
-            && (cur < m[i + 1][j])
-            && (cur < m[i][j - 1])
-            && (cur < m[i][j + 1])
-            && (cur < m[i - 1][j - 1])
-            && (cur < m[i - 1][j + 1])
-            && (cur < m[i + 1][j - 1])
-            && (cur < m[i + 1][j + 1])) {
+        const bool top = (cur < m[i - 1][j - 1]) && (cur < m[i - 1][j]) && (cur < m[i - 1][j + 1]);
+        const bool mid = (cur < m[i][j - 1]) && (cur < m[i][j + 1]);
+        const bool bot = (cur < m[i + 1][j - 1]) && (cur < m[i + 1][j]) && (cur < m[i + 1][j + 1]);
+        if (top && mid && bot) {
           cnt++;
         }
       }
@@ -56,7 +52,7 @@ namespace zhukovskaya {
 int main(int argc, char* argv[])
 {
   if (argc != 4) {
-    std::cerr << "Must be 4 arguments\n";
+    std::cerr << "Must be 4 arguments: system's arg,memory mode, input and output files \n";
     return 1;
   }
 
@@ -77,7 +73,7 @@ int main(int argc, char* argv[])
 
   std::ifstream input(argv[2]);
   if (!input.is_open()) {
-    std::cerr << "Cannot open file\n";
+    std::cerr << "Cannot open input file\n";
     return 2;
   }
 
@@ -97,25 +93,25 @@ int main(int argc, char* argv[])
   int ans = 0;
 
   if (num == 1) {
-    const int maxSize = 10000;
-    if (total > maxSize) {
+    constexpr size_t max_size = 100;
+    if (static_cast< size_t >(total) > max_size) {
       std::cerr << "Too many elements\n";
       return 2;
     }
 
-    int stackStorage[10000] = {0};
-    int* rowPtrs[10000] = {nullptr};
+    int stack_storage[max_size] = {0};
+    int* row_ptrs[max_size] = {nullptr};
 
     for (int i = 0; i < rows; ++i) {
-      rowPtrs[i] = stackStorage + (i * cols);
+      row_ptrs[i] = stack_storage + (i * cols);
       for (int j = 0; j < cols; ++j) {
-        if (!(input >> rowPtrs[i][j])) {
+        if (!(input >> row_ptrs[i][j])) {
           std::cerr << "Read error\n";
           return 2;
         }
       }
     }
-    ans = zhukovskaya::cntLocMin(rowPtrs, rows, cols);
+    ans = zhukovskaya::cntLocMin(row_ptrs, rows, cols);
   } else {
     int** m = nullptr;
     try {
