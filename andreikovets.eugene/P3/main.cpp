@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 const int maxSize = 100;
@@ -35,7 +36,7 @@ void readRowsAndCols(std::ifstream &input, int &rows, int &cols)
 
 int **allocateMatrix(int rows, int cols)
 {
-  int **m = new int *[rows]();
+  int **const m = new int *[rows]();
   try {
     for (int i = 0; i < rows; i++) {
       m[i] = new int[cols]();
@@ -72,8 +73,7 @@ void readMatrix(std::ifstream &input, int **matrix, int rows, int cols)
   }
 }
 
-void readMatrix(std::ifstream &input, int matrix[][maxSize], int rows,
-                int cols)
+void readMatrix(std::ifstream &input, int matrix[][maxSize], int rows, int cols)
 {
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
@@ -86,54 +86,54 @@ void readMatrix(std::ifstream &input, int matrix[][maxSize], int rows,
 
 int findMaxSeqRowNum(const int *const *matrix, int rows, int cols)
 {
-  int curLen = 1, maxLen = 0, rowNum = 0;
+  int cur_len = 1, max_len = 0, row_num = 0;
   for (int i = 0; i < rows; i++) {
-    curLen = 1;
+    cur_len = 1;
     for (int j = 0; j < cols; j++) {
       if (j > 0) {
         if (matrix[i][j] == matrix[i][j - 1]) {
-          curLen++;
+          cur_len++;
         } else {
-          if (curLen > maxLen) {
-            maxLen = curLen;
-            rowNum = i + 1;
+          if (cur_len > max_len) {
+            max_len = cur_len;
+            row_num = i + 1;
           }
-          curLen = 1;
+          cur_len = 1;
         }
       }
     }
-    if (curLen > maxLen) {
-      maxLen = curLen;
-      rowNum = i + 1;
+    if (cur_len > max_len) {
+      max_len = cur_len;
+      row_num = i + 1;
     }
   }
-  return rowNum;
+  return row_num;
 }
 
 int findMaxSeqRowNum(const int matrix[][maxSize], int rows, int cols)
 {
-  int curLen = 1, maxLen = 0, rowNum = 0;
+  int cur_len = 1, max_len = 0, row_num = 0;
   for (int i = 0; i < rows; i++) {
-    curLen = 1;
+    cur_len = 1;
     for (int j = 0; j < cols; j++) {
       if (j > 0) {
         if (matrix[i][j] == matrix[i][j - 1]) {
-          curLen++;
+          cur_len++;
         } else {
-          if (curLen > maxLen) {
-            maxLen = curLen;
-            rowNum = i + 1;
+          if (cur_len > max_len) {
+            max_len = cur_len;
+            row_num = i + 1;
           }
-          curLen = 1;
+          cur_len = 1;
         }
       }
     }
-    if (curLen > maxLen) {
-      maxLen = curLen;
-      rowNum = i + 1;
+    if (cur_len > max_len) {
+      max_len = cur_len;
+      row_num = i + 1;
     }
   }
-  return rowNum;
+  return row_num;
 }
 
 int main(int argc, char *argv[])
