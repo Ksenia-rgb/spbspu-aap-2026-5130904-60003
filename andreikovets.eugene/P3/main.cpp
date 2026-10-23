@@ -141,7 +141,7 @@ int main(int argc, char *argv[])
   try {
     int rows = 0, cols = 0;
     int res = 0;
-    int var = readAndCheckArg(argc, argv);
+    const int var = readAndCheckArg(argc, argv);
 
     std::ifstream input(argv[2]);
     if (!input) {
