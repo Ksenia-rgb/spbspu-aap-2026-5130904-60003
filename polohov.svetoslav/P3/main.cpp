@@ -1,20 +1,20 @@
 
+#include <cstddef>
 #include <fstream>
 #include <iostream>
-#include <stdexcept>
 #include <string>
 
 const int MAX_SIZE = 1000;
 
-int** allocateMatrix(size_t sizem, size_t sizen) {
-  int** matrix = new int*[sizem]{};
+int** allocate_matrix(std::size_t size_m, std::size_t size_n) {
+  int** const matrix = new int*[size_m]{};
 
   try {
-    for (size_t i = 0; i < sizem; i++) {
-      matrix[i] = new int[sizen];
+    for (std::size_t i = 0; i < size_m; i++) {
+      matrix[i] = new int[size_n];
     }
   } catch (...) {
-    for (size_t i = 0; i < sizem; i++) {
+    for (std::size_t i = 0; i < size_m; i++) {
       delete[] matrix[i];
     }
     delete[] matrix;
@@ -24,11 +24,11 @@ int** allocateMatrix(size_t sizem, size_t sizen) {
   return matrix;
 }
 
-int readMatrix(std::ifstream& in, int** matrix, size_t sizem,
-               size_t sizen) {
-  for (size_t i = 0; i < sizem; i++) {
-    for (size_t j = 0; j < sizen; j++) {
-      if (!(in >> matrix[i][j])) {
+int read_matrix(std::ifstream& input_file, int** const matrix,
+                std::size_t size_m, std::size_t size_n) {
+  for (std::size_t i = 0; i < size_m; i++) {
+    for (std::size_t j = 0; j < size_n; j++) {
+      if (!(input_file >> matrix[i][j])) {
         return 1;
       }
     }
@@ -37,8 +37,8 @@ int readMatrix(std::ifstream& in, int** matrix, size_t sizem,
   return 0;
 }
 
-void delMatrix(int** matrix, size_t sizem) {
-  for (size_t i = 0; i < sizem; i++) {
+void delete_matrix(int** const matrix, std::size_t size_m) {
+  for (std::size_t i = 0; i < size_m; i++) {
     delete[] matrix[i];
   }
 
@@ -51,38 +51,39 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  std::string mode = argv[1];
+  const std::string mode = argv[1];
 
   if (mode != "1" && mode != "2") {
     std::cerr << "First parameter must be 1 or 2\n";
     return 1;
   }
 
-  std::ifstream inputFile(argv[2]);
+  std::ifstream input_file(argv[2]);
 
-  if (!inputFile) {
+  if (!input_file) {
     std::cerr << "Corrupted file\n";
     return 2;
   }
 
-  std::ofstream outputFile(argv[3]);
+  std::ofstream output_file(argv[3]);
 
-  if (!outputFile) {
+  if (!output_file) {
     std::cerr << "Error creating output file\n";
     return 1;
   }
 
-  int rows, cols;
+  int rows = 0;
+  int cols = 0;
   int str_num = 0;
 
-  if (!(inputFile >> rows >> cols) || rows < 0 || cols < 0) {
+  if (!(input_file >> rows >> cols) || rows < 0 || cols < 0) {
     std::cerr << "Error reading matrix dimensions\n";
     return 2;
   }
 
   if (rows == 0 && cols == 0) {
-    outputFile << 0 << '\n';
-    return 0;
+    output_file << 0 << '\n';
+    return output_file ? 0 : 1;
   }
 
   if (rows == 0 || cols == 0 ||
@@ -93,11 +94,11 @@ int main(int argc, char* argv[]) {
   }
 
   if (mode == "1") {
-    int matrix[MAX_SIZE][MAX_SIZE];
+    static int matrix[MAX_SIZE][MAX_SIZE];
 
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
-        if (!(inputFile >> matrix[i][j])) {
+        if (!(input_file >> matrix[i][j])) {
           std::cerr << "Error reading matrix elements\n";
           return 2;
         }
@@ -130,11 +131,11 @@ int main(int argc, char* argv[]) {
   }
 
   if (mode == "2") {
-    int** matrixd = allocateMatrix(rows, cols);
+    int** const matrix_d = allocate_matrix(rows, cols);
 
-    if (readMatrix(inputFile, matrixd, rows, cols) != 0) {
+    if (read_matrix(input_file, matrix_d, rows, cols) != 0) {
       std::cerr << "Error reading matrix elements\n";
-      delMatrix(matrixd, rows);
+      delete_matrix(matrix_d, rows);
       return 2;
     }
 
@@ -145,7 +146,7 @@ int main(int argc, char* argv[]) {
       int row_max = 1;
 
       for (int j = 0; j < cols - 1; j++) {
-        if (matrixd[i][j] == matrixd[i][j + 1]) {
+        if (matrix_d[i][j] == matrix_d[i][j + 1]) {
           cnt_num++;
         } else {
           cnt_num = 1;
@@ -162,12 +163,12 @@ int main(int argc, char* argv[]) {
       }
     }
 
-    delMatrix(matrixd, rows);
+    delete_matrix(matrix_d, rows);
   }
 
-  outputFile << str_num << '\n';
+  output_file << str_num << '\n';
 
-  if (!outputFile) {
+  if (!output_file) {
     std::cerr << "Error writing output file\n";
     return 1;
   }
