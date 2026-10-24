@@ -84,7 +84,7 @@ long long maxSumParallelMinorDiag(int matrix[][MAX_SIZE], int rows, int cols) {
   }
   return maxSumParallelMinorDiag(ptrs, rows, cols);
 }
-}  // namespace babushkina
+}
 int main(int argc, char *argv[]) {
   if (argc != 4) {
     std::cerr << "Usage: " << argv[0] << " <num> <input> <output>\n";
