@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 const int MAX_SIZE = 100;
 
@@ -10,14 +11,13 @@ int **allocateMatrix(int rows, int cols) {
   if (rows <= 0 || cols <= 0) {
     throw std::invalid_argument("ERROR: bad size");
   }
-  int **m = new int *[rows]();
+  int **const m = new int *[rows]();
   try {
     for (int i = 0; i < rows; i++) {
       m[i] = new int[cols]();
     }
   } catch (...) {
-    for (int i = 0; i < rows; i++)
-      delete[] m[i];
+    for (int i = 0; i < rows; i++) delete[] m[i];
     delete[] m;
     throw;
   }
@@ -28,8 +28,7 @@ void deleteMatrix(int **m, int rows) {
   if (m == nullptr) {
     return;
   }
-  for (int i = 0; i < rows; i++)
-    delete[] m[i];
+  for (int i = 0; i < rows; i++) delete[] m[i];
   delete[] m;
 }
 
@@ -59,12 +58,13 @@ bool readMatrix(std::istream &in, int matrix[][MAX_SIZE], int rows, int cols) {
 long long maxSumParallelMinorDiag(int **matrix, int rows, int cols) {
   long long max_sum = LLONG_MIN;
   long long cur_sum = 0;
+  int j = 0;
   for (int k = 0; k <= rows + cols - 2; k++) {
     if (k == cols - 1) {
       continue;
     }
     for (int i = 0; i < rows && i <= k; i++) {
-      int j = k - i;
+      j = k - i;
       if (j < cols) {
         cur_sum += matrix[i][j];
       }
@@ -84,7 +84,7 @@ long long maxSumParallelMinorDiag(int matrix[][MAX_SIZE], int rows, int cols) {
   }
   return maxSumParallelMinorDiag(ptrs, rows, cols);
 }
-} // namespace babushkina
+}  // namespace babushkina
 int main(int argc, char *argv[]) {
   if (argc != 4) {
     std::cerr << "Usage: " << argv[0] << " <num> <input> <output>\n";
@@ -102,8 +102,8 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  const char *input_name = argv[2];
-  const char *output_name = argv[3];
+  const char *const input_name = argv[2];
+  const char *const output_name = argv[3];
 
   std::ifstream input(input_name);
 
@@ -140,7 +140,6 @@ int main(int argc, char *argv[]) {
   }
 
   if (num == 1) {
-
     if (rows > MAX_SIZE || cols > MAX_SIZE) {
       std::cerr << "ERROR: size is out of range\n";
       return 2;
