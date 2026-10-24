@@ -106,3 +106,4 @@ namespace chacha {
     out << result << '\n';
     return 0;
   }
+}
