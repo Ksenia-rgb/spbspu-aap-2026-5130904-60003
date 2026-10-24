@@ -6,7 +6,7 @@ const int MAX_SIZE = 1000;
 
 int **allocateMatrix(int size_m, int size_n)
 {
-  int **const matrix = new int *[size_m] = {};
+  int **const matrix = new int *[size_m];
 
   try
   {
