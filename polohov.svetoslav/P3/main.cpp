@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <string>
 
-const size_t MAX_SIZE = 1000;
+const int MAX_SIZE = 1000;
 
 int** allocateMatrix(size_t sizem, size_t sizen) {
   int** matrix = new int*[sizem]{};
