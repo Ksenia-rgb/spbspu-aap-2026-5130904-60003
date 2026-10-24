@@ -7,7 +7,19 @@
 const int MAX_SIZE = 100;
 
 namespace babushkina {
-  int **allocateMatrix(int rows, int cols) {
+  void deleteMatrix(int **m, int rows)
+   {
+    if (m == nullptr) {
+      return;
+    }
+    for (int i = 0; i < rows; i++) {
+      delete[] m[i];
+    }
+    delete[] m;
+  }
+
+  int **allocateMatrix(int rows, int cols)
+  {
     if (rows <= 0 || cols <= 0) {
       throw std::invalid_argument("ERROR: bad size");
     }
@@ -17,22 +29,14 @@ namespace babushkina {
         m[i] = new int[cols]();
       }
     } catch (...) {
-      for (int i = 0; i < rows; i++) delete[] m[i];
-      delete[] m;
+      deleteMatrix(m, rows);
       throw;
     }
     return m;
   }
 
-  void deleteMatrix(int **m, int rows) {
-    if (m == nullptr) {
-      return;
-    }
-    for (int i = 0; i < rows; i++) delete[] m[i];
-    delete[] m;
-  }
-
-  bool readMatrix(std::istream &in, int **matrix, int rows, int cols) {
+  bool readMatrix(std::istream &in, int **matrix, int rows, int cols)
+  {
     for (int i = 0; i < rows; ++i) {
       for (int j = 0; j < cols; ++j) {
         if (!(in >> matrix[i][j])) {
@@ -47,8 +51,8 @@ namespace babushkina {
     return true;
   }
 
-  bool readMatrix(std::istream &in, int matrix[][MAX_SIZE], int rows,
-                  int cols) {
+  bool readMatrix(std::istream &in, int matrix[][MAX_SIZE], int rows, int cols)
+  {
     int *ptrs[MAX_SIZE];
     for (int i = 0; i < rows; i++) {
       ptrs[i] = matrix[i];
@@ -56,7 +60,8 @@ namespace babushkina {
     return readMatrix(in, ptrs, rows, cols);
   }
 
-  long long maxSumParallelMinorDiag(int **matrix, int rows, int cols) {
+  long long maxSumParallelMinorDiag(int **matrix, int rows, int cols)
+  {
     long long max_sum = LLONG_MIN;
     long long cur_sum = 0;
     int j = 0;
@@ -78,15 +83,16 @@ namespace babushkina {
     return max_sum;
   }
 
-  long long maxSumParallelMinorDiag(int matrix[][MAX_SIZE], int rows,
-                                    int cols) {
+  long long maxSumParallelMinorDiag(int matrix[][MAX_SIZE], int rows, int cols)
+  {
     int *ptrs[MAX_SIZE];
     for (int i = 0; i < rows; i++) {
       ptrs[i] = matrix[i];
     }
     return maxSumParallelMinorDiag(ptrs, rows, cols);
   }
-}  // namespace babushkina
+}
+
 int main(int argc, char *argv[]) {
   if (argc != 4) {
     std::cerr << "Usage: " << argv[0] << " <num> <input> <output>\n";
