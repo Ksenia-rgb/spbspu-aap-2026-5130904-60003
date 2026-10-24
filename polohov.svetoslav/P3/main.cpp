@@ -1,4 +1,3 @@
-#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -7,7 +6,7 @@ const int MAX_SIZE = 1000;
 
 int **allocateMatrix(int size_m, int size_n)
 {
-  int **const matrix = new int *[size_m] {};
+  int **const matrix = new int *[size_m]{};
 
   try
   {
@@ -29,7 +28,8 @@ int **allocateMatrix(int size_m, int size_n)
   return matrix;
 }
 
-int readMatrix(std::ifstream &input_file, int **const matrix,
+int readMatrix(std::ifstream &input_file,
+               int **const matrix,
                int size_m, int size_n)
 {
   for (int i = 0; i < size_m; i++)
@@ -138,8 +138,7 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  if (rows <= 0 || cols <= 0 ||
-      rows > MAX_SIZE || cols > MAX_SIZE)
+  if (rows <= 0 || cols <= 0 || rows > MAX_SIZE || cols > MAX_SIZE)
   {
     std::cerr << "Invalid matrix dimensions\n";
     return 1;
