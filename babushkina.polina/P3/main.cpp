@@ -8,7 +8,7 @@ const int MAX_SIZE = 100;
 
 namespace babushkina {
   void deleteMatrix(int **m, int rows)
-   {
+  {
     if (m == nullptr) {
       return;
     }
@@ -93,7 +93,8 @@ namespace babushkina {
   }
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
   if (argc != 4) {
     std::cerr << "Usage: " << argv[0] << " <num> <input> <output>\n";
     return 1;
