@@ -6,7 +6,7 @@ const int MAX_SIZE = 1000;
 
 int **allocateMatrix(int size_m, int size_n)
 {
-  int **const matrix = new int *[size_m]{};
+  int **const matrix = new int *[size_m] = {};
 
   try
   {
@@ -28,9 +28,7 @@ int **allocateMatrix(int size_m, int size_n)
   return matrix;
 }
 
-int readMatrix(std::ifstream &input_file,
-               int **const matrix,
-               int size_m, int size_n)
+int readMatrix(std::ifstream &input_file, int **const matrix, int size_m, int size_n)
 {
   for (int i = 0; i < size_m; i++)
   {
