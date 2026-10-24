@@ -1,6 +1,9 @@
+#include <cstddef>
+#include <exception>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 namespace vakulov {
@@ -57,26 +60,26 @@ double calculateAverage(const int *matrix, int rows, int cols, int row, int col)
 {
   double sum = 0.0;
   int count = 0;
-  int firstRow = row;
-  int lastRow = row;
-  int firstCol = col;
-  int lastCol = col;
+  int first_row = row;
+  int last_row = row;
+  int first_col = col;
+  int last_col = col;
 
   if (row > 0) {
-    firstRow = row - 1;
+    first_row = row - 1;
   }
   if (row + 1 < rows) {
-    lastRow = row + 1;
+    last_row = row + 1;
   }
   if (col > 0) {
-    firstCol = col - 1;
+    first_col = col - 1;
   }
   if (col + 1 < cols) {
-    lastCol = col + 1;
+    last_col = col + 1;
   }
 
-  for (int i = firstRow; i <= lastRow; i++) {
-    for (int j = firstCol; j <= lastCol; j++) {
+  for (int i = first_row; i <= last_row; i++) {
+    for (int j = first_col; j <= last_col; j++) {
       if (i != row || j != col) {
         sum += matrix[std::size_t(i) * cols + j];
         count++;
@@ -104,9 +107,9 @@ void smoothMatrix(const int *source, double *result, int rows, int cols)
   }
 }
 
-void writeMatrix(const char *outputName, const double *matrix, int rows, int cols)
+void writeMatrix(const char *output_name, const double *matrix, int rows, int cols)
 {
-  std::ofstream output(outputName);
+  std::ofstream output(output_name);
   if (!output) {
     throw std::runtime_error("Cannot open the output file");
   }
@@ -133,15 +136,15 @@ void writeMatrix(const char *outputName, const double *matrix, int rows, int col
   }
 }
 
-void processMatrix(std::ifstream &input, const char *outputName, int *source, double *result, int rows, int cols)
+void processMatrix(std::ifstream &input, const char *output_name, int *source, double *result, int rows, int cols)
 {
   const std::size_t size = std::size_t(rows) * cols;
   readMatrix(input, source, size);
   smoothMatrix(source, result, rows, cols);
-  writeMatrix(outputName, result, rows, cols);
+  writeMatrix(output_name, result, rows, cols);
 }
 
-void processStack(std::ifstream &input, const char *outputName, int rows, int cols)
+void processStack(std::ifstream &input, const char *output_name, int rows, int cols)
 {
   const std::size_t size = std::size_t(rows) * cols;
   if (size > maxSize) {
@@ -150,10 +153,10 @@ void processStack(std::ifstream &input, const char *outputName, int rows, int co
 
   int source[maxSize] = {};
   double result[maxSize] = {};
-  processMatrix(input, outputName, source, result, rows, cols);
+  processMatrix(input, output_name, source, result, rows, cols);
 }
 
-void processHeap(std::ifstream &input, const char *outputName, int rows, int cols)
+void processHeap(std::ifstream &input, const char *output_name, int rows, int cols)
 {
   const std::size_t size = std::size_t(rows) * cols;
   int *source = nullptr;
@@ -162,7 +165,7 @@ void processHeap(std::ifstream &input, const char *outputName, int rows, int col
   try {
     source = new int[size]();
     result = new double[size]();
-    processMatrix(input, outputName, source, result, rows, cols);
+    processMatrix(input, output_name, source, result, rows, cols);
   } catch (...) {
     delete[] source;
     delete[] result;
