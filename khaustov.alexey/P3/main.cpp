@@ -110,7 +110,7 @@ void freeMatrix(int **matrix, int rows) {
 }
 
 int **createMatrix(const int rows, const int cols) {
-  int **matrix = new int *[rows]();
+  int **const matrix = new int *[rows]();
 
   try {
     for (int i = 0; i < rows; i++) {
@@ -134,7 +134,7 @@ int **assembleArrayInTheFreeStore(std::ifstream &input_file, int &rows,
     throw std::out_of_range("Dimensions exceed MAX_SIZE\n");
   }
 
-  int **matrix = createMatrix(rows, cols);
+  int **const matrix = createMatrix(rows, cols);
 
   int number = 0;
   for (int i = 0; i < rows; i++) {
@@ -156,7 +156,7 @@ int **assembleArrayInTheFreeStore(std::ifstream &input_file, int &rows,
 
 void maxSumSdg(int matrix[][MAX_SIZE], const int rows, const int cols,
                long long &max_sum) {
-  int size = min(cols, rows);
+  const int size = min(cols, rows);
   if (size == 0) {
     max_sum = 0;
     return;
@@ -186,7 +186,7 @@ void maxSumSdg(int matrix[][MAX_SIZE], const int rows, const int cols,
 
 void maxSumSdg(int **matrix, const int rows, const int cols,
                long long &max_sum) {
-  int size = min(cols, rows);
+  const int size = min(cols, rows);
 
   if (size == 0) {
     max_sum = 0;
@@ -217,13 +217,13 @@ void maxSumSdg(int **matrix, const int rows, const int cols,
 
 int main(int argc, char *argv[]) {
 
-  bool check = checkParameters(argc, argv);
+  const bool check = checkParameters(argc, argv);
   if (!check) {
     return 1;
   }
 
   std::ifstream input_file(argv[2]);
-  bool checkInput = checkFile(input_file);
+  const bool checkInput = checkFile(input_file);
   if (!checkInput) {
     return 2;
   }
@@ -237,12 +237,10 @@ int main(int argc, char *argv[]) {
   long long max_sum = LLONG_MIN;
   try {
     if (std::string(argv[1]) == "1") {
-      // array on the stack
       int matrix[MAX_SIZE][MAX_SIZE];
       assembleArrayOnTheStack(input_file, matrix, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
     } else if (std::string(argv[1]) == "2") {
-      // array in the free store
       int **matrix = assembleArrayInTheFreeStore(input_file, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
       freeMatrix(matrix, rows);
@@ -256,7 +254,7 @@ int main(int argc, char *argv[]) {
   }
 
   std::ofstream output_file(argv[3]);
-  bool checkOutput = checkFile(output_file);
+  const bool checkOutput = checkFile(output_file);
   if (!checkOutput) {
     return 2;
   }
