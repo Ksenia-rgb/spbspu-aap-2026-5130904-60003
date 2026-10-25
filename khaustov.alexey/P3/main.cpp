@@ -56,7 +56,7 @@ bool checkFile(std::ofstream& file)
   return true;
 }
 
-int min(int rows, int  cols)
+int min(int rows, int cols)
 {
   if (rows > cols) {
     return cols;
@@ -121,7 +121,7 @@ void freeMatrix(int** matrix, int rows)
 
 int** createMatrix(const int rows, const int cols)
 {
-  int** const matrix = new int* [rows]();
+  int** const matrix = new int*[rows]();
 
   try {
     for (int i = 0; i < rows; i++) {
@@ -194,7 +194,6 @@ void maxSumSdg(int matrix[][MAX_SIZE], const int rows, const int cols, long long
     }
     max_sum = max(max_sum, sum);
   }
-
 }
 
 void maxSumSdg(int** matrix, const int rows, const int cols, long long& max_sum)
@@ -236,8 +235,8 @@ int main(int argc, char* argv[])
   }
 
   std::ifstream input_file(argv[2]);
-  const bool checkInput = checkFile(input_file);
-  if (!checkInput) {
+  const bool check_input = checkFile(input_file);
+  if (!check_input) {
     return 2;
   }
 
@@ -255,23 +254,23 @@ int main(int argc, char* argv[])
       maxSumSdg(matrix, rows, cols, max_sum);
     }
     else if (std::string(argv[1]) == "2") {
-      int **const matrix = assembleArrayInTheFreeStore(input_file, rows, cols);
+      int** const matrix = assembleArrayInTheFreeStore(input_file, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
       freeMatrix(matrix, rows);
     }
   }
-  catch (std::invalid_argument& e) {
+  catch (const std::invalid_argument& e) {
     std::cerr << "Error: " << e.what() << "\n";
     return 2;
   }
-  catch (std::out_of_range& e) {
+  catch (const std::out_of_range& e) {
     std::cerr << "Error: " << e.what() << "\n";
     return 2;
   }
 
   std::ofstream output_file(argv[3]);
-  const bool checkOutput = checkFile(output_file);
-  if (!checkOutput) {
+  const bool check_output = checkFile(output_file);
+  if (!check_output) {
     return 2;
   }
 
