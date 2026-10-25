@@ -241,7 +241,7 @@ int main(int argc, char *argv[]) {
       assembleArrayOnTheStack(input_file, matrix, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
     } else if (std::string(argv[1]) == "2") {
-      int **matrix = assembleArrayInTheFreeStore(input_file, rows, cols);
+      int **const matrix = assembleArrayInTheFreeStore(input_file, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
       freeMatrix(matrix, rows);
     }
