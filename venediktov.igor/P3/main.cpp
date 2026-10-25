@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  int mode = std::atoi(argv[1]);
+  const int mode = std::atoi(argv[1]);
 
   if (mode != 1 && mode != 2) {
     std::cerr << "First parameter is out of range\n";
