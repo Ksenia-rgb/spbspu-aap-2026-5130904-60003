@@ -8,30 +8,40 @@ const int MAX_ELEMENTS = 10000;
 
 long long findMinSum(int** const matrix, size_t rows, size_t cols)
 {
-  const int size = static_cast< int >((rows < cols) ? rows : cols);
+  int size = static_cast< int >(cols);
+  if (rows < cols)
+  {
+    size = static_cast< int >(rows);
+  }
+
   long long min_sum = 0;
   bool found = false;
-
   for (int s = 0; s <= 2 * size - 2; ++s)
   {
-    if (s == size - 1)
+    if (s != size - 1)
     {
-      continue;
-    }
+      int first_row = 0;
+      if (s - size + 1 > 0)
+      {
+        first_row = s - size + 1;
+      }
+      int last_row = size - 1;
+      if (s < size - 1)
+      {
+        last_row = s;
+      }
 
-    const int first_row = (s - size + 1 > 0) ? (s - size + 1) : 0;
-    const int last_row = (s < size - 1) ? s : (size - 1);
+      long long current_sum = 0;
+      for (int i = first_row; i <= last_row; ++i)
+      {
+        current_sum += matrix[i][s - i];
+      }
 
-    long long current_sum = 0;
-    for (int i = first_row; i <= last_row; ++i)
-    {
-      current_sum += matrix[i][s - i];
-    }
-
-    if (!found || current_sum < min_sum)
-    {
-      min_sum = current_sum;
-      found = true;
+      if (!found || current_sum < min_sum)
+      {
+        min_sum = current_sum;
+        found = true;
+      }
     }
   }
   return min_sum;
