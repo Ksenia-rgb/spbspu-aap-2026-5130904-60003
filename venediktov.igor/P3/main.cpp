@@ -74,14 +74,12 @@ int main(int argc, char *argv[]) {
     const size_t MAX_SIZE = 10000;
     int matrix[MAX_SIZE];
 
-    // Проверяем, не превышает ли матрица лимит стека (10000 элементов)
     if (rows * cols > MAX_SIZE) {
       std::cerr
           << "Error: Matrix size exceeds stack capacity (10000 elements)\n";
       return 2;
     }
 
-    // Читаем элементы файла в статический массив
     bool read_success = true;
     for (size_t i = 0; i < rows; i++) {
       for (size_t j = 0; j < cols; j++) {
