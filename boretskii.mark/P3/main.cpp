@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstddef>
 
 namespace boretskii {
     const int MAX_ROWS = 100;
