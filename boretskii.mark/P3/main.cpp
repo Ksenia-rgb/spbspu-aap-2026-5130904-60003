@@ -8,7 +8,7 @@ namespace boretskii {
         bool found = false;
 
         for (int k = 0; k <= rows + cols - 2; ++k) {
-            
+
             if (k == cols - 1) continue;
 
             long long current_sum = 0;
@@ -77,7 +77,7 @@ int main(int argc, char* argv[]) {
             return 2;
         }
 
-        int matrix[100][100]; 
+        int matrix[100][100];
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 if (!(in >> matrix[i][j])) {
