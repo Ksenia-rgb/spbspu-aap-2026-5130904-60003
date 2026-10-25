@@ -1,4 +1,3 @@
-#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -8,14 +7,15 @@ const int MAX_ROWS = 100;
 const int MAX_COLS = 100;
 const int MAX_ELEMENTS = 10000;
 
-long long findMinSum(int **const matrix, size_t rows, size_t cols) {
+long long findMinSum(int** const matrix, size_t rows, size_t cols)
+{
   long long min_sum = -1;
   bool found = false;
 
-  for (int k = -(static_cast<int>(cols) - 1); k <= static_cast<int>(rows) - 1;
-       ++k) {
-    if (k == 0)
+  for (int k = -(static_cast<int>(cols) - 1); k <= static_cast<int>(rows) - 1; ++k) {
+    if (k == 0) {
       continue;
+    }
 
     long long current_sum = 0;
     bool has_elements = false;
@@ -39,9 +39,10 @@ long long findMinSum(int **const matrix, size_t rows, size_t cols) {
   }
   return min_sum;
 }
-} // namespace boretskii
+}  // namespace boretskii
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[])
+{
   if (argc != 4) {
     std::cerr << "ERROR: invalid arguments\n";
     return 1;
@@ -97,7 +98,7 @@ int main(int argc, char *argv[]) {
       }
     }
 
-    int **const ptrs = new int *[rows];
+    int** const ptrs = new int*[rows];
     for (int i = 0; i < rows; ++i) {
       ptrs[i] = matrix[i];
     }
@@ -105,14 +106,15 @@ int main(int argc, char *argv[]) {
     result = boretskii::findMinSum(ptrs, rows, cols);
     delete[] ptrs;
   } else if (num == 2) {
-    int **const matrix = new int *[rows];
+    int** const matrix = new int*[rows];
     for (int i = 0; i < rows; ++i) {
       matrix[i] = new int[cols];
       for (int j = 0; j < cols; ++j) {
         if (!(in >> matrix[i][j])) {
           std::cerr << "ERROR: invalid matrix data\n";
-          for (int k = 0; k <= i; ++k)
+          for (int k = 0; k <= i; ++k) {
             delete[] matrix[k];
+          }
           delete[] matrix;
           return 2;
         }
