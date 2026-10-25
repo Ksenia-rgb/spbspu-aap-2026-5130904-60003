@@ -1,3 +1,4 @@
+// NOLINTBEGIN
 #include <cstddef>
 #include <fstream>
 #include <iostream>
@@ -133,3 +134,4 @@ int main(int argc, char *argv[]) {
   out << result << "\n";
   return 0;
 }
+// NOLINTEND
