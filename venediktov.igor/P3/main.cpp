@@ -73,13 +73,11 @@ int main(int argc, char *argv[]) {
   if (std::stoi(argv[1]) == 1) {
     const size_t MAX_SIZE = 10000;
     int matrix[MAX_SIZE];
-
     if (rows * cols > MAX_SIZE) {
       std::cerr
           << "Error: Matrix size exceeds stack capacity (10000 elements)\n";
       return 2;
     }
-
     bool read_success = true;
     for (size_t i = 0; i < rows; i++) {
       for (size_t j = 0; j < cols; j++) {
