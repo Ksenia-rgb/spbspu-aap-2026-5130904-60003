@@ -11,7 +11,6 @@ int saddle_Numbers(int *massive, int rows, int cols)
 
   int count = 0;
 
-
   for (int i = 0; i < rows; i++)
   {
     for (int j = 0; j < cols; j++)
@@ -66,7 +65,8 @@ int main(int argc, char* argv[])
   std::string outputFileName = argv[3];
 
   if (numArg != "1" && numArg != "2")
-  {std::cerr << "Error: First parameter out of range or not a number." << std::endl;
+  {
+    std::cerr << "Error: First parameter out of range or not a number." << std::endl;
     return 1;
   }
 
@@ -113,7 +113,6 @@ int main(int argc, char* argv[])
 
     massiveMatrix = stackMatrix;
   }
-
   else
   {
     if (totalElements > 0)
@@ -149,7 +148,7 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  inFile.close(); 
+  inFile.close();
 
   int result = saddle_Numbers(massiveMatrix, rows, cols);
 
@@ -162,12 +161,10 @@ int main(int argc, char* argv[])
     {
       delete[] massiveMatrix;
     }
-
     return 2;
   }
 
   outFile << result << std::endl;
-
   outFile.close();
 
   if (num == 2)
