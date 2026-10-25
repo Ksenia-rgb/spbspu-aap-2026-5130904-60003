@@ -4,46 +4,34 @@
 #include <string>
 
 namespace boretskii {
-const int MAX_ROWS = 100;
-const int MAX_COLS = 100;
 const int MAX_ELEMENTS = 10000;
 
 long long findMinSum(int** const matrix, size_t rows, size_t cols)
 {
-  long long min_sum = -1;
+  const int size = static_cast< int >((rows < cols) ? rows : cols);
+  long long min_sum = 0;
   bool found = false;
 
-  for (int k = -(static_cast<int>(cols) - 1); k <= static_cast<int>(rows) - 1; ++k)
+  for (int s = 0; s <= 2 * size - 2; ++s)
   {
-    if (k == 0)
+    if (s == size - 1)
     {
       continue;
     }
 
-    long long current_sum = 0;
-    bool has_elements = false;
+    const int first_row = (s - size + 1 > 0) ? (s - size + 1) : 0;
+    const int last_row = (s < size - 1) ? s : (size - 1);
 
-    for (int i = 0; i < static_cast<int>(rows); ++i)
+    long long current_sum = 0;
+    for (int i = first_row; i <= last_row; ++i)
     {
-      const int j = i - k;
-      if (j >= 0 && j < static_cast<int>(cols))
-      {
-        current_sum += matrix[i][j];
-        has_elements = true;
-      }
+      current_sum += matrix[i][s - i];
     }
 
-    if (has_elements)
+    if (!found || current_sum < min_sum)
     {
-      if (!found)
-      {
-        min_sum = current_sum;
-        found = true;
-      }
-      else if (current_sum < min_sum)
-      {
-        min_sum = current_sum;
-      }
+      min_sum = current_sum;
+      found = true;
     }
   }
   return min_sum;
@@ -101,33 +89,29 @@ int main(int argc, char* argv[])
 
   if (num == 1)
   {
-    if (rows * cols > boretskii::MAX_ELEMENTS)
+    if (static_cast< long long >(rows) * cols > boretskii::MAX_ELEMENTS)
     {
       std::cerr << "ERROR: matrix too large\n";
       return 2;
     }
 
-    int matrix[boretskii::MAX_ROWS][boretskii::MAX_COLS] = {};
-    for (int i = 0; i < rows; ++i)
+    int data[boretskii::MAX_ELEMENTS] = {};
+    for (int i = 0; i < rows * cols; ++i)
     {
-      for (int j = 0; j < cols; ++j)
+      if (!(in >> data[i]))
       {
-        if (!(in >> matrix[i][j]))
-        {
-          std::cerr << "ERROR: invalid matrix data\n";
-          return 2;
-        }
+        std::cerr << "ERROR: invalid matrix data\n";
+        return 2;
       }
     }
 
-    int** const ptrs = new int*[rows];
+    int* ptrs[boretskii::MAX_ELEMENTS] = {};
     for (int i = 0; i < rows; ++i)
     {
-      ptrs[i] = matrix[i];
+      ptrs[i] = data + i * cols;
     }
 
     result = boretskii::findMinSum(ptrs, rows, cols);
-    delete[] ptrs;
   }
   else if (num == 2)
   {
