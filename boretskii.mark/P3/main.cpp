@@ -1,12 +1,13 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 namespace boretskii {
     const int MAX_ROWS = 100;
     const int MAX_COLS = 100;
     const int MAX_ELEMENTS = 10000;
 
-    long long findMinSum(int** matrix, size_t rows, size_t cols) {
+    long long findMinSum(int** const matrix, size_t rows, size_t cols) {
         long long min_sum = -1;
         bool found = false;
 
@@ -17,7 +18,7 @@ namespace boretskii {
             bool has_elements = false;
 
             for (int i = 0; i < static_cast<int>(rows); ++i) {
-                int j = i - k;
+                const int j = i - k;
                 if (j >= 0 && j < static_cast<int>(cols)) {
                     current_sum += matrix[i][j];
                     has_elements = true;
@@ -45,7 +46,7 @@ int main(int argc, char* argv[]) {
 
     int num = 0;
     try {
-        num = std::stoi(argv[1]);
+        num = std::stoi(std::string(argv[1]));
     } catch (...) {
         std::cerr << "ERROR: first parameter is not a number\n";
         return 1;
