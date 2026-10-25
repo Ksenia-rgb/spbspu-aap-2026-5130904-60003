@@ -3,20 +3,19 @@
 
 namespace boretskii {
 
-    long long findMinSum(int** matrix, int rows, int cols) {
+    long long findMinSum(int** matrix, size_t rows, size_t cols) {
         long long min_sum = -1;
         bool found = false;
 
-        for (int k = 0; k <= rows + cols - 2; ++k) {
-
+        for (size_t k = 0; k <= rows + cols - 2; ++k) {
             if (k == cols - 1) continue;
 
             long long current_sum = 0;
             bool has_elements = false;
 
-            for (int i = 0; i < rows; ++i) {
+            for (size_t i = 0; i < rows; ++i) {
                 int j = k - i;
-                if (j >= 0 && j < cols) {
+                if (j >= 0 && j < static_cast<int>(cols)) {
                     current_sum += matrix[i][j];
                     has_elements = true;
                 }
@@ -36,14 +35,12 @@ namespace boretskii {
 }
 
 int main(int argc, char* argv[]) {
-    using namespace boretskii;
-
     if (argc != 4) {
         std::cerr << "ERROR: invalid arguments\n";
         return 1;
     }
 
-    int num;
+    int num = 0;
     try {
         num = std::stoi(argv[1]);
     } catch (...) {
@@ -63,7 +60,8 @@ int main(int argc, char* argv[]) {
         return 2;
     }
 
-    int rows, cols;
+    int rows = 0;
+    int cols = 0;
     if (!(in >> rows >> cols) || rows <= 0 || cols <= 0) {
         std::cerr << "ERROR: invalid matrix dimensions\n";
         return 2;
@@ -77,7 +75,7 @@ int main(int argc, char* argv[]) {
             return 2;
         }
 
-        int matrix[100][100];
+        int matrix[100][100] = {};
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 if (!(in >> matrix[i][j])) {
@@ -87,14 +85,16 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        int** ptrs = new int*[rows];
-        for (int i = 0; i < rows; ++i) ptrs[i] = matrix[i];
+        int** const ptrs = new int*[rows];
+        for (int i = 0; i < rows; ++i) {
+            ptrs[i] = matrix[i];
+        }
 
-        result = findMinSum(ptrs, rows, cols);
+        result = boretskii::findMinSum(ptrs, rows, cols);
         delete[] ptrs;
 
     } else if (num == 2) {
-        int** matrix = new int*[rows];
+        int** const matrix = new int*[rows];
         for (int i = 0; i < rows; ++i) {
             matrix[i] = new int[cols];
             for (int j = 0; j < cols; ++j) {
@@ -107,9 +107,11 @@ int main(int argc, char* argv[]) {
             }
         }
 
-        result = findMinSum(matrix, rows, cols);
+        result = boretskii::findMinSum(matrix, rows, cols);
 
-        for (int i = 0; i < rows; ++i) delete[] matrix[i];
+        for (int i = 0; i < rows; ++i) {
+            delete[] matrix[i];
+        }
         delete[] matrix;
     }
 
