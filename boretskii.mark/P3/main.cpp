@@ -7,7 +7,7 @@ namespace boretskii {
     const int MAX_COLS = 100;
     const int MAX_ELEMENTS = 10000;
 
-    long long findMinSum(int** const matrix, size_t rows, size_t cols) {
+    long long findMinSum(const int* const* matrix, size_t rows, size_t cols) {
         long long min_sum = -1;
         bool found = false;
 
