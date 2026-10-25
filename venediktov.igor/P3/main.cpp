@@ -107,8 +107,7 @@ int main(int argc, char *argv[])
 
     if (rows * cols > MAX_SIZE)
     {
-      std::cerr
-          << "Error: Matrix size exceeds stack capacity (10000 elements)\n";
+      std::cerr << "Error: Matrix size is over than max\n";
       return 2;
     }
 
