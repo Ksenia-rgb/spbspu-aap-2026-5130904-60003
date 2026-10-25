@@ -2,19 +2,22 @@
 #include <fstream>
 
 namespace boretskii {
+    const int MAX_ROWS = 100;
+    const int MAX_COLS = 100;
+    const int MAX_ELEMENTS = 10000;
 
     long long findMinSum(int** matrix, size_t rows, size_t cols) {
         long long min_sum = -1;
         bool found = false;
 
-        for (size_t k = 0; k <= rows + cols - 2; ++k) {
-            if (k == cols - 1) continue;
+        for (int k = -(static_cast<int>(cols) - 1); k <= static_cast<int>(rows) - 1; ++k) {
+            if (k == 0) continue;
 
             long long current_sum = 0;
             bool has_elements = false;
 
-            for (size_t i = 0; i < rows; ++i) {
-                int j = k - i;
+            for (int i = 0; i < static_cast<int>(rows); ++i) {
+                int j = i - k;
                 if (j >= 0 && j < static_cast<int>(cols)) {
                     current_sum += matrix[i][j];
                     has_elements = true;
@@ -62,20 +65,25 @@ int main(int argc, char* argv[]) {
 
     int rows = 0;
     int cols = 0;
-    if (!(in >> rows >> cols) || rows <= 0 || cols <= 0) {
+    if (!(in >> rows >> cols) || rows < 0 || cols < 0) {
         std::cerr << "ERROR: invalid matrix dimensions\n";
         return 2;
+    }
+
+    if (rows == 0 || cols == 0) {
+        out << "0\n";
+        return 0;
     }
 
     long long result = 0;
 
     if (num == 1) {
-        if (rows * cols > 10000) {
+        if (rows * cols > boretskii::MAX_ELEMENTS) {
             std::cerr << "ERROR: matrix too large\n";
             return 2;
         }
 
-        int matrix[100][100] = {};
+        int matrix[boretskii::MAX_ROWS][boretskii::MAX_COLS] = {};
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 if (!(in >> matrix[i][j])) {
