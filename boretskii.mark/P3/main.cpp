@@ -1,3 +1,4 @@
+// clang-format off
 // NOLINTBEGIN
 #include <cstddef>
 #include <fstream>
@@ -135,3 +136,4 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 // NOLINTEND
+// clang-format on
