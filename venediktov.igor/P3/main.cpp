@@ -1,3 +1,5 @@
+#include <cstddef>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 
@@ -5,7 +7,7 @@ void allocateMatrix(int *&matrix, size_t rows, size_t cols) {
   matrix = new int[rows * cols]{};
 }
 
-void deleteMatrix(int *matrix) { delete[] matrix; }
+void deleteMatrix(const int *matrix) { delete[] matrix; }
 
 bool isTriangleBottom(const int *matrix, size_t rows, size_t cols) {
   for (size_t i = 0; i < rows; i++) {
@@ -70,7 +72,7 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  if (std::stoi(argv[1]) == 1) {
+  if (std::atoi(argv[1]) == 1) {
     const size_t MAX_SIZE = 10000;
     int matrix[MAX_SIZE];
     if (rows * cols > MAX_SIZE) {
@@ -100,7 +102,7 @@ int main(int argc, char *argv[]) {
 
   }
 
-  else if (std::stoi(argv[1]) == 2) {
+  else if (std::atoi(argv[1]) == 2) {
     int *matrix = nullptr;
 
     allocateMatrix(matrix, rows, cols);
