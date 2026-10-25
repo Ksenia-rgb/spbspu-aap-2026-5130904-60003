@@ -1,13 +1,12 @@
-#include <iostream>
-#include <string>
-#include <fstream>
 #include <climits>
+#include <fstream>
+#include <iostream>
 #include <stdexcept>
+#include <string>
 
 const int MAX_SIZE = 100;
 
-bool checkParameters(int argc, char* argv[])
-{
+bool checkParameters(int argc, char *argv[]) {
   if (argc < 4) {
     std::cerr << "Not enough arguments\n";
     return false;
@@ -30,8 +29,7 @@ bool checkParameters(int argc, char* argv[])
   return true;
 }
 
-bool checkFile(std::ifstream& file)
-{
+bool checkFile(std::ifstream &file) {
   if (!file) {
     std::cerr << "ERROR: cannot open file\n";
     return false;
@@ -43,8 +41,7 @@ bool checkFile(std::ifstream& file)
   return true;
 }
 
-bool checkFile(std::ofstream& file)
-{
+bool checkFile(std::ofstream &file) {
   if (!file) {
     std::cerr << "ERROR: cannot open file\n";
     return false;
@@ -56,38 +53,32 @@ bool checkFile(std::ofstream& file)
   return true;
 }
 
-int min(int rows, int cols)
-{
+int min(int rows, int cols) {
   if (rows > cols) {
     return cols;
-  }
-  else {
+  } else {
     return rows;
   }
 }
 
-int max(int rows, int cols)
-{
+int max(int rows, int cols) {
   if (rows < cols) {
     return cols;
-  }
-  else {
+  } else {
     return rows;
   }
 }
 
-long long max(long long num1, long long num2)
-{
+long long max(long long num1, long long num2) {
   if (num1 < num2) {
     return num2;
-  }
-  else {
+  } else {
     return num1;
   }
 }
 
-void assembleArrayOnTheStack(std::ifstream& input_file, int matrix[][MAX_SIZE], int& rows, int& cols)
-{
+void assembleArrayOnTheStack(std::ifstream &input_file, int matrix[][MAX_SIZE],
+                             int &rows, int &cols) {
   if (!(input_file >> rows) || !(input_file >> cols)) {
     throw std::invalid_argument("Invalid argument\n");
   }
@@ -111,24 +102,21 @@ void assembleArrayOnTheStack(std::ifstream& input_file, int matrix[][MAX_SIZE], 
   }
 }
 
-void freeMatrix(int** matrix, int rows)
-{
+void freeMatrix(int **matrix, int rows) {
   for (int i = 0; i < rows; i++) {
     delete[] matrix[i];
   }
   delete[] matrix;
 }
 
-int** createMatrix(const int rows, const int cols)
-{
-  int** const matrix = new int*[rows]();
+int **createMatrix(const int rows, const int cols) {
+  int **const matrix = new int *[rows]();
 
   try {
     for (int i = 0; i < rows; i++) {
       matrix[i] = new int[cols];
     }
-  }
-  catch (...) {
+  } catch (...) {
     freeMatrix(matrix, rows);
     throw;
   }
@@ -136,8 +124,8 @@ int** createMatrix(const int rows, const int cols)
   return matrix;
 }
 
-int** assembleArrayInTheFreeStore(std::ifstream& input_file, int& rows, int& cols)
-{
+int **assembleArrayInTheFreeStore(std::ifstream &input_file, int &rows,
+                                  int &cols) {
   if (!(input_file >> rows) || !(input_file >> cols)) {
     throw std::invalid_argument("Invalid argument\n");
   }
@@ -146,7 +134,7 @@ int** assembleArrayInTheFreeStore(std::ifstream& input_file, int& rows, int& col
     throw std::out_of_range("Dimensions exceed MAX_SIZE\n");
   }
 
-  int** const matrix = createMatrix(rows, cols);
+  int **const matrix = createMatrix(rows, cols);
 
   int number = 0;
   for (int i = 0; i < rows; i++) {
@@ -166,8 +154,8 @@ int** assembleArrayInTheFreeStore(std::ifstream& input_file, int& rows, int& col
   return matrix;
 }
 
-void maxSumSdg(int matrix[][MAX_SIZE], const int rows, const int cols, long long& max_sum)
-{
+void maxSumSdg(int matrix[][MAX_SIZE], const int rows, const int cols,
+               long long &max_sum) {
   const int size = min(cols, rows);
   if (size == 0) {
     max_sum = 0;
@@ -196,8 +184,8 @@ void maxSumSdg(int matrix[][MAX_SIZE], const int rows, const int cols, long long
   }
 }
 
-void maxSumSdg(int** matrix, const int rows, const int cols, long long& max_sum)
-{
+void maxSumSdg(int **matrix, const int rows, const int cols,
+               long long &max_sum) {
   const int size = min(cols, rows);
 
   if (size == 0) {
@@ -227,8 +215,7 @@ void maxSumSdg(int** matrix, const int rows, const int cols, long long& max_sum)
   }
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char *argv[]) {
   const bool check = checkParameters(argc, argv);
   if (!check) {
     return 1;
@@ -252,18 +239,15 @@ int main(int argc, char* argv[])
       int matrix[MAX_SIZE][MAX_SIZE];
       assembleArrayOnTheStack(input_file, matrix, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
-    }
-    else if (std::string(argv[1]) == "2") {
-      int** const matrix = assembleArrayInTheFreeStore(input_file, rows, cols);
+    } else if (std::string(argv[1]) == "2") {
+      int **const matrix = assembleArrayInTheFreeStore(input_file, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
       freeMatrix(matrix, rows);
     }
-  }
-  catch (const std::invalid_argument& e) {
+  } catch (const std::invalid_argument &e) {
     std::cerr << "Error: " << e.what() << "\n";
     return 2;
-  }
-  catch (const std::out_of_range& e) {
+  } catch (const std::out_of_range &e) {
     std::cerr << "Error: " << e.what() << "\n";
     return 2;
   }
