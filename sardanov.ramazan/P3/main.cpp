@@ -62,10 +62,16 @@ int main(int argc, char *argv[])
 
   const int max_size = 10000;
   int fixed[max_size] = {};
-  int *fixed_rows[max_size];
+  int *fixed_rows[max_size] = {};
 
-  if (rows != 0 &&
-      cols > std::numeric_limits<long long>::max() / rows)
+  if (num == 1 && rows > max_size)
+  {
+    std::cerr << "Error: matrix exceeds fixed array capacity\n";
+    return 2;
+  }
+
+  if (rows != 0
+      && cols > std::numeric_limits< long long >::max() / rows)
   {
     std::cerr << "Error: matrix dimensions are too large\n";
     return 2;
@@ -97,7 +103,7 @@ int main(int argc, char *argv[])
   {
     try
     {
-      matrix = new int *[rows]{};
+      matrix = new int * [rows]{};
 
       for (long long i = 0; i < rows; ++i)
       {
@@ -194,7 +200,7 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  long long min_sum = std::numeric_limits<long long>::max();
+  long long min_sum = std::numeric_limits< long long >::max();
   const long long diagonal_count = rows + cols - 1;
 
   for (long long d = 0; d < diagonal_count; ++d)
@@ -209,8 +215,8 @@ int main(int argc, char *argv[])
       {
         const int value = matrix[i][j];
 
-        if (value > 0 &&
-            sum > std::numeric_limits<long long>::max() - value)
+        if (value > 0
+            && sum > std::numeric_limits< long long >::max() - value)
         {
           std::cerr << "Error: diagonal sum overflow\n";
 
@@ -222,8 +228,8 @@ int main(int argc, char *argv[])
           return 2;
         }
 
-        if (value < 0 &&
-            sum < std::numeric_limits<long long>::min() - value)
+        if (value < 0
+            && sum < std::numeric_limits< long long >::min() - value)
         {
           std::cerr << "Error: diagonal sum underflow\n";
 
