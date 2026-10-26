@@ -1,8 +1,8 @@
-#include <iostream>
+#include <climits>
 #include <fstream>
-#include <string>
-#include <limits>
+#include <iostream>
 #include <new>
+#include <string>
 
 void freeMatrix(int **matrix, long long rows)
 {
@@ -70,8 +70,7 @@ int main(int argc, char *argv[])
     return 2;
   }
 
-  if (rows != 0
-      && cols > std::numeric_limits< long long >::max() / rows)
+  if (rows != 0 && cols > LLONG_MAX / rows)
   {
     std::cerr << "Error: matrix dimensions are too large\n";
     return 2;
@@ -103,7 +102,12 @@ int main(int argc, char *argv[])
   {
     try
     {
-      matrix = new int * [rows]{};
+      matrix = new int *[rows];
+
+      for (long long i = 0; i < rows; ++i)
+      {
+        matrix[i] = nullptr;
+      }
 
       for (long long i = 0; i < rows; ++i)
       {
@@ -200,7 +204,7 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  long long min_sum = std::numeric_limits< long long >::max();
+  long long min_sum = LLONG_MAX;
   const long long diagonal_count = rows + cols - 1;
 
   for (long long d = 0; d < diagonal_count; ++d)
@@ -215,8 +219,7 @@ int main(int argc, char *argv[])
       {
         const int value = matrix[i][j];
 
-        if (value > 0
-            && sum > std::numeric_limits< long long >::max() - value)
+        if (value > 0 && sum > LLONG_MAX - value)
         {
           std::cerr << "Error: diagonal sum overflow\n";
 
@@ -228,8 +231,7 @@ int main(int argc, char *argv[])
           return 2;
         }
 
-        if (value < 0
-            && sum < std::numeric_limits< long long >::min() - value)
+        if (value < 0 && sum < LLONG_MIN - value)
         {
           std::cerr << "Error: diagonal sum underflow\n";
 
