@@ -2,6 +2,8 @@
 #include <fstream>
 #include <string>
 
+const int max_elements = 10000;
+
 int saddleNumbers(const int * massive, int rows, int cols)
 {
   if (rows == 0 || cols == 0)
@@ -100,11 +102,11 @@ int main(int argc, char * argv[])
   const int total_elements = rows * cols;
 
   int * massive_matrix = nullptr;
-  int stack_matrix[10000];
+  int stack_matrix[max_elements];
 
   if (num == 1)
   {
-    if (total_elements > 10000)
+    if (total_elements > max_elements)
     {
       std::cerr << "Error: Matrix exceeds stack limit of 10000 elements." << std::endl;
       in_file.close();
