@@ -1,6 +1,18 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <exception>
+
+void free_matrix(int** ptr, int rows) {
+  if (ptr = nullptr) {
+    return 1;
+  }
+
+  for (int i = 0; i < rows, i++) {
+    delete[] ptr[i];
+  }
+  delete[] ptr;
+}
 
 int main(int argvc, char *argv[])
 {
@@ -61,7 +73,7 @@ int main(int argvc, char *argv[])
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < colls; j++) {
         if (!(in >> matrix[i][j])) {
-          std::cerr << "Not enough data\n";
+          std::cerr << "Error reading matrix element\n";
           return 2;
         }
       }
@@ -105,67 +117,76 @@ int main(int argvc, char *argv[])
       }
       out << "\n";
     }
-  } else {
-    int **const ptr = new int *[rows];
-
-    for (int i = 0; i < rows; i++) {
-      ptr[i] = new int[colls];
-      for (int j = 0; j < colls; j++) {
-        if (!(in >> ptr[i][j])) {
-          std::cerr << "Not enough data\n";
-          for (int k = 0; k <= i; k++) {
-            delete[] ptr[k];
-          }
-          delete[] ptr;
-          return 2;
-        }
-      }
-    }
-
-    while (top <= bottom && left <= right) {
-      for (int i = bottom; i >= top; i--) {
-        ptr[i][left] -= count;
-        count++;
-      }
-      left++;
-
-      if (left <= right) {
-        for (int j = left; j <= right; j++) {
-          ptr[top][j] -= count;
-          count++;
-        }
-        top++;
-      }
-
-      if (top <= bottom) {
-        for (int i = top; i <= bottom; i++) {
-          ptr[i][right] -= count;
-          count++;
-        }
-        right--;
-      }
-
-      if (left <= right && top <= bottom) {
-        for (int j = right; j >= left; j--) {
-          ptr[bottom][j] -= count;
-          count++;
-        }
-        bottom--;
-      }
-    }
-
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < colls; j++) {
-        out << ptr[i][j] << " ";
-      }
-      out << "\n";
-    }
-
-    for (int i = 0; i < rows; i++) {
-      delete[] ptr[i];
-    }
-    delete[] ptr;
   }
+
+  if (mode == 2) {
+    int** ptr = nullptr;
+    int initialized_rows = 0;
+    try {
+      ptr = new int *[rows]{};
+
+      for (int i = 0; i < rows; i++) {
+        ptr[i] = new int[colls];
+        initialized_rows++;
+
+        for (int j = 0; j < colls; j++) {
+          if (!(in >> ptr[i][j])) {
+            std::cerr << "Error reading matrix element\n";
+
+            free_matrix(ptr, initialized_rows);
+            return 2;
+          }
+        }
+      }
+
+      while (top <= bottom && left <= right) {
+
+        for (int i = bottom; i >= top; i--) {
+          ptr[i][left] -= count;
+          count++;
+        }
+        left++;
+
+        if (left <= right) {
+          for (int j = left; j <= right; j++) {
+            ptr[top][j] -= count;
+            count++;
+          }
+          top++;
+        }
+
+        if (top <= bottom) {
+          for (int i = top; i <= bottom; i++) {
+            ptr[i][right] -= count;
+            count++;
+          }
+          right--;
+        }
+
+        if (left <= right && top <= bottom) {
+          for (int j = right; j >= left; j--) {
+            ptr[bottom][j] -= count;
+            count++;
+          }
+          bottom--;
+        }
+      }
+
+      for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < colls; j++) {
+          out << ptr[i][j] << " ";
+        }
+        out << "\n";
+      }
+
+    catch (const std::bad_alloc& e) {
+      std::cerr << "Error: out of memory (bad_alloc)\n";
+      return 3;
+    }
+
+    free_matrix(ptr, rows);
+  }
+
   out.close();
   return 0;
 }
