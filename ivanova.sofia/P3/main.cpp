@@ -3,7 +3,8 @@
 #include <iostream>
 #include <string>
 
-void free_matrix(int **ptr, int rows) {
+void freeMatrix(int **ptr, int rows)
+{
   for (int i = 0; i < rows; i++) {
     delete[] ptr[i];
   }
@@ -75,7 +76,8 @@ int main(int argvc, char *argv[])
       }
     }
 
-    while (top <= bottom && left <= right) {
+    while (top <= bottom && left <= right)
+    {
       for (int i = bottom; i >= top; i--) {
         matrix[i][left] -= count;
         count++;
@@ -118,7 +120,7 @@ int main(int argvc, char *argv[])
   if (mode == 2) {
     int initialized_rows = 0;
     try {
-      int **ptr = new int *[rows] {};
+      int const **ptr = new int *[rows] {};
 
       for (int i = 0; i < rows; i++) {
         ptr[i] = new int[colls];
@@ -128,13 +130,14 @@ int main(int argvc, char *argv[])
           if (!(in >> ptr[i][j])) {
             std::cerr << "Error reading matrix element\n";
 
-            free_matrix(ptr, initialized_rows);
+            freeMatrix(ptr, initialized_rows);
             return 2;
           }
         }
       }
 
-      while (top <= bottom && left <= right) {
+      while (top <= bottom && left <= right)
+      {
 
         for (int i = bottom; i >= top; i--) {
           ptr[i][left] -= count;
@@ -174,7 +177,7 @@ int main(int argvc, char *argv[])
         out << "\n";
       }
 
-      free_matrix(ptr, rows);
+      freeMatrix(ptr, rows);
     }
 
     catch (const std::bad_alloc &e) {
