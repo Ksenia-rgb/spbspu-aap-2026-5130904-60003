@@ -1,9 +1,9 @@
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <exception>
 
-void free_matrix(int** ptr, int rows) {
+void free_matrix(int **ptr, int rows) {
   for (int i = 0; i < rows; i++) {
     delete[] ptr[i];
   }
@@ -116,10 +116,9 @@ int main(int argvc, char *argv[])
   }
 
   if (mode == 2) {
-    int** ptr = nullptr;
     int initialized_rows = 0;
     try {
-      ptr = new int *[rows]{};
+      int **ptr = new int *[rows] {};
 
       for (int i = 0; i < rows; i++) {
         ptr[i] = new int[colls];
@@ -174,14 +173,14 @@ int main(int argvc, char *argv[])
         }
         out << "\n";
       }
+
+      free_matrix(ptr, rows);
     }
 
-    catch (const std::bad_alloc& e) {
+    catch (const std::bad_alloc &e) {
       std::cerr << "Error: out of memory (bad_alloc)\n";
       return 3;
     }
-
-    free_matrix(ptr, rows);
   }
 
   out.close();
