@@ -119,8 +119,9 @@ int main(int argvc, char *argv[])
 
   if (mode == 2) {
     int initialized_rows = 0;
+    int **ptr = nullptr;
     try {
-      int const **ptr = new int *[rows] {};
+      ptr = new int *[rows] {};
 
       for (int i = 0; i < rows; i++) {
         ptr[i] = new int[colls];
