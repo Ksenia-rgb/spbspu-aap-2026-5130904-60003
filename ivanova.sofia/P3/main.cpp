@@ -4,11 +4,7 @@
 #include <exception>
 
 void free_matrix(int** ptr, int rows) {
-  if (ptr = nullptr) {
-    return 1;
-  }
-
-  for (int i = 0; i < rows, i++) {
+  for (int i = 0; i < rows; i++) {
     delete[] ptr[i];
   }
   delete[] ptr;
@@ -178,6 +174,7 @@ int main(int argvc, char *argv[])
         }
         out << "\n";
       }
+    }
 
     catch (const std::bad_alloc& e) {
       std::cerr << "Error: out of memory (bad_alloc)\n";
