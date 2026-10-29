@@ -1,20 +1,56 @@
-#include <exception>
-#include <fstream>
 #include <iostream>
+#include <fstream>
 #include <string>
+#include <new>
 
-void freeMatrix(int **ptr, int rows)
+int** allocateMatrix(int rows, int cols)
 {
-  if (ptr == nullptr)
+  int** const m = new int*[rows]();
+  try
+  {
+    for (int i = 0; i < rows; ++i)
+    {
+      m[i] = new int[cols]();
+    }
+  }
+  catch (...)
+  {
+    for (int i = 0; i < rows; ++i)
+    {
+      delete[] m[i];
+    }
+    delete[] m;
+    throw;
+  }
+  return m;
+}
+
+void freeMatrix(int** m, int rows)
+{
+  if (m == nullptr)
   {
     return;
   }
-
-  for (int i = 0; i < rows; i++)
+  for (int i = 0; i < rows; ++i)
   {
-    delete[] ptr[i];
+    delete[] m[i];
   }
-  delete[] ptr;
+  delete[] m;
+}
+
+bool readMatr(std::ifstream& in, int** matrix, int rows, int cols)
+{
+  for (int i = 0; i < rows; ++i)
+  {
+    for (int j = 0; j < cols; ++j)
+    {
+      if (!(in >> matrix[i][j]))
+      {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 int main(int argvc, char *argv[])
@@ -29,7 +65,7 @@ int main(int argvc, char *argv[])
     std::cerr << "Too many arguments\n";
     return 1;
   }
-
+ 
   int mode = 0;
   try
   {
@@ -40,7 +76,7 @@ int main(int argvc, char *argv[])
     std::cerr << "First parameter is not a number\n";
     return 1;
   }
-
+ 
   if (mode > 2 || mode < 1)
   {
     std::cerr << "First parametr is out of range\n";
@@ -49,45 +85,45 @@ int main(int argvc, char *argv[])
 
   std::ifstream in(argv[2]);
   std::ofstream out(argv[3]);
-  if (!in.is_open())
+  if (!in.is_open() || !out.is_open())
   {
     std::cerr << "File cannot be open\n";
     return 2;
   }
-
+ 
   int rows = 0;
-  int colls = 0;
-  if (!(in >> rows >> colls))
+  int cols = 0;
+  if (!(in >> rows >> cols))
   {
     std::cerr << "Invalid file format\n";
     return 2;
   }
-  if (rows <= 0 || colls <= 0)
+  if (rows <= 0 || cols <= 0)
   {
-    out << rows << " " << colls << "\n";
+    out << rows << " " << cols << "\n";
     return 0;
   }
-
+  
   int top = 0;
   int bottom = rows - 1;
   int left = 0;
-  int right = colls - 1;
+  int right = cols - 1;
   int count = 1;
-
+  
   if (mode == 1)
   {
     const int MAX_SIZE = 100;
-
-    if (rows > MAX_SIZE || colls > MAX_SIZE)
+ 
+    if (rows > MAX_SIZE || cols > MAX_SIZE)
     {
       std::cerr << "Matrix size is too big\n";
       return 2;
     }
-
+ 
     int matrix[MAX_SIZE][MAX_SIZE]{};
     for (int i = 0; i < rows; i++)
     {
-      for (int j = 0; j < colls; j++)
+      for (int j = 0; j < cols; j++)
       {
         if (!(in >> matrix[i][j]))
         {
@@ -96,7 +132,7 @@ int main(int argvc, char *argv[])
         }
       }
     }
-
+ 
     while (top <= bottom && left <= right)
     {
       for (int i = bottom; i >= top; i--)
@@ -105,7 +141,7 @@ int main(int argvc, char *argv[])
         count++;
       }
       left++;
-
+ 
       if (left <= right)
       {
         for (int j = left; j <= right; j++)
@@ -115,7 +151,7 @@ int main(int argvc, char *argv[])
         }
         top++;
       }
-
+ 
       if (top <= bottom)
       {
         for (int i = top; i <= bottom; i++)
@@ -125,7 +161,7 @@ int main(int argvc, char *argv[])
         }
         right--;
       }
-
+ 
       if (left <= right && top <= bottom)
       {
         for (int j = right; j >= left; j--)
@@ -136,7 +172,7 @@ int main(int argvc, char *argv[])
         bottom--;
       }
     }
-
+ 
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < colls; j++)
@@ -147,87 +183,75 @@ int main(int argvc, char *argv[])
     }
   }
 
-  if (mode == 2)
+  else if (mode == 2)
   {
-    int initialized_rows = 0;
+    int** matrix = nullptr;
     try
     {
-      int **const ptr = new int *[rows] {};
+      matrix = allocateMatrix(rows, cols);
+    }
+    catch (const std::bad_alloc&)
+    {
+      std::cerr << "ERROR: cannot allocate matrix" << std::endl;
+      return 1;
+    }
 
-      for (int i = 0; i < rows; i++)
+    if (!readMatr(in, matrix, rows, cols))
+    {
+      std::cerr << "ERROR: bad matrix element" << std::endl;
+      freeMatrix(matrix, rows);
+      return 2;
+    }
+    
+    while (top <= bottom && left <= right)
+    {
+      for (int i = bottom; i >= top; i--)
       {
-        ptr[i] = new int[colls];
-        initialized_rows++;
-
-        for (int j = 0; j < colls; j++)
-        {
-          if (!(in >> ptr[i][j]))
-          {
-            std::cerr << "Error reading matrix element\n";
-
-            freeMatrix(ptr, initialized_rows);
-            return 2;
-          }
-        }
+        matrix[i][left] -= count;
+        count++;
       }
-
-      while (top <= bottom && left <= right)
+      left++;
+ 
+      if (left <= right)
       {
-        for (int i = bottom; i >= top; i--)
+        for (int j = left; j <= right; j++)
         {
-          ptr[i][left] -= count;
+          matrix[top][j] -= count;
           count++;
         }
-        left++;
-
-        if (left <= right)
-        {
-          for (int j = left; j <= right; j++)
-          {
-            ptr[top][j] -= count;
-            count++;
-          }
-          top++;
-        }
-
-        if (top <= bottom)
-        {
-          for (int i = top; i <= bottom; i++)
-          {
-            ptr[i][right] -= count;
-            count++;
-          }
-          right--;
-        }
-
-        if (left <= right && top <= bottom)
-        {
-          for (int j = right; j >= left; j--)
-          {
-            ptr[bottom][j] -= count;
-            count++;
-          }
-          bottom--;
-        }
+        top++;
       }
-
-      for (int i = 0; i < rows; i++)
+ 
+      if (top <= bottom)
       {
-        for (int j = 0; j < colls; j++)
+        for (int i = top; i <= bottom; i++)
         {
-          out << ptr[i][j] << " ";
+          matrix[i][right] -= count;
+          count++;
         }
-        out << "\n";
+        right--;
       }
-
-      freeMatrix(ptr, rows);
+ 
+      if (left <= right && top <= bottom)
+      {
+        for (int j = right; j >= left; j--)
+        {
+          matrix[bottom][j] -= count;
+          count++;
+        }
+        bottom--;
+      }
     }
-
-    catch (const std::bad_alloc &e)
+ 
+    for (int i = 0; i < rows; i++)
     {
-      std::cerr << "Error: out of memory (bad_alloc)\n";
-      return 3;
+      for (int j = 0; j < colls; j++)
+      {
+        out << matrix[i][j] << " ";
+      }
+      out << "\n";
     }
+    freeMatrix(matrix, rows);
   }
   out.close();
   return 0;
