@@ -5,7 +5,7 @@
 
 void freeMatrix(int **ptr, int rows)
 {
-  for (int i = 0; i < rows; i++) 
+  for (int i = 0; i < rows; i++)
   {
     delete[] ptr[i];
   }
@@ -225,7 +225,6 @@ int main(int argvc, char *argv[])
       return 3;
     }
   }
-  
   out.close();
   return 0;
 }
