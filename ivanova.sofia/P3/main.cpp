@@ -152,7 +152,7 @@ int main(int argvc, char *argv[])
     int initialized_rows = 0;
     try
     {
-      int **ptr = new int*[rows]{};
+      int ** const ptr = new int*[rows]{};
 
       for (int i = 0; i < rows; i++)
       {
