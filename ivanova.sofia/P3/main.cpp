@@ -148,7 +148,7 @@ int main(int argvc, char *argv[])
     int **ptr = nullptr;
     try
     {
-      ptr = new int *[rows]{};
+      ptr = new int*[rows]();
 
       for (int i = 0; i < rows; i++)
       {
@@ -204,7 +204,7 @@ int main(int argvc, char *argv[])
             count++;
           }
           bottom--;
-       }
+        }
       }
 
       for (int i = 0; i < rows; i++)
@@ -220,7 +220,7 @@ int main(int argvc, char *argv[])
     }
 
     catch (const std::bad_alloc &e)
-      {
+    {
       std::cerr << "Error: out of memory (bad_alloc)\n";
       return 3;
     }
