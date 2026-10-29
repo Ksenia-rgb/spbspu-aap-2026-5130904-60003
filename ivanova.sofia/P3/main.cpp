@@ -76,7 +76,7 @@ int main(int argvc, char *argv[])
       }
     }
 
-    while (top <= bottom && left <= right)
+    while (top <= bottom && left <= right) 
     {
       for (int i = bottom; i >= top; i--) {
         matrix[i][left] -= count;
@@ -121,7 +121,7 @@ int main(int argvc, char *argv[])
     int initialized_rows = 0;
     int **ptr = nullptr;
     try {
-      ptr = new int * [rows] {};
+      ptr = new int *[rows]{};
 
       for (int i = 0; i < rows; i++) {
         ptr[i] = new int[colls];
@@ -137,7 +137,7 @@ int main(int argvc, char *argv[])
         }
       }
 
-      while (top <= bottom && left <= right)
+      while (top <= bottom && left <= right) 
       {
         for (int i = bottom; i >= top; i--) {
           ptr[i][left] -= count;
@@ -167,7 +167,7 @@ int main(int argvc, char *argv[])
             count++;
           }
           bottom--;
-        }
+       }
       }
 
       for (int i = 0; i < rows; i++) {
