@@ -5,7 +5,7 @@
 
 void freeMatrix(int **ptr, int rows)
 {
-  if ( ptr == nullptr)
+  if (ptr == nullptr)
   {
     return;
   }
@@ -152,7 +152,7 @@ int main(int argvc, char *argv[])
     int initialized_rows = 0;
     try
     {
-      int ** const ptr = new int*[rows]{};
+      int **const ptr = new int *[rows]{};
 
       for (int i = 0; i < rows; i++)
       {
