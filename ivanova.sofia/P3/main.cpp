@@ -121,7 +121,7 @@ int main(int argvc, char *argv[])
     int initialized_rows = 0;
     int **ptr = nullptr;
     try {
-      ptr = new int*[rows]{};
+      ptr = new int * [rows] {};
 
       for (int i = 0; i < rows; i++) {
         ptr[i] = new int[colls];
