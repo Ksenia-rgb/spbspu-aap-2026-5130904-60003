@@ -53,7 +53,7 @@ bool readMatr(std::ifstream& in, int** matrix, int rows, int cols)
   return true;
 }
 
-int main(int argvc, char *argv[])
+int main(int argvc, char* argv[])
 {
   if (argvc < 4)
   {
