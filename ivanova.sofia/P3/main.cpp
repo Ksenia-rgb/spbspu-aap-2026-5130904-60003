@@ -175,7 +175,7 @@ int main(int argvc, char *argv[])
 
     for (int i = 0; i < rows; i++)
     {
-      for (int j = 0; j < colls; j++)
+      for (int j = 0; j < cols; j++)
       {
         out << matrix[i][j] << " ";
       }
@@ -245,7 +245,7 @@ int main(int argvc, char *argv[])
 
     for (int i = 0; i < rows; i++)
     {
-      for (int j = 0; j < colls; j++)
+      for (int j = 0; j < cols; j++)
       {
         out << matrix[i][j] << " ";
       }
