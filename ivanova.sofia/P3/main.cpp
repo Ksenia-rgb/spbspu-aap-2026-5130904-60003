@@ -5,6 +5,11 @@
 
 void freeMatrix(int **ptr, int rows)
 {
+  if ( ptr == nullptr)
+  {
+    return;
+  }
+
   for (int i = 0; i < rows; i++)
   {
     delete[] ptr[i];
@@ -145,10 +150,9 @@ int main(int argvc, char *argv[])
   if (mode == 2)
   {
     int initialized_rows = 0;
-    int **ptr = nullptr;
     try
     {
-      ptr = new int*[rows]();
+      int **ptr = new int*[rows]{};
 
       for (int i = 0; i < rows; i++)
       {
