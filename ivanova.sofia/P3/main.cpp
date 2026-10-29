@@ -65,7 +65,7 @@ int main(int argvc, char *argv[])
     std::cerr << "Too many arguments\n";
     return 1;
   }
- 
+
   int mode = 0;
   try
   {
@@ -76,7 +76,7 @@ int main(int argvc, char *argv[])
     std::cerr << "First parameter is not a number\n";
     return 1;
   }
- 
+
   if (mode > 2 || mode < 1)
   {
     std::cerr << "First parametr is out of range\n";
@@ -90,7 +90,7 @@ int main(int argvc, char *argv[])
     std::cerr << "File cannot be open\n";
     return 2;
   }
- 
+
   int rows = 0;
   int cols = 0;
   if (!(in >> rows >> cols))
@@ -103,23 +103,23 @@ int main(int argvc, char *argv[])
     out << rows << " " << cols << "\n";
     return 0;
   }
-  
+
   int top = 0;
   int bottom = rows - 1;
   int left = 0;
   int right = cols - 1;
   int count = 1;
-  
+
   if (mode == 1)
   {
     const int MAX_SIZE = 100;
- 
+
     if (rows > MAX_SIZE || cols > MAX_SIZE)
     {
       std::cerr << "Matrix size is too big\n";
       return 2;
     }
- 
+
     int matrix[MAX_SIZE][MAX_SIZE]{};
     for (int i = 0; i < rows; i++)
     {
@@ -132,7 +132,7 @@ int main(int argvc, char *argv[])
         }
       }
     }
- 
+
     while (top <= bottom && left <= right)
     {
       for (int i = bottom; i >= top; i--)
@@ -141,7 +141,7 @@ int main(int argvc, char *argv[])
         count++;
       }
       left++;
- 
+
       if (left <= right)
       {
         for (int j = left; j <= right; j++)
@@ -151,7 +151,7 @@ int main(int argvc, char *argv[])
         }
         top++;
       }
- 
+
       if (top <= bottom)
       {
         for (int i = top; i <= bottom; i++)
@@ -161,7 +161,7 @@ int main(int argvc, char *argv[])
         }
         right--;
       }
- 
+
       if (left <= right && top <= bottom)
       {
         for (int j = right; j >= left; j--)
@@ -172,7 +172,7 @@ int main(int argvc, char *argv[])
         bottom--;
       }
     }
- 
+
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < colls; j++)
@@ -202,7 +202,7 @@ int main(int argvc, char *argv[])
       freeMatrix(matrix, rows);
       return 2;
     }
-    
+
     while (top <= bottom && left <= right)
     {
       for (int i = bottom; i >= top; i--)
@@ -211,7 +211,7 @@ int main(int argvc, char *argv[])
         count++;
       }
       left++;
- 
+
       if (left <= right)
       {
         for (int j = left; j <= right; j++)
@@ -221,7 +221,7 @@ int main(int argvc, char *argv[])
         }
         top++;
       }
- 
+
       if (top <= bottom)
       {
         for (int i = top; i <= bottom; i++)
@@ -231,7 +231,7 @@ int main(int argvc, char *argv[])
         }
         right--;
       }
- 
+
       if (left <= right && top <= bottom)
       {
         for (int j = right; j >= left; j--)
@@ -242,7 +242,7 @@ int main(int argvc, char *argv[])
         bottom--;
       }
     }
- 
+
     for (int i = 0; i < rows; i++)
     {
       for (int j = 0; j < colls; j++)
