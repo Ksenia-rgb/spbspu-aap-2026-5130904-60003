@@ -36,7 +36,7 @@ int main(int argvc, char *argv[])
     return 1;
   }
 
-  if (mode > 2 || mode < 1) 
+  if (mode > 2 || mode < 1)
   {
     std::cerr << "First parametr is out of range\n";
     return 1;
@@ -92,7 +92,7 @@ int main(int argvc, char *argv[])
       }
     }
 
-    while (top <= bottom && left <= right) 
+    while (top <= bottom && left <= right)
     {
       for (int i = bottom; i >= top; i--)
       {
@@ -167,7 +167,7 @@ int main(int argvc, char *argv[])
         }
       }
 
-      while (top <= bottom && left <= right) 
+      while (top <= bottom && left <= right)
       {
         for (int i = bottom; i >= top; i--)
         {
