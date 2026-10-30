@@ -1,44 +1,42 @@
 #include <iostream>
-#include <vector>
-#include <cstddef>
 
-int countGrtLss(const std::vector< int >& a)
-{
-  int count = 0;
-  for (std::size_t i = 1; i + 1 < a.size(); ++i) {
-    if (a[i] < a[i - 1] && a[i] > a[i + 1]) {
-      ++count;
-    }
-  }
-  return count;
-}
-
-int countEvnCnt(const std::vector< int >& a)
-{
-  int max_run = 0;
-  int current_run = 0;
-  for (const int v : a) {
-    if (v % 2 == 0) {
-      ++current_run;
-      if (current_run > max_run) {
-        max_run = current_run;
-      }
-    } else {
-      current_run = 0;
-    }
-  }
-  return max_run;
+namespace annageldiyev {
+  const int bad_sequence = 1;
 }
 
 int main()
 {
-  std::vector< int > a;
-  int x = 0;
-  while (std::cin >> x && x != 0) {
-    a.push_back(x);
+  int num = 0;
+  int past_num = 0;
+  int past_past_num = 0;
+  unsigned cnt_nums = 0;
+  unsigned even_local = 0;
+  unsigned max_even = 0;
+  unsigned cnt = 0;
+
+  while ((std::cin >> num) && (num != 0)) {
+    if ((past_num < past_past_num) && (past_num > num) && (cnt >= 2)) {
+      cnt_nums++;
+    }
+    if (num % 2 == 0) {
+      even_local++;
+      if (even_local > max_even) {
+        max_even = even_local;
+      }
+    } else {
+      even_local = 0;
+    }
+    past_past_num = past_num;
+    past_num = num;
+    cnt++;
   }
 
-  std::cout << "Greater-Less: " << countGrtLss(a) << "\n";
-  std::cout << "Consecutive even-numbers: " << countEvnCnt(a) << "\n";
+  if (std::cin.fail()) {
+    std::cerr << "Bad sequence!";
+    return annageldiyev::bad_sequence;
+  }
+
+  std::cout << max_even << "\n";
+  std::cout << cnt_nums;
   return 0;
 }
