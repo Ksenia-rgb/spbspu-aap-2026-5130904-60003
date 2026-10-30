@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <new>
 
 int** allocateMatrix(int rows, int cols)
 {
@@ -38,29 +37,14 @@ void freeMatrix(int** m, int rows)
   delete[] m;
 }
 
-bool readMatr(std::ifstream& in, int** matrix, int rows, int cols)
+int main(int argc, char* argv[])
 {
-  for (int i = 0; i < rows; ++i)
-  {
-    for (int j = 0; j < cols; ++j)
-    {
-      if (!(in >> matrix[i][j]))
-      {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-int main(int argvc, char* argv[])
-{
-  if (argvc < 4)
+  if (argc < 4)
   {
     std::cerr << "Not enough arguments\n";
     return 1;
   }
-  else if (argvc > 4)
+  else if (argc > 4)
   {
     std::cerr << "Too many arguments\n";
     return 1;
@@ -192,15 +176,21 @@ int main(int argvc, char* argv[])
     }
     catch (const std::bad_alloc&)
     {
-      std::cerr << "ERROR: cannot allocate matrix" << std::endl;
+      std::cerr << "ERROR: cannot allocate matrix\n";
       return 1;
     }
 
-    if (!readMatr(in, matrix, rows, cols))
+    for (int i = 0; i < rows; i++)
     {
-      std::cerr << "ERROR: bad matrix element" << std::endl;
-      freeMatrix(matrix, rows);
-      return 2;
+      for (int j = 0; j < cols; j++)
+      {
+        if (!(in >> matrix[i][j]))
+        {
+          std::cerr << "Error reading matrix element\n";
+          freeMatrix(matrix, rows);
+          return 2;
+        }
+      }
     }
 
     while (top <= bottom && left <= right)
