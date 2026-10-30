@@ -3,6 +3,7 @@
 #include <fstream>
 #include <climits>
 #include <stdexcept>
+#include <new>
 
 const int MAX_SIZE = 100;
 
@@ -122,7 +123,7 @@ int** createMatrix(const int rows, const int cols)
 
   try {
     for (int i = 0; i < rows; i++) {
-      matrix[i] = new int[cols];
+      matrix[i] = new int[cols]();
     }
   } catch (...) {
     freeMatrix(matrix, rows);
@@ -245,7 +246,7 @@ int main(int argc, char* argv[])
   long long max_sum = LLONG_MIN;
   try {
     if (std::string(argv[1]) == "1") {
-      int matrix[MAX_SIZE][MAX_SIZE];
+      int matrix[MAX_SIZE][MAX_SIZE] = {};
       assembleArrayOnTheStack(input_file, matrix, rows, cols);
       maxSumSdg(matrix, rows, cols, max_sum);
     } else if (std::string(argv[1]) == "2") {
@@ -253,6 +254,9 @@ int main(int argc, char* argv[])
       maxSumSdg(matrix, rows, cols, max_sum);
       freeMatrix(matrix, rows);
     }
+  } catch (const std::bad_alloc& e) {
+    std::cerr << "Error: memory allocation failed\n";
+    return 2;
   } catch (const std::invalid_argument& e) {
     std::cerr << "Error: " << e.what() << "\n";
     return 2;
@@ -269,5 +273,7 @@ int main(int argc, char* argv[])
 
   output_file << max_sum << "\n";
 
+  input_file.close();
+  output_file.close();
   return 0;
 }
