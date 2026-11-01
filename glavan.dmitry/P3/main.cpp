@@ -3,8 +3,6 @@
 #include <iostream>
 
 namespace glavan {
-  const int max_size = 10000;
-
   bool readMatrix(std::istream & in, int * matrix, int size)
   {
     for (int i = 0; i < size; ++i) {
@@ -39,18 +37,7 @@ namespace glavan {
     return count;
   }
 
-  int processFixed(std::istream & in, std::ostream & out, int rows, int cols)
-  {
-    int matrix[max_size] = {};
-    if (!readMatrix(in, matrix, rows * cols)) {
-      std::cerr << "Error: wrong matrix elements\n";
-      return 2;
-    }
-    out << countDiagonals(matrix, rows, cols) << '\n';
-    return 0;
-  }
-
-  int processDynamic(std::istream & in, std::ostream & out, int rows, int cols)
+  int processMatrix(std::istream & in, std::ostream & out, int rows, int cols)
   {
     int * matrix = new int[rows * cols];
     if (!readMatrix(in, matrix, rows * cols)) {
@@ -87,8 +74,5 @@ int main(int argc, char ** argv)
   }
 
   std::ofstream output(argv[3]);
-  if (num == 1) {
-    return glavan::processFixed(input, output, rows, cols);
-  }
-  return glavan::processDynamic(input, output, rows, cols);
+  return glavan::processMatrix(input, output, rows, cols);
 }
