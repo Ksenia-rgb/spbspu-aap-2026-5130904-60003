@@ -1,36 +1,25 @@
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
-#include <new>
 
 namespace glavan {
-  int processMatrix()
+  const int max_size = 10000;
+
+  bool readMatrix(std::istream & in, int * matrix, int size)
   {
-    int rows = 0;
-    int cols = 0;
-
-    if (!(std::cin >> rows >> cols) || rows < 0 || cols < 0) {
-      std::cerr << "Error: wrong matrix size\n";
-      return 1;
-    }
-    if (rows == 0 || cols == 0) {
-      std::cout << 0 << '\n';
-      return 0;
-    }
-
-    int size = rows * cols;
-    int * matrix = new (std::nothrow) int[size];
-    if (matrix == nullptr) {
-      std::cerr << "Error: not enough memory\n";
-      return 2;
-    }
-
     for (int i = 0; i < size; ++i) {
-      if (!(std::cin >> matrix[i])) {
-        std::cerr << "Error: wrong matrix elements\n";
-        delete[] matrix;
-        return 1;
+      if (!(in >> matrix[i])) {
+        return false;
       }
     }
+    return true;
+  }
 
+  int countDiagonals(const int * matrix, int rows, int cols)
+  {
+    if (rows == 0 || cols == 0) {
+      return 0;
+    }
     int count = 0;
     for (int shift = 1 - rows; shift < cols; ++shift) {
       if (shift == 0) {
@@ -47,14 +36,59 @@ namespace glavan {
         ++count;
       }
     }
+    return count;
+  }
 
+  int processFixed(std::istream & in, std::ostream & out, int rows, int cols)
+  {
+    int matrix[max_size] = {};
+    if (!readMatrix(in, matrix, rows * cols)) {
+      std::cerr << "Error: wrong matrix elements\n";
+      return 2;
+    }
+    out << countDiagonals(matrix, rows, cols) << '\n';
+    return 0;
+  }
+
+  int processDynamic(std::istream & in, std::ostream & out, int rows, int cols)
+  {
+    int * matrix = new int[rows * cols];
+    if (!readMatrix(in, matrix, rows * cols)) {
+      std::cerr << "Error: wrong matrix elements\n";
+      delete[] matrix;
+      return 2;
+    }
+    out << countDiagonals(matrix, rows, cols) << '\n';
     delete[] matrix;
-    std::cout << count << '\n';
     return 0;
   }
 }
 
-int main()
+int main(int argc, char ** argv)
 {
-  return glavan::processMatrix();
+  if (argc != 4) {
+    std::cerr << "Error: wrong number of arguments\n";
+    return 1;
+  }
+
+  char * end = nullptr;
+  long num = std::strtol(argv[1], &end, 10);
+  if (end == argv[1] || *end != '\0' || (num != 1 && num != 2)) {
+    std::cerr << "Error: first parameter must be 1 or 2\n";
+    return 1;
+  }
+
+  std::ifstream input(argv[2]);
+  int rows = 0;
+  int cols = 0;
+  if (!(input >> rows >> cols) || rows < 0 || cols < 0) {
+    std::cerr << "Error: wrong matrix size\n";
+    return 2;
+  }
+
+  std::ofstream output(argv[3]);
+  if (num == 1) {
+    return glavan::processFixed(input, output, rows, cols);
+  }
+  return glavan::processDynamic(input, output, rows, cols);
 }
