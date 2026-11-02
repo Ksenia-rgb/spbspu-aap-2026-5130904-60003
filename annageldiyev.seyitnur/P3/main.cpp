@@ -20,7 +20,7 @@ namespace annageldiyev {
                 for (int dr = -1; dr <= 1; ++dr) {
                     for (int dc = -1; dc <= 1; ++dc) {
                         if (dr == 0 && dc == 0) continue;
-                        
+
                         int nr = r + dr;
                         int nc = c + dc;
 
@@ -32,13 +32,13 @@ namespace annageldiyev {
                 }
 
                 double avg = (count > 0) ? (sum / count) : 0.0;
-                
+
                 if (std::abs(avg - std::round(avg)) < 1e-9) {
                     out << std::round(avg);
                 } else {
                     out << std::fixed << std::setprecision(1) << avg;
                 }
-                
+
                 if (!(r == rows - 1 && c == cols - 1)) {
                     out << " ";
                 }
@@ -47,7 +47,6 @@ namespace annageldiyev {
         out << "\n";
         delete[] original;
     }
-
 }
 
 int main(int argc, char* argv[]) {
