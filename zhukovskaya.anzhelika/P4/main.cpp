@@ -6,7 +6,6 @@
 namespace zhukovskaya {
   char* allChars(char* res, char* str1, const char* str2) noexcept {
     const size_t alph_size = 26;
-    int alph[alph_size]{};
     for (size_t i = 0; str1[i] != '\0'; ++i) {
       if (isalpha(str1[i])) {
         const int low_regist = tolower(str1[i]);
