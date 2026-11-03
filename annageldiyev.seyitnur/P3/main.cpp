@@ -140,4 +140,7 @@ int run(int argc, char *argv[])
 }
 } // namespace annageldiyev
 
-int main(int argc, char *argv[]) { return annageldiyev::run(argc, argv); }
+int main(int argc, char *argv[])
+{
+  return annageldiyev::run(argc, argv);
+}
