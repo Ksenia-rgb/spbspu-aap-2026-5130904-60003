@@ -1,214 +1,144 @@
-#include <cstddef>
-#include <exception>
-#include <fstream>
-#include <iomanip>
 #include <iostream>
-#include <stdexcept>
-#include <string>
+#include <fstream>
+#include <cstring>
+#include <iomanip>
+#include <cmath>
 
 namespace annageldiyev {
-  const int success = 0;
-  const int invalidArguments = 1;
-  const int processingError = 2;
-}
 
-const int maxSize = 10000;
+    const int SUCCESS = 0;
+    const int ERR_ARGS = 1;
+    const int ERR_FILE = 2;
+    const int MAX_SIZE = 10000;
 
-int readAndCheckArg(int argc, char *argv[])
-{
-  if (argc > 4) {
-    throw std::invalid_argument("Too many arguments");
-  } else if (argc < 4) {
-    throw std::invalid_argument("Not enough arguments");
-  }
-
-  const std::string argument = argv[1];
-  if (argument == "1") {
-    return 1;
-  } else if (argument == "2") {
-    return 2;
-  }
-
-  throw std::invalid_argument("First parameter must be 1 or 2");
-}
-
-void readRowsAndCols(std::ifstream &input, int &rows, int &cols)
-{
-  if (!(input >> rows >> cols)) {
-    throw std::runtime_error("Size read error");
-  }
-  if (rows < 0 || cols < 0) {
-    throw std::runtime_error("Matrix dimensions cannot be negative");
-  }
-}
-
-void readMatrix(std::ifstream &input, int *matrix, std::size_t size)
-{
-  for (std::size_t i = 0; i < size; i++) {
-    if (!(input >> matrix[i])) {
-      throw std::runtime_error("Invalid matrix data");
-    }
-  }
-
-  input >> std::ws;
-  if (input.bad() || !input.eof()) {
-    throw std::runtime_error("Unexpected data after the matrix");
-  }
-}
-
-double calculateAverage(const int *matrix, int rows, int cols, int row, int col)
-{
-  double sum = 0.0;
-  int count = 0;
-  int first_row = row;
-  int last_row = row;
-  int first_col = col;
-  int last_col = col;
-
-  if (row > 0) {
-    first_row = row - 1;
-  }
-  if (row + 1 < rows) {
-    last_row = row + 1;
-  }
-  if (col > 0) {
-    first_col = col - 1;
-  }
-  if (col + 1 < cols) {
-    last_col = col + 1;
-  }
-
-  for (int i = first_row; i <= last_row; i++) {
-    for (int j = first_col; j <= last_col; j++) {
-      if (i != row || j != col) {
-        sum += matrix[std::size_t(i) * cols + j];
-        count++;
-      }
-    }
-  }
-
-  if (count == 0) {
-    return matrix[std::size_t(row) * cols + col];
-  }
-
-  return sum / count;
-}
-
-void smoothMatrix(const int *source, double *result, int rows, int cols)
-{
-  if (rows == 0 || cols == 0) {
-    return;
-  }
-
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < cols; j++) {
-      result[std::size_t(i) * cols + j] = calculateAverage(source, rows, cols, i, j);
-    }
-  }
-}
-
-void writeMatrix(const char *output_name, const double *matrix, int rows, int cols)
-{
-  std::ofstream output(output_name);
-  if (!output) {
-    throw std::runtime_error("Cannot open the output file");
-  }
-
-  const int precision = 1;
-  output << rows << " " << cols << "\n";
-  output << std::fixed << std::setprecision(precision);
-
-  if (rows != 0 && cols != 0) {
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        if (j > 0) {
-          output << " ";
+    void readDimensions(std::ifstream& in, int& rows, int& cols) {
+        if (!(in >> rows >> cols)) {
+            throw std::runtime_error("Error reading dimensions");
         }
-        output << matrix[std::size_t(i) * cols + j];
-      }
-      output << "\n";
-    }
-  }
-
-  output.close();
-  if (!output) {
-    throw std::runtime_error("Cannot write the output file");
-  }
-}
-
-void processMatrix(std::ifstream &input, const char *output_name, int *source, double *result, int rows, int cols)
-{
-  const std::size_t size = std::size_t(rows) * cols;
-  readMatrix(input, source, size);
-  smoothMatrix(source, result, rows, cols);
-  writeMatrix(output_name, result, rows, cols);
-}
-
-void processStack(std::ifstream &input, const char *output_name, int rows, int cols)
-{
-  const std::size_t size = std::size_t(rows) * cols;
-  if (size > maxSize) {
-    throw std::runtime_error("Matrix exceeds stack capacity");
-  }
-
-  int source[maxSize] = {};
-  double result[maxSize] = {};
-  processMatrix(input, output_name, source, result, rows, cols);
-}
-
-void processHeap(std::ifstream &input, const char *output_name, int rows, int cols)
-{
-  const std::size_t size = std::size_t(rows) * cols;
-  int *source = nullptr;
-  double *result = nullptr;
-
-  try {
-    source = new int[size]();
-    result = new double[size]();
-    processMatrix(input, output_name, source, result, rows, cols);
-  } catch (...) {
-    delete[] source;
-    delete[] result;
-    throw;
-  }
-
-  delete[] source;
-  delete[] result;
-}
-
-int main(int argc, char *argv[])
-{
-  int var = 0;
-  try {
-    var = readAndCheckArg(argc, argv);
-  } catch (const std::invalid_argument &e) {
-    std::cerr << "ERROR: " << e.what() << "\n";
-    return annageldiyev::invalidArguments;
-  }
-
-  try {
-    std::ifstream input(argv[2]);
-    if (!input) {
-      throw std::runtime_error("Cannot open the input file");
+        if (rows < 0 || cols < 0) {
+            throw std::runtime_error("Negative dimensions");
+        }
     }
 
-    int rows = 0, cols = 0;
-    readRowsAndCols(input, rows, cols);
-
-    const std::size_t size = std::size_t(rows) * cols;
-    if (rows != 0 && size / rows != std::size_t(cols)) {
-      throw std::runtime_error("Matrix dimensions are too large");
+    void readElements(std::ifstream& in, int* data, int total) {
+        for (int i = 0; i < total; ++i) {
+            if (!(in >> data[i])) {
+                throw std::runtime_error("Error reading matrix data");
+            }
+        }
+        in >> std::ws;
+        if (!in.eof()) {
+            throw std::runtime_error("Extra data found");
+        }
     }
 
-    if (var == 1) {
-      processStack(input, argv[3], rows, cols);
-    } else {
-      processHeap(input, argv[3], rows, cols);
-    }
-  } catch (const std::exception &e) {
-    std::cerr << "ERROR: " << e.what() << "\n";
-    return annageldiyev::processingError;
-  }
+    void processMatrix(const int* src, double* dest, int rows, int cols) {
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+                double sum = 0.0;
+                int count = 0;
 
-  return annageldiyev::success;
+                for (int dr = -1; dr <= 1; ++dr) {
+                    for (int dc = -1; dc <= 1; ++dc) {
+                        if (dr == 0 && dc == 0) continue;
+                        int nr = r + dr;
+                        int nc = c + dc;
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
+                            sum += src[nr * cols + nc];
+                            count++;
+                        }
+                    }
+                }
+                dest[r * cols + c] = (count > 0) ? (sum / count) : src[r * cols + c];
+            }
+        }
+    }
+
+    void writeMatrix(std::ofstream& out, const double* data, int rows, int cols) {
+        out << rows << " " << cols << "\n";
+        out << std::fixed << std::setprecision(1);
+        for (int r = 0; r < rows; ++r) {
+            for (int c = 0; c < cols; ++c) {
+                if (c > 0) out << " ";
+                out << data[r * cols + c];
+            }
+            out << "\n";
+        }
+    }
+
+    int run(int argc, char* argv[]) {
+        if (argc != 4) {
+            std::cerr << "Error: Invalid number of arguments\n";
+            return ERR_ARGS;
+        }
+
+        int mode = 0;
+        if (std::strcmp(argv[1], "1") == 0) mode = 1;
+        else if (std::strcmp(argv[1], "2") == 0) mode = 2;
+        else {
+            std::cerr << "Error: First argument must be 1 or 2\n";
+            return ERR_ARGS;
+        }
+
+        std::ifstream in(argv[2]);
+        if (!in.is_open()) {
+            std::cerr << "Error: Cannot open input file\n";
+            return ERR_FILE;
+        }
+
+        int rows = 0, cols = 0;
+        try {
+            readDimensions(in, rows, cols);
+            int total = rows * cols;
+
+            if (mode == 1) {
+                if (total > MAX_SIZE) {
+                    std::cerr << "Error: Matrix too large for stack\n";
+                    return ERR_FILE;
+                }
+                int src[MAX_SIZE];
+                double dest[MAX_SIZE];
+                readElements(in, src, total);
+                processMatrix(src, dest, rows, cols);
+
+                std::ofstream out(argv[3]);
+                if (!out.is_open()) {
+                    std::cerr << "Error: Cannot open output file\n";
+                    return ERR_FILE;
+                }
+                writeMatrix(out, dest, rows, cols);
+            } else {
+                int* src = new int[total];
+                double* dest = new double[total];
+                try {
+                    readElements(in, src, total);
+                    processMatrix(src, dest, rows, cols);
+
+                    std::ofstream out(argv[3]);
+                    if (!out.is_open()) {
+                        std::cerr << "Error: Cannot open output file\n";
+                        delete[] src;
+                        delete[] dest;
+                        return ERR_FILE;
+                    }
+                    writeMatrix(out, dest, rows, cols);
+                } catch (...) {
+                    delete[] src;
+                    delete[] dest;
+                    throw;
+                }
+                delete[] src;
+                delete[] dest;
+            }
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << "\n";
+            return ERR_FILE;
+        }
+
+        return SUCCESS;
+    }
+}
+
+int main(int argc, char* argv[]) {
+    return annageldiyev::run(argc, argv);
 }
