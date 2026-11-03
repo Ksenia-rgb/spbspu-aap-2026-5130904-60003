@@ -6,12 +6,13 @@
 #include <iostream>
 #include <new>
 
-namespace annageldiyev {
+namespace annageldiyev
+{
 constexpr int SUCCESS = 0;
 constexpr int ERR_ARGS = 1;
 constexpr int ERR_FILE = 2;
 constexpr int MAX_SIZE = 10000;
-
+constexpr int OUTPUT_PRECISION = 15;
 int parseMode(const char *arg)
 {
   if (std::strcmp(arg, "1") == 0) {
@@ -55,9 +56,10 @@ void smoothMatrix(const int *src, double *dest, const int rows, const int cols)
   }
 }
 
-void writeMatrix(std::ostream &out, const double *data, const int rows, const int cols)
+void writeMatrix(std::ostream &out, const double *data, const int rows,
+                 const int cols)
 {
-  out << std::setprecision(15);
+  out << std::setprecision(OUTPUT_PRECISION);
   out << rows << ' ' << cols;
   for (int i = 0; i < rows * cols; ++i) {
     const double rounded = std::round(data[i] * 10.0) / 10.0;
@@ -66,7 +68,8 @@ void writeMatrix(std::ostream &out, const double *data, const int rows, const in
   out << '\n';
 }
 
-int processMatrix(std::istream &in, std::ostream &out, int *src, double *dest, const int rows, const int cols)
+int processMatrix(std::istream &in, std::ostream &out, int *src, double *dest,
+                  const int rows, const int cols)
 {
   if (!readElements(in, src, rows * cols)) {
     std::cerr << "Error: invalid matrix data\n";
@@ -137,7 +140,4 @@ int run(int argc, char *argv[])
 }
 } // namespace annageldiyev
 
-int main(int argc, char *argv[])
-{
-  return annageldiyev::run(argc, argv);
-}
+int main(int argc, char *argv[]) { return annageldiyev::run(argc, argv); }
