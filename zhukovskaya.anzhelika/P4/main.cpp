@@ -9,17 +9,17 @@ namespace zhukovskaya {
     int alph[alph_size]{};
     for (size_t i = 0; str1[i] != '\0'; ++i) {
       if (isalpha(str1[i])) {
-        const int low_regist = tolower(str1[i]); 
+        const int low_regist = tolower(str1[i]);
         res[low_regist - int('a')] = 1;
       }
     }
     for (size_t i = 0; str2[i] != '\0'; ++i) {
       if (isalpha(str2[i])) {
-        const int low_regist = tolower(str2[i]); 
+        const int low_regist = tolower(str2[i]);
         res[low_regist - int('a')] = 1;
       }
     }
-    size_t cnt_index = 0; 
+    size_t cnt_index = 0;
     for (size_t i = 0; i < alph_size; ++i) {
       if (res[i] != 0) {
         res[cnt_index] = char('a' + i);
