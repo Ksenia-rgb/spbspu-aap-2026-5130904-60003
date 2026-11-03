@@ -58,7 +58,7 @@ namespace zhukovskaya {
     size_t memory_size = 20;
     char* memory = new char[memory_size];
     std::cout << "enter your string: \n";
-    
+
     while(true) {
       char ch;
       if (!std::cin.get(ch) || (ch == '\n')) {
@@ -80,13 +80,11 @@ namespace zhukovskaya {
     memory[size] = '\0';
     return memory;
   }
-
 }
 
 int main() {
   char* in_str1 = nullptr;
   char* for_res = nullptr;
-   
 
   try {
     in_str1 = zhukovskaya::readStr();
