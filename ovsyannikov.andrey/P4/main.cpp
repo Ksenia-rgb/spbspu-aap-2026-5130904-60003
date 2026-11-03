@@ -5,6 +5,7 @@
 
 namespace ovsyannikov {
   const int no_memory = 1;
+  const int empty_input = 2;
   const std::size_t start_capacity = 16;
   const std::size_t resize_multi = 2;
 
@@ -73,10 +74,17 @@ int main()
   try {
     input = ovsyannikov::readLine(std::cin);
     result = new char[std::strlen(input) + 1];
-  } catch (const std::bad_alloc &) {
+  } catch (const std::bad_alloc & e) {
     delete[] input;
     std::cerr << "not enough memory\n";
     return ovsyannikov::no_memory;
+  }
+
+  if (input[0] == '\0') {
+    delete[] result;
+    delete[] input;
+    std::cerr << "input is empty\n";
+    return ovsyannikov::empty_input;
   }
 
   const char * const second = "abc";
