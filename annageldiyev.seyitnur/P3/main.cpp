@@ -42,8 +42,8 @@ void processMatrix(const int *src, double *dest, int rows, int cols) {
         for (int dc = -1; dc <= 1; ++dc) {
           if (dr == 0 && dc == 0)
             continue;
-          int nr = r + dr;
-          int nc = c + dc;
+          const int nr = r + dr;
+          const int nc = c + dc;
           if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) {
             sum += src[nr * cols + nc];
             count++;
@@ -93,7 +93,7 @@ int run(int argc, char *argv[]) {
   int rows = 0, cols = 0;
   try {
     readDimensions(in, rows, cols);
-    int total = rows * cols;
+    const int total = rows * cols;
 
     if (mode == 1) {
       if (total > MAX_SIZE) {
@@ -112,8 +112,8 @@ int run(int argc, char *argv[]) {
       }
       writeMatrix(out, dest, rows, cols);
     } else {
-      int *src = new int[total];
-      double *dest = new double[total];
+      int *const src = new int[total];
+      double *const dest = new double[total];
       try {
         readElements(in, src, total);
         processMatrix(src, dest, rows, cols);
