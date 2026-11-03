@@ -48,9 +48,9 @@ namespace zhukovskaya {
     return 0;
   }
 
-  char* expandMem(char* old_memory, const std::size_t old_size, const std::size_t new_size)
+  char* expandMem(const char* old_memory, const std::size_t old_size, const std::size_t new_size)
   {
-    char* new_memory = new char[new_size];
+    char* const new_memory = new char[new_size];
     for (std::size_t i = 0; i < old_size; ++i) {
       new_memory[i] = old_memory[i];
     }
@@ -95,6 +95,11 @@ int main()
 
   try {
     in_str1 = zhukovskaya::readStr();
+    if (in_str1[0] == '\0') {
+      delete[] in_str1;
+      std::cerr << "Empty input\n";
+      return 1;
+    }
 
     const char* const str2_lat = "def_ghk";
     const char* const str2_same = "abs";
@@ -112,7 +117,7 @@ int main()
   } catch (const std::bad_alloc&) {
     delete[] in_str1;
     delete[] for_res;
-    std::cerr << "memory allocation error\n";
+    std::cerr << "Memory allocation error\n";
     return 1;
   }
 
