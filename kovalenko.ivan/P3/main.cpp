@@ -107,6 +107,8 @@ namespace kovalenko {
       delete[] heap_data;
       return code;
     }
+    std::cerr << "Unknown mode\n";
+    return code_bad_arguments;
   }
 }
 
