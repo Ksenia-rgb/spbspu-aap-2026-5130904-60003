@@ -222,3 +222,4 @@ int main(int argc, char * argv[])
   }
   return annageldiyev::runDynamic(argv[2], argv[3]);
 }
+
