@@ -88,7 +88,7 @@ char *readStr() {
   str[length] = '\0';
   return str;
 }
-} // namespace ivanova
+}
 
 int main() {
   char *input = nullptr;
@@ -98,6 +98,12 @@ int main() {
   try {
     input = ivanova::readStr();
     size_t length = std::strlen(input);
+
+    if (length == 0) {
+      std::cerr << "Input is empty\n";
+      delete[] input;
+      return 1;
+    }
 
     result1 = new char[length + 1]{};
     result2 = new char[length + 1]{};
