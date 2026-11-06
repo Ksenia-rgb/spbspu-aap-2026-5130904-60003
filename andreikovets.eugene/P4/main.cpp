@@ -1,11 +1,11 @@
 #include <cctype>
 #include <iostream>
 #include <stdexcept>
-namespace andreikovets
-{
+namespace andreikovets {
   char* readString(size_t& cur_size)
   {
-    size_t max_size = 8;
+    const size_t base_size = 8;
+    size_t max_size = base_size;
     char* str = nullptr;
     str = new char[max_size];
     char ch = '\0';
@@ -42,8 +42,7 @@ namespace andreikovets
     num_str[el] = '\0';
   }
 
-  void replaceSymbol(const char* init_str, char* repl_str,
-                     const char target_char, const char repl_char)
+  void replaceSymbol(const char* init_str, char* repl_str, const char target_char, const char repl_char)
   {
     int i = 0;
     for (; init_str[i] != '\0'; ++i) {
