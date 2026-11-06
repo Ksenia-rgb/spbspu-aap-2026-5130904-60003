@@ -61,21 +61,21 @@ char *readStr() {
   size_t capacity = initial_capacity;
   size_t length = 0;
 
-  char const *str = new char[capacity]{};
+  char *str = new char[capacity]{};
   int ch = 0;
 
   while ((ch = std::cin.get()) != '\n' && ch != EOF) {
 
     if (length + 1 >= capacity) {
-      size_t new_capacity = capacity * 2;
+      const size_t new_capacity = capacity * 2;
       try {
-        char *new_str = new char[new_capacity]{};
+        char *const new_str = new char[new_capacity]{};
 
         std::memcpy(new_str, str, length);
 
         delete[] str;
-        str = newStr;
-        capacity = newCapacity;
+        str = new_str;
+        capacity = new_capacity;
       } catch (const std::bad_alloc &) {
         delete[] str;
         throw;
