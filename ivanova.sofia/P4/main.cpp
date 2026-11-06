@@ -57,25 +57,26 @@ int convertToLower(const char *source, char *destination, size_t size) {
 
 char *readStr() {
 
-  size_t capacity = 8;
+  const size_t initial_capacity = 8;
+  size_t capacity = initial_capacity;
   size_t length = 0;
 
-  char *str = new char[capacity]{};
+  char const *str = new char[capacity]{};
   int ch = 0;
 
   while ((ch = std::cin.get()) != '\n' && ch != EOF) {
 
     if (length + 1 >= capacity) {
-      size_t newCapacity = capacity * 2;
+      size_t new_capacity = capacity * 2;
       try {
-        char *newStr = new char[newCapacity]{};
+        char *new_str = new char[new_capacity]{};
 
-        std::memcpy(newStr, str, length);
+        std::memcpy(new_str, str, length);
 
         delete[] str;
         str = newStr;
         capacity = newCapacity;
-      } catch (...) {
+      } catch (const std::bad_alloc &) {
         delete[] str;
         throw;
       }
@@ -97,7 +98,7 @@ int main() {
 
   try {
     input = ivanova::readStr();
-    size_t length = std::strlen(input);
+    const size_t length = std::strlen(input);
 
     if (length == 0) {
       std::cerr << "Input is empty\n";
