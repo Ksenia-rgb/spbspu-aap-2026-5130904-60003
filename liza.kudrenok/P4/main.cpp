@@ -78,12 +78,17 @@ int main()
     int length = 0;
     char* input_str = nullptr;
 
-    int ch = 0;
-    while ((ch = std::cin.get()) != '\n' && ch != EOF)
+    while (true)
     {
+        const int ch = std::cin.get();
+        if (ch == '\n' || ch == EOF)
+        {
+            break;
+        }
+
         if (length + 1 >= capacity)
         {
-            int newCapacity = capacity + 1;
+            const int newCapacity = capacity + 1;
             char* const new_buffer = new char[newCapacity];
             if (new_buffer == nullptr)
             {
@@ -105,7 +110,7 @@ int main()
 
     if (length + 1 >= capacity)
     {
-        int volume = length + 1;
+        const int volume = length + 1;
         char* const temp = new char[volume];
         if (temp != nullptr)
         {
@@ -128,8 +133,8 @@ int main()
 
     const char* const second_str = "abc_ef";
 
-    char* const res_variant18 = new char[length + 1];
-    char* const res_variant5 = new char[length + std::strlen(second_str) + 1];
+    char* const res_variant18 = new char[length + 1]();
+    char* const res_variant5 = new char[length + std::strlen(second_str) + 1]();
 
     if (res_variant5 == nullptr || res_variant18 == nullptr)
     {
@@ -139,9 +144,6 @@ int main()
         delete[] res_variant18;
         return kudrenok::ErrorCode;
     }
-
-    res_variant5[0] = '\0';
-    res_variant18[0] = '\0';
 
     kudrenok::findUncommonSym(input_str, second_str, res_variant5);
     kudrenok::removeGlasnai(input_str, res_variant18);
