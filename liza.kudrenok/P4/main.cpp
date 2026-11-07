@@ -98,7 +98,7 @@ int main()
             input_str = temp;
         }
 
-        input_str[length] = (char)ch;
+        input_str[length] = static_cast<char>(ch);
         length++;
     }
     if (length + 1 >= volume)
@@ -124,7 +124,7 @@ int main()
         delete[] input_str;
         delete[] res_variant5;
         delete[] res_variant18;
-        return kudrenok::memoryErrorCode;
+        return kudrenok::ErrorCode;
     }
     kudrenok::find_uncommon_sym(input_str, second_str, res_variant5);
     kudrenok::remove_glasnai(input_str, res_variant18);
