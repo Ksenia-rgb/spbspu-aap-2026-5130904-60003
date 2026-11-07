@@ -3,28 +3,21 @@
 #include <iostream>
 #include <new>
 
-namespace ivanova
-{
-int removeDigits(const char *source, char *destination, size_t size)
-{
-  if (source == nullptr || destination == nullptr)
-  {
+namespace ivanova {
+int removeDigits(const char *source, char *destination, size_t size) {
+  if (source == nullptr || destination == nullptr) {
     return 1;
   }
 
-  if (size == 0)
-  {
+  if (size == 0) {
     return 2;
   }
 
   size_t j = 0;
 
-  for (size_t i = 0; source[i] != '\0'; i++)
-  {
-    if (!std::isdigit(static_cast<unsigned char>(source[i])))
-    {
-      if (j + 1 >= size)
-      {
+  for (size_t i = 0; source[i] != '\0'; i++) {
+    if (!std::isdigit(static_cast<unsigned char>(source[i]))) {
+      if (j + 1 >= size) {
         return -1;
       }
       destination[j] = source[i];
@@ -35,24 +28,19 @@ int removeDigits(const char *source, char *destination, size_t size)
   return 0;
 }
 
-int convertToLower(const char *source, char *destination, size_t size)
-{
-  if (source == nullptr || destination == nullptr)
-  {
+int convertToLower(const char *source, char *destination, size_t size) {
+  if (source == nullptr || destination == nullptr) {
     return 1;
   }
 
-  if (size == 0)
-  {
+  if (size == 0) {
     return 2;
   }
 
   size_t j = 0;
 
-  for (size_t i = 0; source[i] != '\0'; i++)
-  {
-    if (j + 1 >= size)
-    {
+  for (size_t i = 0; source[i] != '\0'; i++) {
+    if (j + 1 >= size) {
       return -1;
     }
     destination[j] = std::tolower(static_cast<unsigned char>(source[i]));
@@ -62,8 +50,7 @@ int convertToLower(const char *source, char *destination, size_t size)
   return 0;
 }
 
-char *readStr()
-{
+char *readStr() {
   const size_t initial_capacity = 8;
   size_t capacity = initial_capacity;
   size_t length = 0;
@@ -71,13 +58,10 @@ char *readStr()
   char *str = new char[capacity]{};
   int ch = 0;
 
-  while ((ch = std::cin.get()) != '\n' && ch != EOF)
-  {
-    if (length + 1 >= capacity)
-    {
+  while ((ch = std::cin.get()) != '\n' && ch != EOF) {
+    if (length + 1 >= capacity) {
       const size_t new_capacity = capacity * 2;
-      try
-      {
+      try {
         char *const new_str = new char[new_capacity]{};
 
         std::memcpy(new_str, str, length);
@@ -85,9 +69,7 @@ char *readStr()
         delete[] str;
         str = new_str;
         capacity = new_capacity;
-      }
-      catch (const std::bad_alloc &)
-      {
+      } catch (const std::bad_alloc &) {
         delete[] str;
         throw;
       }
@@ -100,7 +82,7 @@ char *readStr()
   str[length] = '\0';
   return str;
 }
-}
+} // namespace ivanova
 
 int main()
 {
@@ -108,13 +90,11 @@ int main()
   char *result1 = nullptr;
   char *result2 = nullptr;
 
-  try
-  {
+  try {
     input = ivanova::readStr();
     const size_t length = std::strlen(input);
 
-    if (length == 0)
-    {
+    if (length == 0) {
       std::cerr << "Input is empty\n";
       delete[] input;
       return 1;
@@ -123,8 +103,7 @@ int main()
     result1 = new char[length + 1]{};
     result2 = new char[length + 1]{};
 
-    if (ivanova::removeDigits(input, result1, length + 1) != 0)
-    {
+    if (ivanova::removeDigits(input, result1, length + 1) != 0) {
       delete[] input;
       delete[] result1;
       delete[] result2;
@@ -133,8 +112,7 @@ int main()
     }
     std::cout << result1 << "\n";
 
-    if (ivanova::convertToLower(input, result2, length + 1) != 0)
-    {
+    if (ivanova::convertToLower(input, result2, length + 1) != 0) {
       delete[] input;
       delete[] result1;
       delete[] result2;
@@ -146,9 +124,7 @@ int main()
     delete[] input;
     delete[] result1;
     delete[] result2;
-  }
-  catch (const std::bad_alloc &)
-  {
+  } catch (const std::bad_alloc &) {
     delete[] input;
     delete[] result1;
     delete[] result2;
