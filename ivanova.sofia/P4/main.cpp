@@ -5,17 +5,8 @@
 
 namespace ivanova
 {
-  int removeDigits(const char *source, char *destination, size_t size)
+  char* removeDigits(const char *source, char *destination, size_t size)
   {
-    if (source == nullptr || destination == nullptr)
-    {
-      return 1;
-    }
-    if (size == 0)
-    {
-      return 2;
-    }
-
     size_t j = 0;
 
     for (size_t i = 0; source[i] != '\0'; i++)
@@ -33,20 +24,11 @@ namespace ivanova
     }
 
     destination[j] = '\0';
-    return 0;
+    return destination;
   }
 
-  int convertToLower(const char *source, char *destination, size_t size)
+  char* convertToLower(const char *source, char *destination, size_t size)
   {
-    if (source == nullptr || destination == nullptr)
-    {
-      return 1;
-    }
-    if (size == 0)
-    {
-      return 2;
-    }
-
     size_t j = 0;
 
     for (size_t i = 0; source[i] != '\0'; i++)
@@ -61,7 +43,7 @@ namespace ivanova
     }
 
     destination[j] = '\0';
-    return 0;
+    return destination;
   }
 
   char *readStr()
@@ -126,26 +108,10 @@ int main()
     result1 = new char[length + 1]{};
     result2 = new char[length + 1]{};
 
-    if (ivanova::removeDigits(input, result1, length + 1) != 0)
-    {
-      delete[] input;
-      delete[] result1;
-      delete[] result2;
-      std::cerr << "String conversion error\n";
-      return 1;
-    }
-
+    result1 = ivanova::removeDigits(input, result1, length + 1)
     std::cout << result1 << "\n";
 
-    if (ivanova::convertToLower(input, result2, length + 1) != 0)
-    {
-      delete[] input;
-      delete[] result1;
-      delete[] result2;
-      std::cerr << "String conversion error\n";
-      return 1;
-    }
-
+    result2 = ivanova::convertToLower(input, result2, length + 1)
     std::cout << result2 << "\n";
 
     delete[] input;
