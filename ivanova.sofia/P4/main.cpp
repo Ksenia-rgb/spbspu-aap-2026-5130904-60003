@@ -108,10 +108,10 @@ int main()
     result1 = new char[length + 1]{};
     result2 = new char[length + 1]{};
 
-    result1 = ivanova::removeDigits(input, result1, length + 1)
+    result1 = ivanova::removeDigits(input, result1, length + 1);
     std::cout << result1 << "\n";
 
-    result2 = ivanova::convertToLower(input, result2, length + 1)
+    result2 = ivanova::convertToLower(input, result2, length + 1);
     std::cout << result2 << "\n";
 
     delete[] input;
