@@ -33,7 +33,7 @@ namespace chacha
 
     for (const char * p = src; *p != '\0'; ++p)
     {
-      unsigned char c = static_cast< unsigned char >(*p);
+      const unsigned char c = static_cast< unsigned char >(*p);
       if (!std::isspace(c))
       {
         ++counts[c];
@@ -86,7 +86,7 @@ namespace chacha
     {
       if (size + 1 >= capacity)
       {
-        std::size_t newCapacity = capacity * 2;
+        const std::size_t newCapacity = capacity * 2;
         char * bigger = new (std::nothrow) char[newCapacity];
         if (bigger == nullptr)
         {
@@ -108,9 +108,17 @@ namespace chacha
 int main()
 {
   char * input = chacha::readLine(std::cin);
+
   if (input == nullptr)
   {
-    std::cerr << "Error: not enough memory to read the string\n";
+    std::cerr << "Error: not enough memory\n";
+    return 1;
+  }
+
+  if (input[0] == '\0')
+  {
+    std::cerr << "Error: empty input\n";
+    delete[] input;
     return 1;
   }
 
