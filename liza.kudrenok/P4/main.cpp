@@ -78,17 +78,12 @@ int main()
     int length = 0;
     char* input_str = nullptr;
 
-    while (true)
+    int ch = 0;
+    while ((ch = std::cin.get()) != '\n' && ch != EOF)
     {
-        const int ch = std::cin.get();
-        if (ch == '\n' || ch == EOF)
-        {
-            break;
-        }
-
         if (length + 1 >= capacity)
         {
-            const int newCapacity = capacity + 1;
+            int newCapacity = capacity + 1;
             char* const new_buffer = new char[newCapacity];
             if (new_buffer == nullptr)
             {
@@ -110,7 +105,7 @@ int main()
 
     if (length + 1 >= capacity)
     {
-        const int volume = length + 1;
+        int volume = length + 1;
         char* const temp = new char[volume];
         if (temp != nullptr)
         {
