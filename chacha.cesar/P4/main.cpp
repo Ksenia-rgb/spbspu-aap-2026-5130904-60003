@@ -6,10 +6,13 @@
 
 namespace chacha
 {
-  char * commonSymbols(char * dest, const char * first, const char * second)
+  const int initial_capacity = 16;
+  const int alphabet_size = 256;
+
+  char *commonSymbols(char *dest, const char *first, const char *second)
   {
     std::size_t n = 0;
-    for (const char * p = first; *p != '\0'; ++p)
+    for (const char *p = first; *p != '\0'; ++p)
     {
       if (std::strchr(second, *p) == nullptr)
       {
@@ -25,13 +28,12 @@ namespace chacha
     return dest;
   }
 
-  char * frequentTop(char * dest, const char * src)
+  char *frequentTop(char *dest, const char *src)
   {
-    const std::size_t alphabet = 256;
-    std::size_t counts[alphabet] = {};
-    int chosen[alphabet] = {};
+    std::size_t counts[alphabet_size] = {};
+    int chosen[alphabet_size] = {};
 
-    for (const char * p = src; *p != '\0'; ++p)
+    for (const char *p = src; *p != '\0'; ++p)
     {
       const unsigned char c = static_cast< unsigned char >(*p);
       if (!std::isspace(c))
@@ -43,16 +45,16 @@ namespace chacha
     for (int step = 0; step < 3; ++step)
     {
       std::size_t best = 0;
-      std::size_t bestCount = 0;
-      for (std::size_t i = 0; i < alphabet; ++i)
+      std::size_t best_count = 0;
+      for (std::size_t i = 0; i < alphabet_size; ++i)
       {
-        if (counts[i] > bestCount)
+        if (counts[i] > best_count)
         {
-          bestCount = counts[i];
+          best_count = counts[i];
           best = i;
         }
       }
-      if (bestCount == 0)
+      if (best_count == 0)
       {
         break;
       }
@@ -61,7 +63,7 @@ namespace chacha
     }
 
     std::size_t n = 0;
-    for (std::size_t i = 0; i < alphabet; ++i)
+    for (std::size_t i = 0; i < alphabet_size; ++i)
     {
       if (chosen[i])
       {
@@ -72,11 +74,11 @@ namespace chacha
     return dest;
   }
 
-  char * readLine(std::istream & in)
+  char *readLine(std::istream &in)
   {
-    std::size_t capacity = 16;
+    std::size_t capacity = initial_capacity;
     std::size_t size = 0;
-    char * buf = new (std::nothrow) char[capacity];
+    char *buf = new (std::nothrow) char[capacity];
     if (buf == nullptr)
     {
       return nullptr;
@@ -86,8 +88,8 @@ namespace chacha
     {
       if (size + 1 >= capacity)
       {
-        const std::size_t newCapacity = capacity * 2;
-        char * bigger = new (std::nothrow) char[newCapacity];
+        const std::size_t new_capacity = capacity * 2;
+        char *const bigger = new (std::nothrow) char[new_capacity];
         if (bigger == nullptr)
         {
           delete[] buf;
@@ -96,7 +98,7 @@ namespace chacha
         std::memcpy(bigger, buf, size);
         delete[] buf;
         buf = bigger;
-        capacity = newCapacity;
+        capacity = new_capacity;
       }
       buf[size++] = c;
     }
@@ -107,7 +109,7 @@ namespace chacha
 
 int main()
 {
-  char * input = chacha::readLine(std::cin);
+  char *const input = chacha::readLine(std::cin);
 
   if (input == nullptr)
   {
@@ -122,10 +124,11 @@ int main()
     return 1;
   }
 
-  const char * second = "abc ef";
+  const char *const second = "abc ef";
 
-  char * common = new (std::nothrow) char[std::strlen(input) + 1];
-  char * top = new (std::nothrow) char[4];
+  char *const common = new (std::nothrow) char[std::strlen(input) + 1];
+  char *const top = new (std::nothrow) char[4];
+
   if (common == nullptr || top == nullptr)
   {
     std::cerr << "Error: not enough memory to store the result\n";
