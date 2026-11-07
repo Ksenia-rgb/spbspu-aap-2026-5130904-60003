@@ -107,7 +107,7 @@ int main()
         char* const temp = new char[volume];
         if (temp != nullptr)
         {
-            if (intput_str !=nullptr)
+            if (input_str !=nullptr)
             {
                 for (int i = 0; i < length; ++i) temp[i] = input_str[i];
             }
