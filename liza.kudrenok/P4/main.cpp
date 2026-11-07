@@ -133,5 +133,5 @@ int main()
     delete[] input_str;
     delete[] res_variant5;
     delete[] res_variant18;
-    return kudrenok::successCode; 
+    return kudrenok::successCode;
 }
