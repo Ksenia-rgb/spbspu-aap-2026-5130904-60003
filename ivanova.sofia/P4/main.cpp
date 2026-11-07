@@ -11,7 +11,6 @@ namespace ivanova
     {
       return 1;
     }
-
     if (size == 0)
     {
       return 2;
@@ -43,7 +42,6 @@ namespace ivanova
     {
       return 1;
     }
-
     if (size == 0)
     {
       return 2;
