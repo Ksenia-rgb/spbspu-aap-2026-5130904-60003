@@ -118,8 +118,8 @@ int main()
     input_str[length] = '\0';
 
    const char* const second_str = "abc_ef";
-   char* const res_variant18 = new char[length + 1];
-   char* const res_variant5 = new char[length + std::strlen(second_str) + 1];
+    char* const res_variant18 = new char[length + 1];
+    char* const res_variant5 = new char[length + std::strlen(second_str) + 1];
 
     if (res_variant5 == nullptr || res_variant18 == nullptr)
     {
@@ -129,6 +129,9 @@ int main()
         delete[] res_variant18;
         return kudrenok::ErrorCode;
     }
+
+    res_variant5[0] = '\0';
+    res_variant18[0] = '\0';
     kudrenok::finduncommonsym(input_str, second_str, res_variant5);
     kudrenok::removeglasnai(input_str, res_variant18);
     std::cout << res_variant5 << std::endl;
