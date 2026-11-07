@@ -21,7 +21,7 @@ namespace ivanova
 
     for (size_t i = 0; source[i] != '\0'; i++)
     {
-      if (!std::isdigit(static_cast<unsigned char>(source[i])))
+      if (!std::isdigit(static_cast <unsigned char> (source[i])))
       {
         if (j + 1 >= size)
         {
@@ -58,7 +58,7 @@ namespace ivanova
         return -1;
       }
 
-      destination[j] = std::tolower(static_cast<unsigned char>(source[i]));
+      destination[j] = std::tolower(static_cast <unsigned char> (source[i]));
       j++;
     }
 
@@ -98,7 +98,7 @@ namespace ivanova
         }
       }
 
-      str[length] = static_cast<char>(ch);
+      str[length] = static_cast <char> (ch);
       length++;
     }
 
@@ -162,6 +162,5 @@ int main()
     std::cerr << "Memory allocation error\n";
     return 1;
   }
-
   return 0;
 }
