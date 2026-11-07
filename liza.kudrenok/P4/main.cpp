@@ -19,19 +19,19 @@ namespace kudrenok
      int is_glasnai(char c)
     {
         char lower = std::tolower(c);
-        return (lower == 'a' || lower == 'e' || lower == 'i' || 
+        return (lower == 'a' || lower == 'e' || lower == 'i' ||
                 lower == 'o' || lower == 'u' || lower == 'y');
     }
 
     char* find_uncommon_sym(const char* str1, const char* str2, char* output)
     {
-        char* start = output; 
+        char* start = output;
         const char* p1 = str1;
         while (*p1 != '\0')
         {
             if (!yes_char(str2, *p1) && !yes_char(start, *p1))
             {
-                *output = *p1; 
+                *output = *p1;
                 output++;
             }
             p1++;
@@ -64,15 +64,15 @@ namespace kudrenok
             }
             src++;
         }
-        *output1 = '\0'; 
+        *output1 = '\0';
         return start;
     }
 }
 
 int main()
 {
-    int volume = 0;  
-    int length = 0;     
+    int volume = 0;
+    int length = 0;
     char* input_str = nullptr;
 
     int ch = 0;
@@ -80,10 +80,10 @@ int main()
     {
         if (length + 1 >= volume)
         {
-            volume = volume + 1; 
-            char* temp = new char[volume]; 
-            
-            if (temp == nullptr) 
+            volume = volume + 1;
+            char* temp = new char[volume];
+
+            if (temp == nullptr)
             {
                 std::cerr << "Error\n";
                 delete[] input_str;
@@ -94,10 +94,10 @@ int main()
                 temp[i] = input_str[i];
             }
 
-            delete[] input_str; 
+            delete[] input_str;
             input_str = temp;
         }
-        
+
         input_str[length] = (char)ch;
         length++;
     }
@@ -113,9 +113,9 @@ int main()
         }
     }
     input_str[length] = '\0';
-   
-   const char* second_str = "abc_ef"; 
-   char* res_variant18 = new char[length + 1]; 
+
+   const char* second_str = "abc_ef";
+   char* res_variant18 = new char[length + 1];
    char* res_variant5 = new char[length + std::strlen(second_str) + 1];
 
     if (res_variant5 == nullptr || res_variant18 == nullptr)
@@ -133,5 +133,5 @@ int main()
     delete[] input_str;
     delete[] res_variant5;
     delete[] res_variant18;
-    return kudrenok::successCode; 
+    return kudrenok::successCode;
 }
