@@ -47,7 +47,6 @@ int main()
 
   try
   {
-    
     size_t length = 0;
     const size_t initial_capacity = 16;
     size_t current_max_size = initial_capacity;
