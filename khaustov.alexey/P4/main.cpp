@@ -8,7 +8,7 @@ namespace khaustov {
   void uppToLow(const char* input, char* result, size_t length)
   {
     for (size_t i = 0; i < length; i++) {
-      result[i] = std::tolower(static_cast<unsigned char>(input[i]));
+      result[i] = std::tolower(static_cast< unsigned char >(input[i]));
     }
     result[length] = '\0';
   }
@@ -45,8 +45,7 @@ int main()
   char* result11 = nullptr;
   char* result12 = nullptr;
 
-  try
-  {
+  try {
     size_t length = 0;
     const size_t initial_capacity = 16;
     size_t current_max_size = initial_capacity;
@@ -55,12 +54,9 @@ int main()
 
     char symbol = '\0';
 
-    while (std::cin.get(symbol) && symbol != '\n')
-    {
-      if (length + 1 >= current_max_size)
-      {
-        if (current_max_size > std::numeric_limits<size_t>::max() / 2)
-        {
+    while (std::cin.get(symbol) && symbol != '\n') {
+      if (length + 1 >= current_max_size) {
+        if (current_max_size > std::numeric_limits< size_t >::max() / 2) {
           std::cerr << "Too long string\n";
           delete[] input_string;
           return 1;
@@ -79,12 +75,11 @@ int main()
       }
       input_string[length++] = symbol;
     }
-
-   if (std::cin.eof() && length == 0) {
-     std::cerr << "Error: no input provided\n";
-     delete[] input_string;
-     return 1;
-   }
+    if (std::cin.eof() && length == 0) {
+      std::cerr << "Error: no input provided\n";
+      delete[] input_string;
+      return 1;
+    }
 
     input_string[length] = '\0';
 
