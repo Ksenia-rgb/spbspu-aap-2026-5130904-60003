@@ -3,79 +3,83 @@
 #include <new>
 
 namespace polohov {
-char *getString(long long &curr_size) {
-  long long size = 10;
+  char *getString(long long &curr_size)
+  {
+    long long size = 10;
 
-  char *str = new char[size];
-  char ch = '\0';
+    char *str = new char[size];
+    char ch = '\0';
 
-  while (std::cin.get(ch) && ch != '\n') {
-    if (curr_size == size - 1) {
-      try {
-        if (size > std::numeric_limits<long long>::max() / 2) {
-          throw std::bad_alloc();
+    while (std::cin.get(ch) && ch != '\n') {
+      if (curr_size == size - 1) {
+        try {
+          if (size > std::numeric_limits< long long >::max() / 2) {
+            throw std::bad_alloc();
+          }
+
+          size *= 2;
+
+          char *const temp = new char[size];
+
+          for (long long i = 0; i < curr_size; ++i) {
+            temp[i] = str[i];
+          }
+
+          delete[] str;
+          str = temp;
+        } catch (const std::bad_alloc &) {
+          delete[] str;
+          throw;
         }
+      }
 
-        size *= 2;
+      str[curr_size++] = ch;
+    }
 
-        char *const temp = new char[size];
+    str[curr_size] = '\0';
 
-        for (long long i = 0; i < curr_size; ++i) {
-          temp[i] = str[i];
-        }
+    return str;
+  }
 
-        delete[] str;
-        str = temp;
-      } catch (const std::bad_alloc &) {
-        delete[] str;
-        throw;
+  int replaceSymbol(const char *str, char *res, char old_char, char new_char)
+  {
+    if (str == nullptr || res == nullptr) {
+      return 1;
+    }
+
+    long long i = 0;
+
+    for (; str[i] != '\0'; ++i) {
+      if (str[i] == old_char) {
+        res[i] = new_char;
+      } else {
+        res[i] = str[i];
       }
     }
 
-    str[curr_size++] = ch;
+    res[i] = '\0';
+    return 0;
   }
 
-  str[curr_size] = '\0';
-
-  return str;
-}
-
-int replaceSymbol(const char *str, char *res, char old_char, char new_char) {
-  if (str == nullptr || res == nullptr) {
-    return 1;
-  }
-
-  long long i = 0;
-
-  for (; str[i] != '\0'; ++i) {
-    if (str[i] == old_char) {
-      res[i] = new_char;
-    } else {
-      res[i] = str[i];
+  int findSame(const char *old_str, const char *new_str)
+  {
+    if (old_str == nullptr || new_str == nullptr) {
+      return 1;
     }
-  }
 
-  res[i] = '\0';
-  return 0;
-}
-
-int findSame(const char *old_str, const char *new_str) {
-  if (old_str == nullptr || new_str == nullptr) {
-    return 1;
-  }
-
-  for (long long i = 0; old_str[i] != '\0'; ++i) {
-    for (long long j = 0; new_str[j] != '\0'; ++j) {
-      if (old_str[i] == new_str[j]) {
-        return 2;
+    for (long long i = 0; old_str[i] != '\0'; ++i) {
+      for (long long j = 0; new_str[j] != '\0'; ++j) {
+        if (old_str[i] == new_str[j]) {
+          return 2;
+        }
       }
     }
-  }
 
-  return 0;
+    return 0;
+  }
 }
-}
-int main() {
+int main()
+{
   char *str = nullptr;
   char *res = nullptr;
 
@@ -97,8 +101,7 @@ int main() {
     const char old_char = 'a';
     const char new_char = 'b';
 
-    const int replace_result =
-        polohov::replaceSymbol(str, res, old_char, new_char);
+    const int replace_result = polohov::replaceSymbol(str, res, old_char, new_char);
 
     if (replace_result == 1) {
       std::cerr << "Error: Null pointer encountered in replaceSymbol.\n";
