@@ -81,10 +81,17 @@ int main() {
   try {
     long long curr_size = 0;
     str = polohov::getString(curr_size);
+    if (std::cin.eof() && curr_size == 0) {
+    delete[] str;
+    str = nullptr;
+    std::cerr << "Error: No input provided.\n";
+    return 1;
+  }
     res = new char[curr_size + 1];
 
-    char oldChar, newChar;
-
+    char oldChar = 'a';
+    char newChar = 'b';
+    
     std::cout << "Enter the character to replace: ";
     std::cin >> oldChar;
 
