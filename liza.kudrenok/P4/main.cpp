@@ -126,11 +126,11 @@ try
     delete[] res_variant5;
     delete[] res_variant18;
 }
-catch (const std::bad_alloc&)
-{
-    std::cerr << "Error: Memory allocation failed\n";
-    delete[] input_str;
-    return kudrenok::ErrorCode;
-}
-return kudrenok::successCode;
+    catch (const std::bad_alloc&)
+    {
+        std::cerr << "Error: Memory allocation failed\n";
+        delete[] input_str;
+        return kudrenok::ErrorCode;
+    }
+    return kudrenok::successCode;
 }
