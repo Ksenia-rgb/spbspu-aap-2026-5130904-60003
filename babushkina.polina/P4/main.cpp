@@ -19,7 +19,7 @@ namespace babushkina {
     size_t j = 0;
     for (size_t i = 0; i < size; i++) {
       if (std::isupper(static_cast< unsigned char >(string[i]))) {
-        result[j++] =  static_cast< char >(tolower(static_cast< unsigned char >(string[i])));
+        result[j++] = static_cast< char >(tolower(static_cast< unsigned char >(string[i])));
       } else {
         result[j++] = string[i];
       }
