@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cctype>
 #include <cstring>
+#include <new>
 
 namespace kudrenok
 {
@@ -74,46 +75,47 @@ namespace kudrenok
 
 int main()
 {
-    int capacity = 0;
-    int length = 0;
     char* input_str = nullptr;
+    int volume1 = 0;
+    int length = 0;
 
-    while (true)
+    try
     {
-        const int ch = std::cin.get();
-        if (ch == '\n' || ch == EOF)
+        while (true)
         {
-            break;
-        }
-
-        if (length + 1 >= capacity)
-        {
-            const int newCapacity = capacity + 1;
-            char* const new_buffer = new char[newCapacity];
-            if (new_buffer == nullptr)
+            const int ch = std::cin.get();
+            if (ch == '\n' || ch == EOF)
             {
-                std::cerr << "Error\n";
+                break;
+            }
+
+            if (length + 1 >= volume1)
+            {
+                const int newvolume1 = volume1 + 1;
+                char* const new_buffer = new char[newvolume1]();
+                for (int i = 0; i < length; ++i)
+                {
+                    new_buffer[i] = input_str[i];
+                }
                 delete[] input_str;
-                return kudrenok::ErrorCode;
+                input_str = new_buffer;
+                volume1 = newvolume1;
             }
-            for (int i = 0; i < length; ++i)
-            {
-                new_buffer[i] = input_str[i];
-            }
-            delete[] input_str;
-            input_str = new_buffer;
-            capacity = newCapacity;
+            input_str[length] = static_cast<char>(ch);
+            length++;
         }
-        input_str[length] = static_cast<char>(ch);
-        length++;
-    }
 
-    if (length + 1 >= capacity)
-    {
-        const int volume = length + 1;
-        char* const temp = new char[volume];
-        if (temp != nullptr)
+        if (length == 0)
         {
+            std::cerr << "Error: Empty input\n";
+            delete[] input_str;
+            return kudrenok::ErrorCode;
+        }
+
+        if (length + 1 >= volume1)
+        {
+            const int volume = length + 1;
+            char* const temp = new char[volume]();
             if (input_str != nullptr)
             {
                 for (int i = 0; i < length; ++i)
@@ -124,36 +126,29 @@ int main()
             delete[] input_str;
             input_str = temp;
         }
-    }
-
-    if (input_str != nullptr)
-    {
         input_str[length] = '\0';
-    }
 
-    const char* const second_str = "abc_ef";
+        const char* const second_str = "abc_ef";
 
-    char* const res_variant18 = new char[length + 1]();
-    char* const res_variant5 = new char[length + std::strlen(second_str) + 1]();
+        char* const res_variant18 = new char[length + 1]();
+        char* const res_variant5 = new char[length + std::strlen(second_str) + 1]();
 
-    if (res_variant5 == nullptr || res_variant18 == nullptr)
-    {
-        std::cerr << "Error\n";
+        kudrenok::findUncommonSym(input_str, second_str, res_variant5);
+        kudrenok::removeGlasnai(input_str, res_variant18);
+
+        std::cout << res_variant5 << std::endl;
+        std::cout << res_variant18 << std::endl;
+
         delete[] input_str;
         delete[] res_variant5;
         delete[] res_variant18;
+    }
+    catch (const std::bad_alloc&)
+    {
+        std::cerr << "Error: Memory allocation failed\n";
+        delete[] input_str;
         return kudrenok::ErrorCode;
     }
-
-    kudrenok::findUncommonSym(input_str, second_str, res_variant5);
-    kudrenok::removeGlasnai(input_str, res_variant18);
-
-    std::cout << res_variant5 << std::endl;
-    std::cout << res_variant18 << std::endl;
-
-    delete[] input_str;
-    delete[] res_variant5;
-    delete[] res_variant18;
 
     return kudrenok::successCode;
 }
