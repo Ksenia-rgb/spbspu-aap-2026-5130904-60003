@@ -81,7 +81,7 @@ int main()
         }
         if (length + 1 >= volume1)
         {
-            const int newVolume1 = volume1 + 1;
+            const int newVolume1 = volume1 + 2;
             char* const new_buffer = new char[newVolume1]();
             for (int i = 0; i < length; ++i)
             {
@@ -100,21 +100,10 @@ int main()
         delete[] input_str;
         return kudrenok::ErrorCode;
     }
-    if (length + 1 >= volume1)
+    if (input_str != nullptr)
     {
-        const int volume = length + 1;
-        char* const temp = new char[volume]();
-        if (input_str != nullptr)
-        {
-            for (int i = 0; i < length; ++i)
-            {
-                temp[i] = input_str[i];
-            }
-        }
-        delete[] input_str;
-        input_str = temp;
+      input_str[length]='\0';
     }
-    input_str[length] = '\0';
     const char* const second_str = "abc_ef";
     char* const res_variant18 = new char[length + 1]();
     char* const res_variant5 = new char[length + std::strlen(second_str) + 1]();
