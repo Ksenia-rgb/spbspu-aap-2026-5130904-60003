@@ -151,4 +151,3 @@ int main()
 
     return kudrenok::successCode;
 }
-
