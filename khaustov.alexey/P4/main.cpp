@@ -10,7 +10,7 @@ namespace khaustov
   void uppToLow(const char* input, char* result, size_t length)
   {
     for (size_t i = 0; i < length; i++) {
-      result[i] = tolower(input[i]);
+      result[i] = std::tolower(static_cast<unsigned char>(input[i]));
     }
     result[length] = '\0';
   }
@@ -80,6 +80,13 @@ int main()
       }
       input_string[length++] = symbol;
     }
+
+   if (std::cin.eof() && length == 0) {
+     std::cerr << "Error: no input provided\n";
+     delete[] input_string;
+     return 1;
+   }
+
     input_string[length] = '\0';
 
     result11 = new char[length + 1];
