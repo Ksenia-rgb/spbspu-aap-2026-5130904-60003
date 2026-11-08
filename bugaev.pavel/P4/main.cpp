@@ -70,7 +70,7 @@ int main()
   try {
     line = new char[bugaev::max_size];
   } catch (const std::bad_alloc &) {
-    std::cerr << "Error: not enough memory\n";
+    std::cerr << "Error: not enough memory"<<"\n";
     return bugaev::bad_string_code;
   }
 
@@ -78,7 +78,7 @@ int main()
   char symbol = '\0';
   while (std::cin.get(symbol) && (symbol != '\n')) {
     if (length + 1 >= bugaev::max_size) {
-      std::cerr << "Error: string is too long\n";
+      std::cerr << "Error: string is too long"<<"\n";
       delete[] line;
       return bugaev::bad_string_code;
     }
@@ -86,6 +86,11 @@ int main()
     ++length;
   }
   line[length] = '\0';
+  if(length==0){
+    std::cerr<<"Error: empty string"<<"\n";
+    delete[] line;
+    return bugaev::bad_string_code;
+  }
 
   char missing[bugaev::letters_count + 1] = {};
   char frequent[bugaev::top_size + 1] = {};
