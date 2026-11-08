@@ -1,7 +1,7 @@
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <new>
-#include <string>
 
 namespace kovalenko {
   const int max_stack_size = 10000;
@@ -54,8 +54,7 @@ namespace kovalenko {
     return true;
   }
 
-  static void writeMatrix(std::ofstream& output, const int* data,
-    const int rows, const int cols)
+  static void writeMatrix(std::ofstream& output, const int* data, const int rows, const int cols)
   {
     output << rows << ' ' << cols;
     for (int i = 0; i < rows * cols; ++i) {
@@ -64,8 +63,7 @@ namespace kovalenko {
     output << '\n';
   }
 
-  static int processMatrix(int* data, const int rows, const int cols,
-    std::ifstream& input, const std::string& output_name)
+  static int processMatrix(int* data, const int rows, const int cols, std::ifstream& input, const char* output_name)
   {
     if (!readMatrix(input, data, rows * cols)) {
       std::cerr << "Input file has no correct matrix\n";
@@ -81,8 +79,7 @@ namespace kovalenko {
     return 0;
   }
 
-  static int runProgram(const std::string& mode, const std::string& input_name,
-    const std::string& output_name)
+  static int runProgram(const char* mode, const char* input_name, const char* output_name)
   {
     std::ifstream input(input_name);
     if (!input) {
@@ -96,7 +93,7 @@ namespace kovalenko {
       return code_bad_data;
     }
     const int count = rows * cols;
-    if (mode == "1") {
+    if (std::strcmp(mode, "1") == 0) {
       if (count > max_stack_size) {
         std::cerr << "Matrix is too big for a fixed size\n";
         return code_bad_data;
@@ -104,7 +101,7 @@ namespace kovalenko {
       int stack_data[max_stack_size] = {};
       return processMatrix(stack_data, rows, cols, input, output_name);
     }
-    if (mode == "2") {
+    if (std::strcmp(mode, "2") == 0) {
       int* const heap_data = new int[count];
       const int code = processMatrix(heap_data, rows, cols, input, output_name);
       delete[] heap_data;
@@ -121,15 +118,14 @@ int main(int argc, char* argv[])
     std::cerr << "Usage: ./lab num input output\n";
     return kovalenko::code_bad_arguments;
   }
-  const std::string mode = argv[1];
-  if (mode != "1" && mode != "2") {
+  const char* mode = argv[1];
+  if (std::strcmp(mode, "1") != 0 && std::strcmp(mode, "2") != 0) {
     std::cerr << "Mode can be 1 or 2 only!!!\n";
     return kovalenko::code_bad_arguments;
   }
   try {
     return kovalenko::runProgram(mode, argv[2], argv[3]);
-  }
-  catch (std::bad_alloc&) {
+  } catch (const std::bad_alloc&) {
     std::cerr << "Not enough memory\n";
     return kovalenko::code_bad_data;
   }
