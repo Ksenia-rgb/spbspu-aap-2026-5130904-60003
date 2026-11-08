@@ -37,9 +37,8 @@ namespace boretskii {
 
     for (char letter = 'a'; letter <= 'z'; letter++) {
       for (int h = 0; combined[h] != '\0'; h++) {
-        const unsigned char current_char =
-            static_cast< unsigned char >(combined[h]);
-        if (std::tolower(current_char) == letter) {
+        if (std::tolower(static_cast< unsigned char >(combined[h])) ==
+            letter) {
           result[index_res] = letter;
           ++index_res;
           break;
