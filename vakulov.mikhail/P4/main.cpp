@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <new>
 
-namespace student {
+namespace vakulov {
   class MyString {
   public:
     MyString(std::size_t capacity);
@@ -25,7 +25,7 @@ namespace student {
   char *removeGlas(const char *source, char *result);
 }
 
-student::MyString::MyString(std::size_t capacity):
+vakulov::MyString::MyString(std::size_t capacity):
   data_(new char[capacity]),
   size_(0),
   capacity_(capacity)
@@ -33,12 +33,12 @@ student::MyString::MyString(std::size_t capacity):
   data_[0] = '\0';
 }
 
-student::MyString::~MyString()
+vakulov::MyString::~MyString()
 {
   delete[] data_;
 }
 
-void student::MyString::append(char symbol)
+void vakulov::MyString::append(char symbol)
 {
   if (size_ + 1 >= capacity_) {
     const std::size_t new_capacity = capacity_ * 2;
@@ -58,17 +58,17 @@ void student::MyString::append(char symbol)
   data_[size_] = '\0';
 }
 
-char *student::MyString::data()
+char *vakulov::MyString::data()
 {
   return data_;
 }
 
-std::size_t student::MyString::size() const
+std::size_t vakulov::MyString::size() const
 {
   return size_;
 }
 
-char *student::removeFromSecond(const char *source, const char *excluded, char *result)
+char *vakulov::removeFromSecond(const char *source, const char *excluded, char *result)
 {
   std::size_t j = 0;
 
@@ -83,15 +83,15 @@ char *student::removeFromSecond(const char *source, const char *excluded, char *
   return result;
 }
 
-char *student::removeGlas(const char *source, char *result)
+char *vakulov::removeGlas(const char *source, char *result)
 {
-  return student::removeFromSecond(source, "aeiouAEIOU", result);
+  return vakulov::removeFromSecond(source, "aeiouAEIOU", result);
 }
 
 int main()
 {
   try {
-    student::MyString source(1);
+    vakulov::MyString source(1);
     char symbol = '\0';
 
     while (std::cin.get(symbol)) {
@@ -106,11 +106,11 @@ int main()
       return 2;
     }
 
-    student::MyString result15(source.size() + 1);
-    student::MyString result18(source.size() + 1);
+    vakulov::MyString result15(source.size() + 1);
+    vakulov::MyString result18(source.size() + 1);
 
-    student::removeFromSecond(source.data(), "abc", result15.data());
-    student::removeGlas(source.data(), result18.data());
+    vakulov::removeFromSecond(source.data(), "abc", result15.data());
+    vakulov::removeGlas(source.data(), result18.data());
 
     std::cout << result15.data() << '\n';
     std::cout << result18.data() << '\n';
