@@ -23,7 +23,6 @@ namespace khaustov
     } else {
       min_length = length_second;
     }
-    
     for (int i = 0; i < min_length; i++) {
       result[i * 2] = input[i];
       result[i * 2 + 1] = second[i];
