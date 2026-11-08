@@ -9,7 +9,7 @@ namespace khaustov
 {
   void uppToLow(const char* input, char* result, size_t length)
   {
-    for (int i = 0; i < length; i++) {
+    for (size_t i = 0; i < length; i++) {
       result[i] = tolower(input[i]);
     }
     result[length] = '\0';
@@ -23,17 +23,17 @@ namespace khaustov
     } else {
       min_length = length_second;
     }
-    for (int i = 0; i < min_length; i++) {
+    for (size_t i = 0; i < min_length; i++) {
       result[i * 2] = input[i];
       result[i * 2 + 1] = second[i];
     }
 
     if (min_length == length_second) {
-      for (int i = min_length; i < length_input; i++) {
+      for (size_t i = min_length; i < length_input; i++) {
         result[min_length + i] = input[i];
       }
     } else {
-      for (int i = min_length; i < length_second; i++) {
+      for (size_t i = min_length; i < length_second; i++) {
         result[min_length + i] = second[i];
       }
     }
@@ -70,7 +70,7 @@ int main()
         size_t new_max_size = current_max_size * 2;
         char* new_string = new char[new_max_size];
 
-        for (int i = 0; i < length; i++) {
+        for (size_t i = 0; i < length; i++) {
           new_string[i] = input_string[i];
         }
 
