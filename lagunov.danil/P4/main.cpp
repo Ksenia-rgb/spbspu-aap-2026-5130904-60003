@@ -84,6 +84,7 @@ int main()
         delete[] input;
         return 1;
       }
+      input[size] = '\0';
       std::strcpy(temp_buffer, input);
       delete[] input;
       input = temp_buffer;
