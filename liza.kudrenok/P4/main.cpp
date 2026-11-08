@@ -2,12 +2,10 @@
 #include <cstring>
 #include <iostream>
 #include <new>
-
 namespace kudrenok
 {
     const int successCode = 0;
     const int ErrorCode = 1;
-    
     int yesChar(const char* str, char c)
     {
         while (*str != '\0')
@@ -20,13 +18,11 @@ namespace kudrenok
         }
         return 0;
     }
-    
     int isGlasnai(char c)
     {
         const char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
         return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y');
     }
-    
     char* findUncommonSym(const char* str1, const char* str2, char* output)
     {
         char* const start = output;
@@ -40,7 +36,6 @@ namespace kudrenok
             }
             p1++;
         }
-    
         const char* p2 = str2;
         while (*p2 != '\0')
         {
@@ -51,11 +46,9 @@ namespace kudrenok
             }
             p2++;
         }
-    
         *output = '\0';
         return start;
     }
-    
     char* removeGlasnai(const char* src, char* output)
     {
         char* const start = output;
@@ -71,13 +64,12 @@ namespace kudrenok
         *output = '\0';
         return start;
     }
-} 
+}
 int main()
 {
     char* input_str = nullptr;
     int volume1 = 0;
     int length = 0;
-
     try
     {
         while (true)
@@ -87,7 +79,6 @@ int main()
             {
                 break;
             }
-
             if (length + 1 >= volume1)
             {
                 const int newVolume1 = volume1 + 1;
@@ -103,14 +94,12 @@ int main()
             input_str[length] = static_cast<char>(ch);
             length++;
         }
-
         if (length == 0)
         {
             std::cerr << "Error: Empty input\n";
             delete[] input_str;
             return kudrenok::ErrorCode;
         }
-
         if (length + 1 >= volume1)
         {
             const int volume = length + 1;
@@ -126,18 +115,13 @@ int main()
             input_str = temp;
         }
         input_str[length] = '\0';
-
         const char* const second_str = "abc_ef";
-
         char* const res_variant18 = new char[length + 1]();
         char* const res_variant5 = new char[length + std::strlen(second_str) + 1]();
-
         kudrenok::findUncommonSym(input_str, second_str, res_variant5);
         kudrenok::removeGlasnai(input_str, res_variant18);
-
         std::cout << res_variant5 << std::endl;
         std::cout << res_variant18 << std::endl;
-
         delete[] input_str;
         delete[] res_variant5;
         delete[] res_variant18;
@@ -148,6 +132,5 @@ int main()
         delete[] input_str;
         return kudrenok::ErrorCode;
     }
-
     return kudrenok::successCode;
 }
