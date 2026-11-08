@@ -54,7 +54,7 @@ int main()
         delete[] input;
         return 1;
       }
-      input[strLen] = '\0';
+      input[str_len] = '\0';
       std::strcpy(tmp_buf, input);
       delete[] input;
       input = tmp_buf;
