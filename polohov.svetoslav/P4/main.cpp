@@ -91,12 +91,7 @@ int main() {
 
     char oldChar = 'a';
     char newChar = 'b';
-    
-    std::cout << "Enter the character to replace: ";
-    std::cin >> oldChar;
 
-    std::cout << "Enter the new character: ";
-    std::cin >> newChar;
 
     int replaceResult = polohov::replaceSymbol(str, res, oldChar, newChar);
 
