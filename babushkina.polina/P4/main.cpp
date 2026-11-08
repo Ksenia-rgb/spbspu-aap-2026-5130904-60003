@@ -7,9 +7,9 @@ namespace babushkina {
   {
     size_t j = 0;
     for (size_t i = 0; i < size; i++) {
-        if (!(std::isdigit(string[i]))) {
+      if (!(std::isdigit(string[i]))) {
         result[j++] = string[i];
-        }
+      }
     }
     result[j] = '\0';
   }
@@ -18,19 +18,18 @@ namespace babushkina {
   {
     size_t j = 0;
     for (size_t i = 0; i < size; i++) {
-        if (std::isupper(static_cast<unsigned char>(string[i]))) {
-        result[j++] =
-            static_cast<char>(tolower(static_cast<unsigned char>(string[i])));
-        } else {
+      if (std::isupper(static_cast< unsigned char >(string[i]))) {
+        result[j++] =  static_cast< char >(tolower(static_cast< unsigned char >(string[i])));
+      } else {
         result[j++] = string[i];
-        }
+      }
     }
     result[j] = '\0';
   }
 }
 
 int main()
- {
+{
   char *input = nullptr;
   size_t str_len = 0;
   size_t buf_size = 10;
@@ -55,7 +54,7 @@ int main()
         delete[] input;
         return 1;
       }
-
+      input[strLen] = '\0';
       std::strcpy(tmp_buf, input);
       delete[] input;
       input = tmp_buf;
@@ -69,9 +68,9 @@ int main()
     return 1;
   }
   if (str_len == 0) {
-    std::cout << "no input\n";
+    std::cerr << "ERROR: no input\n";
     delete[] input;
-    return 0;
+    return 1;
   }
   input[str_len] = '\0';
   char *result1 = nullptr;
