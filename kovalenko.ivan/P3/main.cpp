@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
     std::cerr << "Usage: ./lab num input output\n";
     return kovalenko::code_bad_arguments;
   }
-  const char* mode = argv[1];
+  const char* const mode = argv[1];
   if (std::strcmp(mode, "1") != 0 && std::strcmp(mode, "2") != 0) {
     std::cerr << "Mode can be 1 or 2 only!!!\n";
     return kovalenko::code_bad_arguments;
