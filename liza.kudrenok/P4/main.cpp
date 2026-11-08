@@ -10,41 +10,41 @@ int yesChar(const char* str, char c)
 {
   while (*str != '\0')
   {
-      if (*str == c)
-      {
-         return 1;
-      }
-         str++;
+    if (*str == c)
+    {
+       return 1;
+    }
+       str++;
   }
       return 0;
-   }
-  int isGlasnai(char c)
-  {
-    const char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-    return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y');
-  }
+}
+int isGlasnai(char c)
+{
+  const char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+  return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y');
+}
 char* findUncommonSym(const char* str1, const char* str2, char* output)
 {
-   char* const start = output;
-   const char* p1 = str1;
-   while (*p1 != '\0')
-   {
-      if (!yesChar(str2, *p1) && !yesChar(start, *p1))
-      {
-        *output = *p1;
-         output++;
-      }
-    p1++;
+  char* const start = output;
+  const char* p1 = str1;
+  while (*p1 != '\0')
+  {
+    if (!yesChar(str2, *p1) && !yesChar(start, *p1))
+    {
+      *output = *p1;
+       output++;
     }
+  p1++;
+  }
   const char* p2 = str2;
   while (*p2 != '\0')
   {
-     if (!yesChar(str1, *p2) && !yesChar(start, *p2))
-     {
-         *output = *p2;
-          output++;
-     }
-      p2++;
+   if (!yesChar(str1, *p2) && !yesChar(start, *p2))
+   {
+       *output = *p2;
+        output++;
+   }
+    p2++;
   }
   *output = '\0';
   return start;
@@ -126,11 +126,11 @@ int main()
     delete[] res_variant5;
     delete[] res_variant18;
   }
-    catch (const std::bad_alloc&)
-    {
+  catch (const std::bad_alloc&)
+  {
         std::cerr << "Error: Memory allocation failed\n";
         delete[] input_str;
         return kudrenok::ErrorCode;
-    }
+  }
     return kudrenok::successCode;
 }
