@@ -5,6 +5,14 @@
 namespace boretskii {
   const size_t max_size_comb = 2048;
 
+  char toLower(char c)
+  {
+    if (c >= 'A' && c <= 'Z') {
+      return c - 'A' + 'a';
+    }
+    return c;
+  }
+
   int identicalValues(const char *first, const char *second)
   {
     for (int i = 0; first[i] != '\0'; i++) {
@@ -37,8 +45,7 @@ namespace boretskii {
 
     for (char letter = 'a'; letter <= 'z'; letter++) {
       for (int h = 0; combined[h] != '\0'; h++) {
-        if (std::tolower(static_cast< unsigned char >(combined[h])) ==
-            letter) {
+        if (toLower(combined[h]) == letter) {
           result[index_res] = letter;
           ++index_res;
           break;
