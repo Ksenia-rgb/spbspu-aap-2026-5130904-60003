@@ -74,8 +74,7 @@ int findSame(const char *old_str, const char *new_str) {
 
   return 0;
 }
-} // namespace polohov
-
+}
 int main() {
   char *str = nullptr;
   char *res = nullptr;
