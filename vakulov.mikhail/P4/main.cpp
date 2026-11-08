@@ -42,7 +42,7 @@ void vakulov::MyString::append(char symbol)
 {
   if (size_ + 1 >= capacity_) {
     const std::size_t new_capacity = capacity_ * 2;
-    char *new_data = new char[new_capacity];
+    char *const new_data = new char[new_capacity];
 
     for (std::size_t i = 0; i <= size_; ++i) {
       new_data[i] = data_[i];
@@ -101,7 +101,7 @@ int main()
       source.append(symbol);
     }
 
-    if (std::cin.bad()) {
+    if (std::cin.bad() || (std::cin.eof() && source.size() == 0)) {
       std::cerr << "Input error\n";
       return 2;
     }
