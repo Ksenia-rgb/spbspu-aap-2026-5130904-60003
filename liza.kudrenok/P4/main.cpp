@@ -1,35 +1,39 @@
 #include <iostream>
 #include <cctype>
 #include <cstring>
+#include <new>
+
 namespace kudrenok
 {
     const int successCode = 0;
     const int ErrorCode = 1;
 
-    int yes_char(const char* str, char c)
+    int yesChar(const char* str, char c)
     {
         while (*str != '\0')
         {
-            if (*str == c) return 1;
+            if (*str == c)
+            {
+                return 1;
+            }
             str++;
         }
         return 0;
     }
 
-     int is_glasnai(char c)
+    int isGlasnai(char c)
     {
-        char lower = std::tolower(c);
-        return (lower == 'a' || lower == 'e' || lower == 'i' ||
-                lower == 'o' || lower == 'u' || lower == 'y');
+        const char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y');
     }
 
-    char* find_uncommon_sym(const char* str1, const char* str2, char* output)
+    char* findUncommonSym(const char* str1, const char* str2, char* output)
     {
-        char* start = output;
+        char* const start = output;
         const char* p1 = str1;
         while (*p1 != '\0')
         {
-            if (!yes_char(str2, *p1) && !yes_char(start, *p1))
+            if (!yesChar(str2, *p1) && !yesChar(start, *p1))
             {
                 *output = *p1;
                 output++;
@@ -40,7 +44,7 @@ namespace kudrenok
         const char* p2 = str2;
         while (*p2 != '\0')
         {
-            if (!yes_char(str1, *p2) && !yes_char(start, *p2))
+            if (!yesChar(str1, *p2) && !yesChar(start, *p2))
             {
                 *output = *p2;
                 output++;
@@ -52,86 +56,100 @@ namespace kudrenok
         return start;
     }
 
-    char* remove_glasnai(const char* src, char* output1)
+    char* removeGlasnai(const char* src, char* output)
     {
-        char* start = output1;
+        char* const start = output;
         while (*src != '\0')
         {
-            if (!is_glasnai(*src))
+            if (!isGlasnai(*src))
             {
-                *output1 = *src;
-                output1++;
+                *output = *src;
+                output++;
             }
             src++;
         }
-        *output1 = '\0';
+        *output = '\0';
         return start;
     }
 }
 
 int main()
 {
-    int volume = 0;
-    int length = 0;
     char* input_str = nullptr;
+    int volume1 = 0;
+    int length = 0;
 
-    int ch = 0;
-    while ((ch = std::cin.get()) != '\n' && ch != EOF)
+    try
     {
-        if (length + 1 >= volume)
+        while (true)
         {
-            volume = volume + 1;
-            char* temp = new char[volume];
-
-            if (temp == nullptr)
+            const int ch = std::cin.get();
+            if (ch == '\n' || ch == EOF)
             {
-                std::cerr << "Error\n";
+                break;
+            }
+
+            if (length + 1 >= volume1)
+            {
+                const int newvolume1 = volume1 + 1;
+                char* const new_buffer = new char[newvolume1]();
+                for (int i = 0; i < length; ++i)
+                {
+                    new_buffer[i] = input_str[i];
+                }
                 delete[] input_str;
-                return kudrenok::ErrorCode;
+                input_str = new_buffer;
+                volume1 = newvolume1;
             }
-            for (int i = 0; i < length; ++i)
-            {
-                temp[i] = input_str[i];
-            }
-
-            delete[] input_str;
-            input_str = temp;
+            input_str[length] = static_cast<char>(ch);
+            length++;
         }
 
-        input_str[length] = (char)ch;
-        length++;
-    }
-    if (length + 1 >= volume)
-    {
-        volume = length + 1;
-        char* temp = new char[volume];
-        if (temp != nullptr)
+        if (length == 0)
         {
-            for (int i = 0; i < length; ++i) temp[i] = input_str[i];
+            std::cerr << "Error: Empty input\n";
+            delete[] input_str;
+            return kudrenok::ErrorCode;
+        }
+
+        if (length + 1 >= volume1)
+        {
+            const int volume = length + 1;
+            char* const temp = new char[volume]();
+            if (input_str != nullptr)
+            {
+                for (int i = 0; i < length; ++i)
+                {
+                    temp[i] = input_str[i];
+                }
+            }
             delete[] input_str;
             input_str = temp;
         }
-    }
-    input_str[length] = '\0';
+        input_str[length] = '\0';
 
-   const char* second_str = "abc_ef";
-   char* res_variant18 = new char[length + 1];
-   char* res_variant5 = new char[length + std::strlen(second_str) + 1];
+        const char* const second_str = "abc_ef";
 
-    if (res_variant5 == nullptr || res_variant18 == nullptr)
-    {
-        std::cerr << "Error\n";
+        char* const res_variant18 = new char[length + 1]();
+        char* const res_variant5 = new char[length + std::strlen(second_str) + 1]();
+
+        kudrenok::findUncommonSym(input_str, second_str, res_variant5);
+        kudrenok::removeGlasnai(input_str, res_variant18);
+
+        std::cout << res_variant5 << std::endl;
+        std::cout << res_variant18 << std::endl;
+
         delete[] input_str;
         delete[] res_variant5;
         delete[] res_variant18;
-        return kudrenok::memoryErrorCode;
     }
-    kudrenok::find_uncommon_sym(input_str, second_str, res_variant5);
-    kudrenok::remove_glasnai(input_str, res_variant18);
-    std::cout << res_variant5 << std::endl;
-    std::cout << res_variant18 << std::endl;
-    delete[] input_str;
-    delete[] res_variant5;
-    delete[] res_variant18;
+    catch (const std::bad_alloc&)
+    {
+        std::cerr << "Error: Memory allocation failed\n";
+        delete[] input_str;
+        return kudrenok::ErrorCode;
+    }
+
     return kudrenok::successCode;
 }
+
