@@ -4,7 +4,8 @@
 
 namespace boretskii {
   const size_t max_size_comb = 2048;
-  int identicalValues(const char *first, const char *second) {
+  int identicalValues(const char *first, const char *second)
+  {
     for (int i = 0; first[i] != '\0'; i++) {
       for (int j = 0; second[j] != '\0'; j++) {
         if (first[i] == second[j]) {
@@ -14,7 +15,8 @@ namespace boretskii {
     }
     return 0;
   }
-  char *latTwo(const char *first, const char *second, char *result) {
+  char *latTwo(const char *first, const char *second, char *result)
+  {
     char combined[max_size_comb];
     int index_comb = 0;
     int index_res = 0;
@@ -41,7 +43,8 @@ namespace boretskii {
   }
 }
 
-int main() {
+int main()
+{
   const size_t max_size = 1024;
   char input_str[max_size];
   std::cin.getline(input_str, max_size);
