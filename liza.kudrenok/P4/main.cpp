@@ -5,74 +5,73 @@
 
 namespace kudrenok
 {
-const int successCode = 0;
-const int ErrorCode = 1;
-
-int yesChar(const char* str, char c)
-{
-    while (*str != '\0')
+    const int successCode = 0;
+    const int ErrorCode = 1;
+    
+    int yesChar(const char* str, char c)
     {
-        if (*str == c)
+        while (*str != '\0')
         {
-            return 1;
+            if (*str == c)
+            {
+                return 1;
+            }
+            str++;
         }
-        str++;
+        return 0;
     }
-    return 0;
-}
-
-int isGlasnai(char c)
-{
-    const char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-    return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y');
-}
-
-char* findUncommonSym(const char* str1, const char* str2, char* output)
-{
-    char* const start = output;
-    const char* p1 = str1;
-    while (*p1 != '\0')
+    
+    int isGlasnai(char c)
     {
-        if (!yesChar(str2, *p1) && !yesChar(start, *p1))
-        {
-            *output = *p1;
-            output++;
-        }
-        p1++;
+        const char lower = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+        return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y');
     }
-
-    const char* p2 = str2;
-    while (*p2 != '\0')
+    
+    char* findUncommonSym(const char* str1, const char* str2, char* output)
     {
-        if (!yesChar(str1, *p2) && !yesChar(start, *p2))
+        char* const start = output;
+        const char* p1 = str1;
+        while (*p1 != '\0')
         {
-            *output = *p2;
-            output++;
+            if (!yesChar(str2, *p1) && !yesChar(start, *p1))
+            {
+                *output = *p1;
+                output++;
+            }
+            p1++;
         }
-        p2++;
+    
+        const char* p2 = str2;
+        while (*p2 != '\0')
+        {
+            if (!yesChar(str1, *p2) && !yesChar(start, *p2))
+            {
+                *output = *p2;
+                output++;
+            }
+            p2++;
+        }
+    
+        *output = '\0';
+        return start;
     }
-
-    *output = '\0';
-    return start;
-}
-
-char* removeGlasnai(const char* src, char* output)
-{
-    char* const start = output;
-    while (*src != '\0')
+    
+    char* removeGlasnai(const char* src, char* output)
     {
-        if (!isGlasnai(*src))
+        char* const start = output;
+        while (*src != '\0')
         {
-            *output = *src;
-            output++;
+            if (!isGlasnai(*src))
+            {
+                *output = *src;
+                output++;
+            }
+            src++;
         }
-        src++;
+        *output = '\0';
+        return start;
     }
-    *output = '\0';
-    return start;
-}
-} // namespace kudrenok
-
+} 
 int main()
 {
     char* input_str = nullptr;
@@ -152,4 +151,3 @@ int main()
 
     return kudrenok::successCode;
 }
-
