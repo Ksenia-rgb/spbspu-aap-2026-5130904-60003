@@ -42,7 +42,7 @@ namespace lagunov
     {
       for (size_t j = i + 1; j < size; ++j)
       {
-        if (input[i] == input[j] && std::isdigit(input[i]))
+        if (input[i] == input[j] && std::isdigit(static_cast< unsigned char >(input[i])))
         {
           return 1;
         }
