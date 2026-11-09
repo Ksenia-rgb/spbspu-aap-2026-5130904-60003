@@ -117,14 +117,9 @@ int main()
       delete[] str;
       delete[] res;
       return 1;
-    } else if (find_result == 2) {
-      std::cout << "There is at least one common character.\n";
-    } else {
-      std::cout << "There are no common characters.\n";
     }
-
-    std::cout << "Original string: " << str << "\n";
-    std::cout << "Modified string: " << res << "\n";
+    std::cout << res << '\n';
+    std::cout << (find_result != 0) << '\n';
 
     delete[] str;
     delete[] res;
