@@ -7,7 +7,7 @@ namespace babushkina {
   {
     size_t j = 0;
     for (size_t i = 0; i < size; i++) {
-      if (!(std::isdigit(string[i]))) {
+      if (!(std::isdigit(static_cast< unsigned char >(string[i])))) {
         result[j++] = string[i];
       }
     }
