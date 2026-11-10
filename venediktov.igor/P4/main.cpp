@@ -2,14 +2,17 @@
 #include <cstddef>
 #include <iostream>
 #include <new>
+#include <cstdio>
 
-int readString(char **str_ptr, size_t *capacity_ptr) {
+int readString(char **str_ptr, size_t *capacity_ptr)
+{
   int ch = 0;
   size_t length = 0;
-
+  constexpr size_t required_space = 2;
+  constexpr size_t capacity_growth_factor = 2;
   while ((ch = std::cin.get()) != '\n' && ch != EOF) {
-    if (length + 2 > *capacity_ptr) {
-      *capacity_ptr *= 2;
+    if (length + required_space > *capacity_ptr) {
+      *capacity_ptr *= capacity_growth_factor;
       char *const temp = *str_ptr;
       *str_ptr = new (std::nothrow) char[*capacity_ptr];
 
@@ -24,7 +27,7 @@ int readString(char **str_ptr, size_t *capacity_ptr) {
       }
       delete[] temp;
     }
-    (*str_ptr)[length] = static_cast<char>(ch);
+    (*str_ptr)[length] = static_cast< char >(ch);
     length++;
   }
 
@@ -38,7 +41,8 @@ int readString(char **str_ptr, size_t *capacity_ptr) {
   return 0;
 }
 
-int appendDigits(char *dest, const char *src) {
+int appendDigits(char *dest, const char *src)
+{
   int dest_len = 0;
   while (dest[dest_len] != '\0') {
     dest_len++;
@@ -46,7 +50,7 @@ int appendDigits(char *dest, const char *src) {
 
   int i = 0;
   while (src[i] != '\0') {
-    if (std::isdigit(static_cast<unsigned char>(src[i]))) {
+    if (std::isdigit(static_cast< unsigned char >(src[i]))) {
       dest[dest_len] = src[i];
       dest_len++;
     }
@@ -58,18 +62,19 @@ int appendDigits(char *dest, const char *src) {
   return 0;
 }
 
-int hasRepeatedDigits(const char *str) {
-  int counts[10];
-
-  int i = 0;
-  while (i < 10) {
+int hasRepeatedDigits(const char *str)
+{
+  constexpr size_t digit_count = 10;
+  size_t i = 0;
+  int counts[digit_count];
+  while (i < digit_count) {
     counts[i] = 0;
     i++;
   }
 
   i = 0;
   while (str[i] != '\0') {
-    const unsigned char ch = static_cast<unsigned char>(str[i]);
+    const unsigned char ch = static_cast< unsigned char >(str[i]);
     if (std::isdigit(ch)) {
       const int digit_index = ch - '0';
 
@@ -85,9 +90,10 @@ int hasRepeatedDigits(const char *str) {
   return 0;
 }
 
-int main() {
-  const size_t initialCapacity = 50;
-  size_t cap1 = initialCapacity;
+int main()
+{
+  const size_t initial_capacity = 50;
+  size_t cap1 = initial_capacity;
   char *dest = new (std::nothrow) char[cap1];
 
   if (dest == nullptr) {
