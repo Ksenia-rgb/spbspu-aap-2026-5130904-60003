@@ -24,7 +24,7 @@ namespace kudrenok
   int isGlasnai(char c)
   {
     const char lower = static_cast< char >(std::tolower(static_cast< unsigned char >(c)));
-    return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y');
+    return lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y';
   }
 
   char *findUncommonSym(const char *str1, const char *str2, char *output)
