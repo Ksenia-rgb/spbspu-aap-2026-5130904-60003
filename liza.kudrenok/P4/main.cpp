@@ -93,7 +93,7 @@ int main()
 
             if (length + 1 >= volume1)
             {
-                const int newVolume1 = volume1 * 2;
+                const int newVolume1 = volume1 + 15;
                 char* const new_buffer = new char[newVolume1]();
                 for (int i = 0; i < length; ++i)
                 {
