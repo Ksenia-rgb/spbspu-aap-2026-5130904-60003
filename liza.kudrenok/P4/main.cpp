@@ -1,4 +1,3 @@
-#include <cctype>
 #include <cstring>
 #include <iostream>
 #include <new>
@@ -7,6 +6,7 @@ namespace kudrenok
 {
   const int successCode = 0;
   const int ErrorCode = 1;
+  const int step = 1;
 
   int yesChar(const char *str, char c)
   {
@@ -23,8 +23,8 @@ namespace kudrenok
 
   int isGlasnai(char c)
   {
-    const char lower = static_cast< char >(std::tolower(static_cast< unsigned char >(c)));
-    return lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u' || lower == 'y';
+    constexpr const char *vowels = "aeiouyAEIOUY";
+    return c != '\0' && std::strchr(vowels, c) != nullptr;
   }
 
   char *findUncommonSym(const char *str1, const char *str2, char *output)
@@ -78,7 +78,7 @@ int main()
   char *input_str = nullptr;
   char *res_variant18 = nullptr;
   char *res_variant5 = nullptr;
-  int volume1 = 10;
+  int volume1 = 1;
   int length = 0;
 
   try
@@ -95,7 +95,7 @@ int main()
 
       if (length + 1 >= volume1)
       {
-        const int newVolume1 = volume1 * 2;
+        const int newVolume1 = volume1 + kudrenok::step;
         char *const new_buffer = new char[newVolume1]();
         for (int i = 0; i < length; ++i)
         {
