@@ -122,16 +122,6 @@ int main()
 
     res_variant18 = new char[length + 1]();
     res_variant5 = new char[length + std::strlen(second_str) + 1]();
-
-    kudrenok::findUncommonSym(input_str, second_str, res_variant5);
-    kudrenok::removeGlasnai(input_str, res_variant18);
-
-    std::cout << res_variant5 << std::endl;
-    std::cout << res_variant18 << std::endl;
-
-    delete[] input_str;
-    delete[] res_variant5;
-    delete[] res_variant18;
   }
   catch (const std::bad_alloc &)
   {
@@ -141,6 +131,18 @@ int main()
     delete[] res_variant18;
     return kudrenok::ErrorCode;
   }
+
+  const char *const second_str = "abc_ef";
+
+  kudrenok::findUncommonSym(input_str, second_str, res_variant5);
+  kudrenok::removeGlasnai(input_str, res_variant18);
+
+  std::cout << res_variant5 << std::endl;
+  std::cout << res_variant18 << std::endl;
+
+  delete[] input_str;
+  delete[] res_variant5;
+  delete[] res_variant18;
 
   return kudrenok::successCode;
 }
