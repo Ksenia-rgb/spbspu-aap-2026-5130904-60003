@@ -53,8 +53,6 @@ namespace zvetkov
   int const MAX_E = 10000;
 }
 
-
-
 int main(int argc, char* argv[])
 {
   if (argc != 4)
