@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
       }
     }
 
-    result = minSumMdg(matrix, rows, cols);
+    result = zvetkov::minSumMdg(matrix, rows, cols);
     zvetkov::printMatrix(matrix, rows, cols);
   }
   else
@@ -145,7 +145,7 @@ int main(int argc, char* argv[])
       }
     }
 
-    result = minSumMdg(matrix, rows, cols);
+    result = zvetkov::minSumMdg(matrix, rows, cols);
     zvetkov::printMatrix(matrix, rows, cols);
     delete[] matrix;
   }
