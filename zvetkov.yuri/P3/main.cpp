@@ -1,53 +1,60 @@
 #include <iostream>
 #include <fstream>
+#include <new>
 
-void printMatrix(int* matrix, int rows, int cols)
+namespace zvetkov
 {
-  for (int i = 0; i < rows; i++)
+  void printMatrix(int* matrix, int rows, int cols)
   {
-    for (int j = 0; j < cols; j++)
-    {
-      std::cout << matrix[i * cols + j] << " ";
-    }
-
-    std::cout << "\n";
-  }
-}
-
-int minSumMdg(const int* matrix, int rows, int cols)
-{
-  int min_sum = 0;
-  for (int a = 0; a < rows + cols - 1; a++)
-  {
-    int sum = 0;
-
     for (int i = 0; i < rows; i++)
     {
-      const int j = a - i;
-
-      if ((j >= 0) && (j < cols))
+      for (int j = 0; j < cols; j++)
       {
-        sum += matrix[i * cols + j];
+        std::cout << matrix[i * cols + j] << " ";
       }
-    }
 
-    if (a > 0)
+      std::cout << "\n";
+    }
+  }
+
+  int minSumMdg(const int* matrix, int rows, int cols)
+  {
+    int min_sum = 0;
+    for (int a = 0; a < rows + cols - 1; a++)
     {
-      if (sum < min_sum)
+      int sum = 0;
+
+      for (int i = 0; i < rows; i++)
+      {
+        const int j = a - i;
+
+        if ((j >= 0) && (j < cols))
+        {
+          sum += matrix[i * cols + j];
+        }
+      }
+
+      if (a > 0)
+      {
+        if (sum < min_sum)
+        {
+          min_sum = sum;
+        }
+      }
+      else
       {
         min_sum = sum;
       }
     }
-    else
-    {
-      min_sum = sum;
-    }
+
+    return min_sum;
   }
 
-  return min_sum;
+  int const MAX_E = 10000;
 }
 
-int const MAX_E = 10000;
+
+
 int main(int argc, char* argv[])
 {
   if (argc != 4)
@@ -80,9 +87,15 @@ int main(int argc, char* argv[])
     return 2;
   }
 
-  if ((rows * cols > MAX_E) && (num == '1'))
+  if ((1LL * rows * cols > zvetkov::MAX_E) && (num == '1'))
   {
     std::cerr << "Too much elements\n";
+    return 2;
+  }
+
+  if ((rows < 0) || (cols < 0))
+  {
+    std::cerr << "INVALID\n";
     return 2;
   }
 
@@ -93,9 +106,10 @@ int main(int argc, char* argv[])
     return 0;
   }
 
+  int result = 0;
   if (num == '1')
   {
-    int matrix[MAX_E];
+    int matrix[zvetkov::MAX_E];
     for (int i = 0; i < rows * cols; i++)
     {
       if (!(file >> matrix[i]))
@@ -105,13 +119,22 @@ int main(int argc, char* argv[])
       }
     }
 
-    std::ofstream output_file(argv[3]);
-    output_file << minSumMdg(matrix, rows, cols);
-    printMatrix(matrix, rows, cols);
+    result = minSumMdg(matrix, rows, cols);
+    zvetkov::printMatrix(matrix, rows, cols);
   }
   else
   {
-    int* const matrix = new int[rows * cols];
+    int* matrix = nullptr;
+    try
+    {
+      matrix = new int[rows * cols];
+    }
+    catch (const std::bad_alloc& e)
+    {
+      std::cerr << "No memory?\n";
+      return 2;
+    }
+
     for (int i = 0; i < rows * cols; i++)
     {
       if (!(file >> matrix[i]))
@@ -122,11 +145,13 @@ int main(int argc, char* argv[])
       }
     }
 
-    std::ofstream output_file(argv[3]);
-    output_file << minSumMdg(matrix, rows, cols);
-    printMatrix(matrix, rows, cols);
+    result = minSumMdg(matrix, rows, cols);
+    zvetkov::printMatrix(matrix, rows, cols);
     delete[] matrix;
   }
+
+  std::ofstream output_file(argv[3]);
+  output_file << result;
 
   return 0;
 }
