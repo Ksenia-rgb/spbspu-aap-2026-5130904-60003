@@ -1,73 +1,99 @@
-
 #include <algorithm>
 #include <cstddef>
 #include <fstream>
 #include <iostream>
-#include <string>
-#include <vector>
+#include <new>
 
 namespace matrix {
-  const int MAX_SIZE = 10000;
+  const std::size_t MAX_SIZE = 10000;
 
   struct Arguments {
-    std::string mode;
-    std::string input_file;
-    std::string output_file;
+    int mode;
+    const char * input_file;
+    const char * output_file;
   };
 
-  bool parseArgs(int argc, char *argv[], Arguments &args)
+  bool parseArgs(int argc, char * argv[], Arguments & args)
   {
     if (argc != 4) {
       std::cerr << "Error: expected 3 arguments\n";
       return false;
     }
 
-    args.mode = argv[1];
-    args.input_file = argv[2];
-    args.output_file = argv[3];
-
-    if (args.mode != "1" && args.mode != "2") {
+    if (argv[1][1] != '\0' || (argv[1][0] != '1' && argv[1][0] != '2')) {
       std::cerr << "Error: invalid matrix mode\n";
       return false;
     }
 
+    args.mode = argv[1][0] - '0';
+    args.input_file = argv[2];
+    args.output_file = argv[3];
+
     return true;
   }
 
-  bool readMatrix(std::istream &input, std::vector< long long > &data, int &matrix_size)
+  bool readDimensions(std::istream & input, std::size_t & rows, std::size_t & cols)
   {
-    int rows = 0;
-    int cols = 0;
+    long long row_count = 0;
+    long long col_count = 0;
 
-    if (!(input >> rows >> cols)) {
+    if (!(input >> row_count >> col_count) || row_count < 0 || col_count < 0) {
       std::cerr << "Error: invalid matrix dimensions\n";
       return false;
     }
 
-    if (rows < 0 || cols < 0) {
-      std::cerr << "Error: negative matrix dimensions\n";
-      return false;
-    }
+    rows = static_cast< std::size_t >(row_count);
+    cols = static_cast< std::size_t >(col_count);
 
-    if (rows > MAX_SIZE || cols > MAX_SIZE || static_cast< long long >(rows) * cols > MAX_SIZE) {
-      std::cerr << "Error: matrix is too large\n";
-      return false;
-    }
+    return true;
+  }
 
-    matrix_size = std::min(rows, cols);
-    data.resize(static_cast< std::size_t >(matrix_size) * matrix_size);
+  bool fitsLimit(std::size_t rows, std::size_t cols)
+  {
+    const std::size_t size = std::min(rows, cols);
 
-    for (int row = 0; row < rows; ++row) {
-      for (int col = 0; col < cols; ++col) {
-        long long value = 0;
+    return size == 0 || size <= MAX_SIZE / size;
+  }
+
+  bool readMatrix(std::istream & input, int * data, std::size_t rows, std::size_t cols)
+  {
+    const std::size_t size = std::min(rows, cols);
+
+    for (std::size_t row = 0; row < rows; ++row) {
+      for (std::size_t col = 0; col < cols; ++col) {
+        int value = 0;
 
         if (!(input >> value)) {
           std::cerr << "Error: not enough matrix data\n";
           return false;
         }
 
-        if (row < matrix_size && col < matrix_size) {
-          data[static_cast< std::size_t >(row) * matrix_size + col] = value;
+        if (row < size && col < size) {
+          data[row * size + col] = value;
+        }
+      }
+    }
+
+    int extra = 0;
+
+    if (input >> extra) {
+      std::cerr << "Error: unexpected data after matrix\n";
+      return false;
+    }
+
+    return true;
+  }
+
+  bool isUpperTriangular(const int * data, std::size_t size)
+  {
+    if (size == 0) {
+      return false;
+    }
+
+    for (std::size_t row = 1; row < size; ++row) {
+      for (std::size_t col = 0; col < row; ++col) {
+        if (data[row * size + col] != 0) {
+          return false;
         }
       }
     }
@@ -75,26 +101,55 @@ namespace matrix {
     return true;
   }
 
-  bool isUpperTriangular(const std::vector< long long > &data, int matrix_size)
-  {
-    for (int row = 1; row < matrix_size; ++row) {
-      for (int col = 0; col < row; ++col) {
-        if (data[static_cast< std::size_t >(row) * matrix_size + col] != 0) {
-          return false;
-        }
-      }
-    }
-
-    return matrix_size > 0;
-  }
-
-  void printResult(std::ostream &output, bool result)
+  bool printResult(std::ostream & output, bool result)
   {
     output << (result ? "true" : "false") << '\n';
+    return static_cast< bool >(output);
+  }
+
+  bool processFixed(std::istream & input, std::ostream & output, std::size_t rows, std::size_t cols)
+  {
+    int data[MAX_SIZE] = {};
+
+    if (!readMatrix(input, data, rows, cols)) {
+      return false;
+    }
+
+    const std::size_t size = std::min(rows, cols);
+    const bool result = isUpperTriangular(data, size);
+
+    return printResult(output, result);
+  }
+
+  bool processDynamic(std::istream & input, std::ostream & output, std::size_t rows, std::size_t cols)
+  {
+    const std::size_t size = std::min(rows, cols);
+    const std::size_t count = size * size;
+
+    int * data = new (std::nothrow) int[count];
+
+    if (data == nullptr && count != 0) {
+      std::cerr << "Error: cannot allocate memory\n";
+      return false;
+    }
+
+    const bool read_ok = readMatrix(input, data, rows, cols);
+
+    if (!read_ok) {
+      delete[] data;
+      return false;
+    }
+
+    const bool result = isUpperTriangular(data, size);
+    const bool write_ok = printResult(output, result);
+
+    delete[] data;
+
+    return write_ok;
   }
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char * argv[])
 {
   matrix::Arguments args;
 
@@ -103,26 +158,37 @@ int main(int argc, char *argv[])
   }
 
   std::ifstream input_file(args.input_file);
-  if (!input_file) {
+
+  if (!input_file.is_open()) {
     std::cerr << "Error: cannot open input file\n";
     return 2;
   }
 
   std::ofstream output_file(args.output_file);
-  if (!output_file) {
+
+  if (!output_file.is_open()) {
     std::cerr << "Error: cannot open output file\n";
     return 2;
   }
 
-  std::vector< long long > matrix_data;
-  int matrix_size = 0;
-
-  if (!matrix::readMatrix(input_file, matrix_data, matrix_size)) {
+  std::size_t rows = 0;
+  std::size_t cols = 0;
+  if (!matrix::readDimensions(input_file, rows, cols)) {
     return 2;
   }
 
-  const bool upper_triangle = matrix::isUpperTriangular(matrix_data, matrix_size);
-  matrix::printResult(output_file, upper_triangle);
+  if (args.mode == 1 && !matrix::fitsLimit(rows, cols)) {
+    std::cerr << "Error: matrix exceeds fixed array capacity\n";
+    return 2;
+  }
 
-  return 0;
+  bool success = false;
+
+  if (args.mode == 1) {
+    success = matrix::processFixed(input_file, output_file, rows, cols);
+  } else {
+    success = matrix::processDynamic(input_file, output_file, rows, cols);
+  }
+
+  return success ? 0 : 2;
 }
