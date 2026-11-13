@@ -126,7 +126,7 @@ namespace matrix {
     const std::size_t size = std::min(rows, cols);
     const std::size_t count = size * size;
 
-    int * data = new (std::nothrow) int[count];
+    int * const data = new (std::nothrow) int[count];
 
     if (data == nullptr && count != 0) {
       std::cerr << "Error: cannot allocate memory\n";
