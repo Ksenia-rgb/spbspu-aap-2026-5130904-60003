@@ -5,14 +5,11 @@
 #include <cstdlib>
 #include <cstring>
 
-namespace manhica
-{
-  int contains(const char* str, char symbol)
+namespace manhica {
+  int contains(const char *str, char symbol)
   {
-    for (int i = 0; str[i] != '\0'; ++i)
-    {
-      if (str[i] == symbol)
-      {
+    for (int i = 0; str[i] != '\0'; ++i) {
+      if (str[i] == symbol) {
         return 1;
       }
     }
@@ -20,16 +17,13 @@ namespace manhica
     return 0;
   }
 
-  int buildUncommon(const char* first, const char* second, char* result, int capacity)
+  int buildUncommon(const char *first, const char *second, char *result, int capacity)
   {
     int pos = 0;
 
-    for (int i = 0; second[i] != '\0'; ++i)
-    {
-      if (contains(first, second[i]) == 0)
-      {
-        if (pos + 1 >= capacity)
-        {
+    for (int i = 0; second[i] != '\0'; ++i) {
+      if (contains(first, second[i]) == 0) {
+        if (pos + 1 >= capacity) {
           return -1;
         }
 
@@ -37,12 +31,9 @@ namespace manhica
       }
     }
 
-    for (int i = 0; first[i] != '\0'; ++i)
-    {
-      if (contains(second, first[i]) == 0)
-      {
-        if (pos + 1 >= capacity)
-        {
+    for (int i = 0; first[i] != '\0'; ++i) {
+      if (contains(second, first[i]) == 0) {
+        if (pos + 1 >= capacity) {
           return -1;
         }
 
@@ -54,18 +45,15 @@ namespace manhica
     return pos;
   }
 
-  int removeVowels(const char* source, char* result, int capacity)
+  int removeVowels(const char *source, char *result, int capacity)
   {
     int pos = 0;
 
-    for (int i = 0; source[i] != '\0'; ++i)
-    {
+    for (int i = 0; source[i] != '\0'; ++i) {
       const char symbol = static_cast< char >(std::tolower(static_cast< unsigned char >(source[i])));
 
-      if (symbol != 'a' && symbol != 'e' && symbol != 'i' && symbol != 'o' && symbol != 'u')
-      {
-        if (pos + 1 >= capacity)
-        {
+      if (symbol != 'a' && symbol != 'e' && symbol != 'i' && symbol != 'o' && symbol != 'u') {
+        if (pos + 1 >= capacity) {
           return -1;
         }
 
@@ -77,37 +65,32 @@ namespace manhica
     return pos;
   }
 
-  char* readLine()
+  char *readLine()
   {
     constexpr int initial_capacity = 16;
     int capacity = initial_capacity;
     int length = 0;
 
-    char* buffer = static_cast< char* >(std::malloc(capacity));
+    char *buffer = static_cast< char * >(std::malloc(capacity));
 
-    if (buffer == nullptr)
-    {
+    if (buffer == nullptr) {
       return nullptr;
     }
 
     int ch = 0;
 
-    while ((ch = std::getchar()) != '\n' && ch != EOF)
-    {
-      if (length + 1 >= capacity)
-      {
-        if (capacity > INT_MAX / 2)
-        {
+    while ((ch = std::getchar()) != '\n' && ch != EOF) {
+      if (length + 1 >= capacity) {
+        if (capacity > INT_MAX / 2) {
           std::free(buffer);
           return nullptr;
         }
 
         capacity *= 2;
 
-        char* const temp = static_cast< char* >(std::realloc(buffer, capacity));
+        char *const temp = static_cast< char * >(std::realloc(buffer, capacity));
 
-        if (temp == nullptr)
-        {
+        if (temp == nullptr) {
           std::free(buffer);
           return nullptr;
         }
@@ -118,6 +101,11 @@ namespace manhica
       buffer[length++] = static_cast< char >(ch);
     }
 
+    if (ch == EOF && length == 0) {
+      std::free(buffer);
+      return nullptr;
+    }
+
     buffer[length] = '\0';
     return buffer;
   }
@@ -125,13 +113,12 @@ namespace manhica
 
 int main()
 {
-  const char* const second = "abc_ef";
+  const char *const second = "abc_ef";
 
-  char* const input = manhica::readLine();
+  char *const input = manhica::readLine();
 
-  if (input == nullptr)
-  {
-    std::fprintf(stderr, "Memory allocation error\n");
+  if (input == nullptr) {
+    std::fprintf(stderr, "Input or memory allocation error\n");
     return 1;
   }
 
@@ -139,8 +126,7 @@ int main()
 
   const int second_length = static_cast< int >(std::strlen(second));
 
-  if (input_length > INT_MAX - second_length - 1)
-  {
+  if (input_length > INT_MAX - second_length - 1) {
     std::fprintf(stderr, "String is too long\n");
     std::free(input);
     return 1;
@@ -148,12 +134,11 @@ int main()
 
   const int capacity = input_length + second_length + 1;
 
-  char* const uncommon = static_cast< char* >(std::malloc(capacity));
+  char *const uncommon = static_cast< char * >(std::malloc(capacity));
 
-  char* const without_vowels = static_cast< char* >(std::malloc(input_length + 1));
+  char *const without_vowels = static_cast< char * >(std::malloc(input_length + 1));
 
-  if (uncommon == nullptr || without_vowels == nullptr)
-  {
+  if (uncommon == nullptr || without_vowels == nullptr) {
     std::fprintf(stderr, "Memory allocation error\n");
 
     std::free(input);
@@ -164,8 +149,7 @@ int main()
   }
 
   if (manhica::buildUncommon(input, second, uncommon, capacity) < 0
-      || manhica::removeVowels(input, without_vowels, input_length + 1) < 0)
-  {
+      || manhica::removeVowels(input, without_vowels, input_length + 1) < 0) {
     std::fprintf(stderr, "Transformation error\n");
 
     std::free(input);
