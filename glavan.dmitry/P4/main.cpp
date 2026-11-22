@@ -6,18 +6,20 @@
 
 namespace glavan {
 
-  int count_distinct_latin(const char *s) noexcept
+  const int kAlphabetSize = 26;
+
+  int countDistinctLatin(const char *s) noexcept
   {
     if (s == nullptr) {
       return 0;
     }
 
-    int seen[26] = {0};
+    int seen[kAlphabetSize] = {0};
     const char *p = s;
     while (*p != '\0') {
-      char c = *p;
+      const char c = *p;
       if (std::isalpha(static_cast< unsigned char >(c))) {
-        char low = static_cast< char >(std::tolower(static_cast< unsigned char >(c)));
+        const char low = static_cast< char >(std::tolower(static_cast< unsigned char >(c)));
         if (low >= 'a' && low <= 'z') {
           seen[low - 'a'] = 1;
         }
@@ -27,14 +29,14 @@ namespace glavan {
 
     int n = 0;
     int i = 0;
-    while (i < 26) {
+    while (i < kAlphabetSize) {
       n += seen[i];
       ++i;
     }
     return n;
   }
 
-  int append_digits(const char *src, const char *second, char *dst, std::size_t dst_size) noexcept
+  int appendDigits(const char *src, const char *second, char *dst, std::size_t dst_size) noexcept
   {
     if (src == nullptr || second == nullptr || dst == nullptr || dst_size == 0) {
       return -1;
@@ -53,7 +55,7 @@ namespace glavan {
 
     p = second;
     while (*p != '\0') {
-      char c = *p;
+      const char c = *p;
       if (std::isdigit(static_cast< unsigned char >(c))) {
         if (len + 1 >= dst_size) {
           return -1;
@@ -68,7 +70,7 @@ namespace glavan {
     return static_cast< int >(len);
   }
 
-  std::size_t count_digits(const char *s) noexcept
+  std::size_t countDigits(const char *s) noexcept
   {
     if (s == nullptr) {
       return 0;
@@ -84,25 +86,26 @@ namespace glavan {
     return n;
   }
 
-}
+} // namespace glavan
 
 int main()
 {
   std::string input;
   try {
     if (!std::getline(std::cin, input)) {
-      input.clear();
+      std::cerr << "Error: failed to read input string\n";
+      return 1;
     }
   } catch (...) {
     std::cerr << "Error: not enough memory for input string\n";
     return 1;
   }
 
-  const char *second = "g1h2k";
+  const char *const second = "g1h2k";
 
-  std::cout << glavan::count_distinct_latin(input.c_str()) << '\n';
+  std::cout << glavan::countDistinctLatin(input.c_str()) << '\n';
 
-  std::size_t needed = input.size() + glavan::count_digits(second) + 1;
+  const std::size_t needed = input.size() + glavan::countDigits(second) + 1;
   std::vector< char > buf;
   try {
     buf.resize(needed);
@@ -111,7 +114,7 @@ int main()
     return 1;
   }
 
-  if (glavan::append_digits(input.c_str(), second, buf.data(), buf.size()) < 0) {
+  if (glavan::appendDigits(input.c_str(), second, buf.data(), buf.size()) < 0) {
     std::cerr << "Error: buffer for result is too small\n";
     return 1;
   }
