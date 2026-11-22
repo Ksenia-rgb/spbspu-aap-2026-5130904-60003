@@ -16,8 +16,8 @@ namespace glavan {
     const char *p = s;
     while (*p != '\0') {
       char c = *p;
-      if (std::isalpha((unsigned char)c)) {
-        char low = (char)std::tolower((unsigned char)c);
+      if (std::isalpha(static_cast< unsigned char >(c))) {
+        char low = static_cast< char >(std::tolower(static_cast< unsigned char >(c)));
         if (low >= 'a' && low <= 'z') {
           seen[low - 'a'] = 1;
         }
@@ -54,7 +54,7 @@ namespace glavan {
     p = second;
     while (*p != '\0') {
       char c = *p;
-      if (std::isdigit((unsigned char)c)) {
+      if (std::isdigit(static_cast< unsigned char >(c))) {
         if (len + 1 >= dst_size) {
           return -1;
         }
@@ -65,7 +65,7 @@ namespace glavan {
     }
 
     dst[len] = '\0';
-    return (int)len;
+    return static_cast< int >(len);
   }
 
   std::size_t count_digits(const char *s) noexcept
@@ -76,7 +76,7 @@ namespace glavan {
     std::size_t n = 0;
     const char *p = s;
     while (*p != '\0') {
-      if (std::isdigit((unsigned char)*p)) {
+      if (std::isdigit(static_cast< unsigned char >(*p))) {
         ++n;
       }
       ++p;
