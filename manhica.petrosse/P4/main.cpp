@@ -1,10 +1,9 @@
-
-#include <climits>
 #include <iostream>
+#include <climits>
 #include <new>
 
 namespace manhica {
-  int contains(const char *str, char symbol)
+  int contains(const char *const str, char symbol)
   {
     for (int i = 0; str[i] != '\0'; ++i) {
       if (str[i] == symbol) {
@@ -15,7 +14,7 @@ namespace manhica {
     return 0;
   }
 
-  int buildUncommon(const char *first, const char *second, char *result, int capacity)
+  int buildUncommon(const char *const first, const char *const second, char *const result, int capacity)
   {
     int pos = 0;
 
@@ -43,7 +42,7 @@ namespace manhica {
     return pos;
   }
 
-  int removeVowels(const char *source, char *result, int capacity)
+  int removeVowels(const char *const source, char *const result, int capacity)
   {
     int pos = 0;
 
@@ -87,7 +86,7 @@ namespace manhica {
 
         capacity *= 2;
 
-        char *temp = new (std::nothrow) char[capacity];
+        char *const temp = new (std::nothrow) char[capacity];
 
         if (temp == nullptr) {
           delete[] buffer;
@@ -119,7 +118,7 @@ int main()
 {
   const char *const second = "abc_ef";
 
-  char *const input = manhica::readLine();
+  const char *const input = manhica::readLine();
 
   if (input == nullptr) {
     std::cerr << "Input or memory allocation error\n";
