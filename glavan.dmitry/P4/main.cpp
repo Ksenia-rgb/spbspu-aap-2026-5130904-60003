@@ -86,7 +86,7 @@ namespace glavan {
     return n;
   }
 
-} // namespace glavan
+}
 
 int main()
 {
