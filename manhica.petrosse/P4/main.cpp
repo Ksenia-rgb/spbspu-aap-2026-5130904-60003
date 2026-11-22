@@ -1,9 +1,7 @@
 
-#include <cctype>
 #include <climits>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
+#include <iostream>
+#include <new>
 
 namespace manhica {
   int contains(const char *str, char symbol)
@@ -50,9 +48,10 @@ namespace manhica {
     int pos = 0;
 
     for (int i = 0; source[i] != '\0'; ++i) {
-      const char symbol = static_cast< char >(std::tolower(static_cast< unsigned char >(source[i])));
+      const char symbol = source[i];
 
-      if (symbol != 'a' && symbol != 'e' && symbol != 'i' && symbol != 'o' && symbol != 'u') {
+      if (symbol != 'a' && symbol != 'e' && symbol != 'i' && symbol != 'o' && symbol != 'u' && symbol != 'A'
+          && symbol != 'E' && symbol != 'I' && symbol != 'O' && symbol != 'U') {
         if (pos + 1 >= capacity) {
           return -1;
         }
@@ -71,7 +70,7 @@ namespace manhica {
     int capacity = initial_capacity;
     int length = 0;
 
-    char *buffer = static_cast< char * >(std::malloc(capacity));
+    char *buffer = new (std::nothrow) char[capacity];
 
     if (buffer == nullptr) {
       return nullptr;
@@ -79,30 +78,35 @@ namespace manhica {
 
     int ch = 0;
 
-    while ((ch = std::getchar()) != '\n' && ch != EOF) {
+    while ((ch = std::cin.get()) != '\n' && ch != std::char_traits< char >::eof()) {
       if (length + 1 >= capacity) {
         if (capacity > INT_MAX / 2) {
-          std::free(buffer);
+          delete[] buffer;
           return nullptr;
         }
 
         capacity *= 2;
 
-        char *const temp = static_cast< char * >(std::realloc(buffer, capacity));
+        char *temp = new (std::nothrow) char[capacity];
 
         if (temp == nullptr) {
-          std::free(buffer);
+          delete[] buffer;
           return nullptr;
         }
 
+        for (int i = 0; i < length; ++i) {
+          temp[i] = buffer[i];
+        }
+
+        delete[] buffer;
         buffer = temp;
       }
 
       buffer[length++] = static_cast< char >(ch);
     }
 
-    if (ch == EOF && length == 0) {
-      std::free(buffer);
+    if (ch == std::char_traits< char >::eof() && length == 0) {
+      delete[] buffer;
       return nullptr;
     }
 
@@ -118,53 +122,60 @@ int main()
   char *const input = manhica::readLine();
 
   if (input == nullptr) {
-    std::fprintf(stderr, "Input or memory allocation error\n");
+    std::cerr << "Input or memory allocation error\n";
     return 1;
   }
 
-  const int input_length = static_cast< int >(std::strlen(input));
+  int input_length = 0;
 
-  const int second_length = static_cast< int >(std::strlen(second));
+  while (input[input_length] != '\0') {
+    ++input_length;
+  }
+
+  int second_length = 0;
+
+  while (second[second_length] != '\0') {
+    ++second_length;
+  }
 
   if (input_length > INT_MAX - second_length - 1) {
-    std::fprintf(stderr, "String is too long\n");
-    std::free(input);
+    std::cerr << "String is too long\n";
+    delete[] input;
     return 1;
   }
 
   const int capacity = input_length + second_length + 1;
 
-  char *const uncommon = static_cast< char * >(std::malloc(capacity));
-
-  char *const without_vowels = static_cast< char * >(std::malloc(input_length + 1));
+  char *const uncommon = new (std::nothrow) char[capacity];
+  char *const without_vowels = new (std::nothrow) char[input_length + 1];
 
   if (uncommon == nullptr || without_vowels == nullptr) {
-    std::fprintf(stderr, "Memory allocation error\n");
+    std::cerr << "Memory allocation error\n";
 
-    std::free(input);
-    std::free(uncommon);
-    std::free(without_vowels);
+    delete[] input;
+    delete[] uncommon;
+    delete[] without_vowels;
 
     return 1;
   }
 
   if (manhica::buildUncommon(input, second, uncommon, capacity) < 0
       || manhica::removeVowels(input, without_vowels, input_length + 1) < 0) {
-    std::fprintf(stderr, "Transformation error\n");
+    std::cerr << "Transformation error\n";
 
-    std::free(input);
-    std::free(uncommon);
-    std::free(without_vowels);
+    delete[] input;
+    delete[] uncommon;
+    delete[] without_vowels;
 
     return 1;
   }
 
-  std::printf("%s\n", uncommon);
-  std::printf("%s\n", without_vowels);
+  std::cout << uncommon << '\n';
+  std::cout << without_vowels << '\n';
 
-  std::free(input);
-  std::free(uncommon);
-  std::free(without_vowels);
+  delete[] input;
+  delete[] uncommon;
+  delete[] without_vowels;
 
   return 0;
 }
