@@ -2,11 +2,13 @@
 #define TRIANGLE_HPP
 #include "shape.hpp"
 
-class Triangle : public Shape  {
+class Triangle : public Shape
+{
 private:
   point_t a_, b_, c_;
+
 public:
-  Triangle(const point_t &a, const point_t &b,const point_t &c);
+  Triangle(const point_t &a, const point_t &b, const point_t &c);
   point_t getCenter() const;
   double getArea() const override;
   rectangle_t getFrameRect() const override;
