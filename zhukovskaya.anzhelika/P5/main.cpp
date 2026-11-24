@@ -10,13 +10,13 @@ const point_t r_pos = {2.0, 2.0};
 
 const double ell_rx = 4.0;
 const double ell_ry = 2.0;
-const point_t ell_pos = {0.0, 0.0}
+const point_t ell_pos = {0.0, 0.0};
 
 const point_t triangle_a = {-10.0, -2.0};
 const point_t triangle_b = {-5.0, -10.0};
 const point_t triangle_c = {0.0, 1.0};
 
-const div_two = 2.0;
+const double div_two = 2.0;
 
 rectangle_t getTotalFrame(Shape* shapes[], size_t size) {
   rectangle_t start_pnt = shapes[0]->getFrameRect();
