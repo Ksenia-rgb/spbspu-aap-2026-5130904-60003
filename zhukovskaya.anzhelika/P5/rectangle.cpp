@@ -2,8 +2,8 @@
 #include <iostream>
 #include <stdexcept>
 
-Rectangle::Rectangle(double width, double height, const point_t &center)
-    : rect_{width, height, center}
+Rectangle::Rectangle(double width, double height, const point_t &center):
+  rect_{width, height, center}
 {
   if (width <= 0.0 || height <= 0.0)
   {

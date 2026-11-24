@@ -42,8 +42,9 @@ rectangle_t getTotalFrame(Shape *shapes[], size_t size)
 
   const double total_width = maxx - minx;
   const double total_height = maxy - miny;
-  const point_t total_pos = {minx + (total_width / div_two),
-                             miny + (total_height / div_two)};
+  const double center_x = minx + (total_width / div_two);
+  const double center_y = miny + (total_height / div_two);
+  const point_t total_pos = {center_x, center_y};
   return {total_width, total_height, total_pos};
 }
 
@@ -68,20 +69,19 @@ void printInfo(Shape *shapes[], size_t size)
     total_area += area;
     const rectangle_t rect_frame = shapes[i]->getFrameRect();
 
-    std::cout << "Shape " << (i + 1) << ":\n"
-              << "area = " << area << "\n"
-              << "frame: width = " << rect_frame.width
-              << ", height = " << rect_frame.height << "\n"
-              << "center = (" << rect_frame.pos.x << ", " << rect_frame.pos.y
-              << ")\n";
+    std::cout << "Shape " << (i + 1) << ":\n";
+    std::cout << "area = " << area << "\n";
+    std::cout << "frame: width = " << rect_frame.width;
+    std::cout << ", height = " << rect_frame.height;
+    std::cout << ", center = (" << rect_frame.pos.x << ", " << rect_frame.pos.y << ")\n";
   }
 
   std::cout << "Total area: " << total_area << "\n";
   const rectangle_t total_frame = getTotalFrame(shapes, size);
 
-  std::cout << "total frame: width = " << total_frame.width
-            << ", height = " << total_frame.height << ", center = ("
-            << total_frame.pos.x << ", " << total_frame.pos.y << ")\n";
+  std::cout << "total frame: width = " << total_frame.width;
+  std::cout << ", height = " << total_frame.height;
+  std::cout << ", center = (" << total_frame.pos.x << ", " << total_frame.pos.y << ")\n";
 }
 
 int main()

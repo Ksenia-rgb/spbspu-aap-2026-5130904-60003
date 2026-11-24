@@ -1,4 +1,4 @@
-﻿#ifndef ELLIPSE_HPP
+#ifndef ELLIPSE_HPP
 #define ELLIPSE_HPP
 #include "shape.hpp"
 class Ellipse: public Shape

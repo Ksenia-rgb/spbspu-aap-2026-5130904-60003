@@ -1,8 +1,10 @@
 ﻿#include "ellipse.hpp"
 #include <iostream>
 
-Ellipse::Ellipse(double rx, double ry, const point_t &cent)
-    : rx_(rx), ry_(ry), centr_(cent)
+Ellipse::Ellipse(double rx, double ry, const point_t &cent):
+  rx_(rx),
+  ry_(ry),
+  centr_(cent)
 {
   if (rx <= 0 || ry <= 0)
   {

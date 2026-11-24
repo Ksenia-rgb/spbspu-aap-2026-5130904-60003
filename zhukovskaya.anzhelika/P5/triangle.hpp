@@ -2,7 +2,7 @@
 #define TRIANGLE_HPP
 #include "shape.hpp"
 
-class Triangle : public Shape
+class Triangle: public Shape
 {
 private:
   point_t a_, b_, c_;

@@ -5,8 +5,11 @@ const double half = 0.5;
 const double two = 2.0;
 const double three = 3.0;
 
-Triangle::Triangle(const point_t &a, const point_t &b, const point_t &c)
-    : a_(a), b_(b), c_(c) {}
+Triangle::Triangle(const point_t &a, const point_t &b, const point_t &c):
+  a_(a),
+  b_(b),
+  c_(c)
+{}
 
 point_t Triangle::getCenter() const
 {
@@ -15,9 +18,10 @@ point_t Triangle::getCenter() const
 
 double Triangle::getArea() const
 {
-  return half * std::abs(a_.x * (b_.y - c_.y)
-                        + b_.x * (c_.y - a_.y)
-                        + c_.x * (a_.y - b_.y));
+  const double term1 = a_.x * (b_.y - c_.y);
+  const double term2 = b_.x * (c_.y - a_.y);
+  const double term3 = c_.x * (a_.y - b_.y);
+  return half * std::abs(term1 + term2 + term3);
 }
 
 rectangle_t Triangle::getFrameRect() const

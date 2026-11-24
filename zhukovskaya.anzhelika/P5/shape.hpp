@@ -1,4 +1,4 @@
-﻿#ifndef SHAPE_HPP
+#ifndef SHAPE_HPP
 #define SHAPE_HPP
 
 #include "base-types.hpp"
