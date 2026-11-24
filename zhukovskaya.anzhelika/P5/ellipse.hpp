@@ -1,7 +1,7 @@
 #ifndef ELLIPSE_HPP
 #define ELLIPSE_HPP
 #include "shape.hpp"
-class Ellipse : public Shape
+class Ellipse: public Shape
 {
 private:
   double rx_;

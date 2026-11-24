@@ -4,7 +4,6 @@
 #include "base-types.hpp"
 class Shape
 {
-private:
 public:
   virtual ~Shape() = default;
   virtual double getArea() const = 0;

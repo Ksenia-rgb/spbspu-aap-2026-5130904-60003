@@ -15,8 +15,9 @@ point_t Triangle::getCenter() const
 
 double Triangle::getArea() const
 {
-  return half * std::abs(a_.x * (b_.y - c_.y) + b_.x * (c_.y - a_.y) +
-                         c_.x * (a_.y - b_.y));
+  return half * std::abs(a_.x * (b_.y - c_.y) 
+                        + b_.x * (c_.y - a_.y) 
+                        + c_.x * (a_.y - b_.y));
 }
 
 rectangle_t Triangle::getFrameRect() const
