@@ -1,4 +1,4 @@
-﻿#include "ellipse.hpp"
+#include "ellipse.hpp"
 #include <iostream>
 
 Ellipse::Ellipse(double rx, double ry, const point_t &cent):

@@ -1,4 +1,4 @@
-﻿#include "triangle.hpp"
+#include "triangle.hpp"
 #include <cmath>
 #include <iostream>
 const double half = 0.5;
