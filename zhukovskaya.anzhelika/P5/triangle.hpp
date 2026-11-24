@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TRIANGLE_HPP
+#define TRIANGLE_HPP
 #include "shape.hpp"
 
 class Triangle : public Shape  {
@@ -13,3 +14,4 @@ public:
   void move(point_t &new_place) override;
   void scale(double ratio) override;
 };
+#endif

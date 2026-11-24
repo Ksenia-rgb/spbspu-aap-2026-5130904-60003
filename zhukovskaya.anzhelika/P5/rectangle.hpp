@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RECTANGLE_HPP
+#define RECTANGLE_HPP
 #include "shape.hpp"
 class Rectangle : public Shape {
 private:
@@ -12,3 +13,4 @@ public:
   void move(point_t &new_place) override;
   void scale(double ratio) override;
 };
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ELLIPSE_HPP
+#define ELLIPSE_HPP
 #include "shape.hpp"
 class Ellipse : public Shape{
 private:
@@ -14,3 +15,4 @@ public:
   void move(double dx, double dy) override;
   void scale(double ratio) override;
 };
+#endif

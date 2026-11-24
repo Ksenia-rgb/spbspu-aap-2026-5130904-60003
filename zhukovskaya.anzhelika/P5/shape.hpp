@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SHAPE_HPP
+#define SHAPE_HPP
+
 #include "base-types.hpp"
 class Shape {
 private:
@@ -10,3 +12,4 @@ public:
   virtual void move(double dx, double dy) = 0;
   virtual void scale(double ratio) = 0;
 };
+#endif
