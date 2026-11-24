@@ -21,7 +21,7 @@ rectangle_t Rectangle::getFrameRect() const
 }
 
 void Rectangle::move(point_t &new_place)
- {
+{
   rect_.pos = new_place;
 }
 
