@@ -19,10 +19,10 @@ double Triangle::getArea() const {
 }
 
 rectangle_t Triangle::getFrameRect() const {
-  double minx = std::min(a_.x, std::min(b_.x, c_.x));
-  double miny = std::min(a_.y, std::min(b_.y, c_.y));
-  double maxx = std::max(a_.x, std::max(b_.x, c_.x));
-  double maxy = std::max(a_.y, std::max(b_.y, c_.y));
+  const double minx = std::min(a_.x, std::min(b_.x, c_.x));
+  const double miny = std::min(a_.y, std::min(b_.y, c_.y));
+  const double maxx = std::max(a_.x, std::max(b_.x, c_.x));
+  const double maxy = std::max(a_.y, std::max(b_.y, c_.y));
   return {maxx - minx, maxy - miny,
     {(maxx + minx) / two, (maxy + miny) / two}};
 }
@@ -37,7 +37,7 @@ void Triangle::move(double dx, double dy) {
 }
 
 void Triangle::move(point_t &new_place) {
-  point_t center = getCenter();
+  const point_t center = getCenter();
   move(new_place.x - center.x, new_place.y - center.y);
 }
 
@@ -45,7 +45,7 @@ void Triangle::scale(double ratio) {
   if (ratio <= 0) {
     throw std::invalid_argument("the ratio must be >0");
   }
-  point_t center = getCenter();
+  const point_t center = getCenter();
   a_.x = center.x + ((a_.x - center.x) * ratio);
   b_.x = center.x + ((b_.x - center.x) * ratio);
   c_.x = center.x + ((c_.x - center.x) * ratio);

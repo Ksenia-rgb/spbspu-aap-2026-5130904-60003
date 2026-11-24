@@ -26,11 +26,11 @@ rectangle_t getTotalFrame(Shape* shapes[], size_t size) {
   double maxy = start_pnt.pos.y + start_pnt.height / div_two;
 
   for (size_t i = 1; i < size; ++i) {
-    rectangle_t s_pnt = shapes[i]->getFrameRect();
-    double s_minx = s_pnt.pos.x - s_pnt.width / div_two;
-    double s_maxx = s_pnt.pos.x + s_pnt.width / div_two;
-    double s_miny = s_pnt.pos.y - s_pnt.height / div_two;
-    double s_maxy = s_pnt.pos.y + s_pnt.height / div_two;
+    const rectangle_t s_pnt = shapes[i]->getFrameRect();
+    const double s_minx = s_pnt.pos.x - s_pnt.width / div_two;
+    const double s_maxx = s_pnt.pos.x + s_pnt.width / div_two;
+    const double s_miny = s_pnt.pos.y - s_pnt.height / div_two;
+    const double s_maxy = s_pnt.pos.y + s_pnt.height / div_two;
 
     minx = std::min(minx, s_minx);
     maxx = std::max(maxx, s_maxx);
@@ -38,29 +38,29 @@ rectangle_t getTotalFrame(Shape* shapes[], size_t size) {
     maxy = std::max(maxy, s_maxy);
   }
 
-  double total_width = maxx - minx;
-  double total_height = maxy - miny;
-  point_t total_pos = {minx + (total_width / div_two), miny + (total_height / div_two)};
+  const double total_width = maxx - minx;
+  const double total_height = maxy - miny;
+  const point_t total_pos = {minx + (total_width / div_two), miny + (total_height / div_two)};
   return {total_width, total_height, total_pos};
 }
 
 void scaleShape(Shape* shape, point_t &start, double ratio) {
-  point_t pos_start = shape->getFrameRect().pos;
+  const point_t pos_start = shape->getFrameRect().pos;
   shape->move(start);
-  point_t pos_finish = shape->getFrameRect().pos;
+  const point_t pos_finish = shape->getFrameRect().pos;
   shape->scale(ratio);
 
-  double dx = (pos_start.x - pos_finish.x) * ratio;
-  double dy = (pos_start.y - pos_finish.y) * ratio;
+  const double dx = (pos_start.x - pos_finish.x) * ratio;
+  const double dy = (pos_start.y - pos_finish.y) * ratio;
   shape->move(dx, dy);
 }
 
 void printInfo(Shape* shapes[], size_t size) {
   double total_area = 0.0;
   for (size_t i = 0; i < size; ++i) {
-    double area = shapes[i]->getArea();
+    const double area = shapes[i]->getArea();
     total_area += area;
-    rectangle_t rect_frame = shapes[i]->getFrameRect();
+    const rectangle_t rect_frame = shapes[i]->getFrameRect();
 
     std::cout << "Shape " << (i + 1) << ":\n"
     << "area = " << area << "\n"
@@ -70,7 +70,7 @@ void printInfo(Shape* shapes[], size_t size) {
   }
 
   std::cout << "Total area: " << total_area << "\n";
-  rectangle_t total_frame = getTotalFrame(shapes, size);
+  const rectangle_t total_frame = getTotalFrame(shapes, size);
 
   std::cout << "total frame: width = " << total_frame.width
   << ", height = " << total_frame.height
@@ -99,7 +99,7 @@ int main() {
 
   std::cout << "enter coordinates of center and scale ratio: \n";
   point_t pnt;
-  double ratio;
+  double ratio = 0.0;
 
   if (!(std::cin >> pnt.x >> pnt.y >> ratio)) {
     std::cerr << "error: invalid arguments\n";
