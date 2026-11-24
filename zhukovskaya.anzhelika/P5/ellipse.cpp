@@ -1,11 +1,12 @@
 #include <iostream>
 #include "ellipse.hpp"
 
-Ellipse::Ellipse(double rx, double ry, const point_t &cent)
-    : rx_(rx), ry_(ry), centr_(cent)
+Ellipse::Ellipse(double rx, double ry, const point_t &cent):
+  rx_(rx),
+  ry_(ry),
+  centr_(cent)
 {
-  if (rx <= 0 || ry <= 0)
-  {
+  if (rx <= 0 || ry <= 0) {
     throw std::invalid_argument("radiuses muse be >0");
   }
 };
@@ -34,8 +35,7 @@ void Ellipse::move(point_t &new_place)
 
 void Ellipse::scale(double ratio)
 {
-  if (ratio <= 0)
-  {
+  if (ratio <= 0) {
     throw std::invalid_argument("the ratio must be >0");
   }
   rx_ *= ratio;

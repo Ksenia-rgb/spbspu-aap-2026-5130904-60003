@@ -5,8 +5,11 @@ const double half = 0.5;
 const double two = 2.0;
 const double three = 3.0;
 
-Triangle::Triangle(const point_t &a, const point_t &b, const point_t &c)
-    : a_(a), b_(b), c_(c) {}
+Triangle::Triangle(const point_t &a, const point_t &b, const point_t &c):
+  a_(a),
+  b_(b),
+  c_(c)
+{}
 
 point_t Triangle::getCenter() const
 {
@@ -15,9 +18,7 @@ point_t Triangle::getCenter() const
 
 double Triangle::getArea() const
 {
-  return half * std::abs(a_.x * (b_.y - c_.y) +
-                         b_.x * (c_.y - a_.y) +
-                         c_.x * (a_.y - b_.y));
+  return half * std::abs(a_.x * (b_.y - c_.y) + b_.x * (c_.y - a_.y) + c_.x * (a_.y - b_.y));
 }
 
 rectangle_t Triangle::getFrameRect() const
@@ -47,8 +48,7 @@ void Triangle::move(point_t &new_place)
 
 void Triangle::scale(double ratio)
 {
-  if (ratio <= 0)
-  {
+  if (ratio <= 0) {
     throw std::invalid_argument("the ratio must be >0");
   }
   const point_t center = getCenter();

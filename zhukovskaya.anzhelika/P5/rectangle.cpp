@@ -2,11 +2,10 @@
 #include "rectangle.hpp"
 #include <stdexcept>
 
-Rectangle::Rectangle(double width, double height, const point_t &center)
-    : rect_{width, height, center}
+Rectangle::Rectangle(double width, double height, const point_t &center):
+  rect_{width, height, center}
 {
-  if (width <= 0.0 || height <= 0.0)
-  {
+  if (width <= 0.0 || height <= 0.0) {
     throw std::invalid_argument("arguments must be > 0");
   }
 }
@@ -33,8 +32,7 @@ void Rectangle::move(double dx, double dy)
 
 void Rectangle::scale(double ratio)
 {
-  if (ratio <= 0)
-  {
+  if (ratio <= 0) {
     throw std::invalid_argument("the ratio must be >0");
   }
   rect_.width *= ratio;
