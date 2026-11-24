@@ -1,4 +1,4 @@
-#include "triangle.hpp"
+﻿#include "triangle.hpp"
 #include <cmath>
 #include <iostream>
 const double half = 0.5;
@@ -15,8 +15,8 @@ point_t Triangle::getCenter() const
 
 double Triangle::getArea() const
 {
-  return half * std::abs(a_.x * (b_.y - c_.y) 
-                        + b_.x * (c_.y - a_.y) 
+  return half * std::abs(a_.x * (b_.y - c_.y)
+                        + b_.x * (c_.y - a_.y)
                         + c_.x * (a_.y - b_.y));
 }
 

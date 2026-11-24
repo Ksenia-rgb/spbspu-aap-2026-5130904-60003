@@ -1,4 +1,4 @@
-#include "rectangle.hpp"
+﻿#include "rectangle.hpp"
 #include <iostream>
 #include <stdexcept>
 
@@ -11,18 +11,18 @@ Rectangle::Rectangle(double width, double height, const point_t &center)
   }
 }
 
-double Rectangle::getArea() const 
-{ 
-  return rect_.width * rect_.height; 
+double Rectangle::getArea() const
+{
+  return rect_.width * rect_.height;
 }
-rectangle_t Rectangle::getFrameRect() const 
-{ 
-  return rect_; 
+rectangle_t Rectangle::getFrameRect() const
+{
+  return rect_;
 }
 
 void Rectangle::move(point_t &new_place)
- { 
-  rect_.pos = new_place; 
+ {
+  rect_.pos = new_place;
 }
 
 void Rectangle::move(double dx, double dy)
