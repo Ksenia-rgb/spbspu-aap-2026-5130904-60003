@@ -18,7 +18,8 @@ const point_t triangle_c = {0.0, 1.0};
 
 const double div_two = 2.0;
 
-rectangle_t getTotalFrame(Shape *shapes[], size_t size) {
+rectangle_t getTotalFrame(Shape *shapes[], size_t size)
+{
   const rectangle_t start_pnt = shapes[0]->getFrameRect();
   double minx = start_pnt.pos.x - start_pnt.width / div_two;
   double maxx = start_pnt.pos.x + start_pnt.width / div_two;
@@ -46,7 +47,8 @@ rectangle_t getTotalFrame(Shape *shapes[], size_t size) {
   return {total_width, total_height, total_pos};
 }
 
-void scaleShape(Shape *shape, point_t &start, double ratio) {
+void scaleShape(Shape *shape, point_t &start, double ratio)
+{
   const point_t pos_start = shape->getFrameRect().pos;
   shape->move(start);
   const point_t pos_finish = shape->getFrameRect().pos;
@@ -57,7 +59,8 @@ void scaleShape(Shape *shape, point_t &start, double ratio) {
   shape->move(dx, dy);
 }
 
-void printInfo(Shape *shapes[], size_t size) {
+void printInfo(Shape *shapes[], size_t size)
+{
   double total_area = 0.0;
   for (size_t i = 0; i < size; ++i)
   {
@@ -81,7 +84,8 @@ void printInfo(Shape *shapes[], size_t size) {
             << total_frame.pos.x << ", " << total_frame.pos.y << ")\n";
 }
 
-int main() {
+int main()
+{
   const size_t shape_cnt = 3;
   Shape *shapes[shape_cnt] = {nullptr, nullptr, nullptr};
   try
