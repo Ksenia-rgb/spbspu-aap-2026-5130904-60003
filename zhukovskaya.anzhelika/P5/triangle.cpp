@@ -1,16 +1,19 @@
 #include <iostream>
 #include "triangle.hpp"
 #include <cmath>
+const double half = 0.5;
+const double two = 2.0;
+const double three = 3.0;
 
 Triangle::Triangle(const point_t &a, const point_t &b, const point_t &c)
   : a_(a), b_(b), c_(c) {}
 
 point_t Triangle::getCenter() const {
-  return {(a_.x + b_.x + c_.x) / 3.0, (a_.y + b_.y + c_.y) / 3.0};
+  return {(a_.x + b_.x + c_.x) / three, (a_.y + b_.y + c_.y) / three};
 }
 
 double Triangle::getArea() const {
-  return 0.5 * std::abs(a_.x * (b_.y - c_.y) +
+  return half * std::abs(a_.x * (b_.y - c_.y) +
     b_.x * (c_.y - a_.y) +
     c_.x * (a_.y - b_.y));
 }
@@ -21,7 +24,7 @@ rectangle_t Triangle::getFrameRect() const {
   double maxx = std::max(a_.x, std::max(b_.x, c_.x));
   double maxy = std::max(a_.y, std::max(b_.y, c_.y));
   return {maxx - minx, maxy - miny,
-    {(maxx + minx) / 2.0, (maxy + miny) / 2.0}};
+    {(maxx + minx) / two, (maxy + miny) / two}};
 }
 
 void Triangle::move(double dx, double dy) {
