@@ -32,4 +32,3 @@ void Rectangle::scale(double ratio) {
   rect_.width *= ratio;
   rect_.height *= ratio;
 }
-
