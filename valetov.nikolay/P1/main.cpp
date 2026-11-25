@@ -1,57 +1,58 @@
 #include <iostream>
 int main() {
     const int end_of_sequence = 0;
-    const int wrong_type_of_entry = 1;
+    const int wrong_type_of_ent = 1;
     const int not_enough_data = 2;
-    int previous_entry = 0;
-    int pre_previous_entry = 0;
-    bool is_there_a_previous_entry = false;
-    bool is_there_a_pre_previous_entry = false;
-    bool is_the_previous_entry_bigger_than_the_pre_previous_entry = false;
-    bool is_the_previous_entry_bigger_than_current_entry = false;
-    bool is_the_previous_entry_smaller_than_the_pre_previous_entry = false;
-    int entries_that_are_smaller_than_the_previous_entry_and_bigger_than_the_current_entry = 0;
-    int entry_count = 0;
+    int prev_ent = 0;
+    int pre_prev_ent = 0;
+    bool is_prev_ent = false;
+    bool is_a_pre_prev_ent = false;
+    bool is_prev_ent_bigger_pre_prev_ent = false;
+    bool is_prev_ent_bigger_current_ent = false;
+    bool is_prev_ent_smaller_pre_prev_ent = false;
+    int enties_smaller_prev_ent_and_bigger_cur_ent = 0;
+    int ent_count = 0;
 
     int loc_max_count = 0;
-    int entry = 0;
+    int ent = 0;
     std::cout<<"Enter your sequence: ";
     while (true) {
-        std::cin >> entry;
+        std::cin >> ent;
         if (std::cin.fail()) {
             std::cerr<<"ERROR. INVALID INPUT (Return code: 1)\n";
-            return wrong_type_of_entry;
-        if (entry == end_of_sequence) {
-            if(entry_count < 3) {
+            return wrong_type_of_ent;
+        if (ent == end_of_sequence) {
+            if(ent_count < 3) {
                 std::cerr<<"ERROR. NOT ENOUGH DATA (Return code: 2)\n";
                 return not_enough_data;
             }
             break;
         }
         }
-        entry_count++;
-        if (entry_count == 1) {
-            previous_entry = entry;
-            is_there_a_previous_entry = true;
-        } else if (entry_count == 2) {
-            pre_previous_entry = previous_entry;
-            previous_entry = entry;
-            is_there_a_pre_previous_entry = true;
+        ent_count++;
+        if (ent_count == 1) {
+            prev_ent = ent;
+            is_prev_ent = true;
+        } else if (ent_count == 2) {
+            pre_prev_ent = prev_ent;
+            prev_ent = ent;
+            is_a_pre_prev_ent = true;
         } else {
-            is_the_previous_entry_bigger_than_the_pre_previous_entry = previous_entry > pre_previous_entry;
-            is_the_previous_entry_bigger_than_current_entry = previous_entry > entry;
-            is_the_previous_entry_smaller_than_the_pre_previous_entry = previous_entry < pre_previous_entry;
-            if (is_the_previous_entry_bigger_than_the_pre_previous_entry && is_the_previous_entry_bigger_than_current_entry) {
+            is_prev_ent_bigger_pre_prev_ent = prev_ent > pre_prev_ent;
+            is_prev_ent_bigger_current_ent = prev_ent > ent;
+            is_prev_ent_smaller_pre_prev_ent = prev_ent < pre_prev_ent;
+            if (is_prev_ent_bigger_pre_prev_ent && is_prev_ent_bigger_current_ent) {
                 loc_max_count++;
             }
-            if(is_the_previous_entry_smaller_than_the_pre_previous_entry && is_the_previous_entry_bigger_than_current_entry) {
-                entries_that_are_smaller_than_the_previous_entry_and_bigger_than_the_current_entry++;
+            if(is_prev_ent_smaller_pre_prev_ent && is_prev_ent_bigger_current_ent) {
+                enties_smaller_prev_ent_and_bigger_cur_ent++;
             }
-            pre_previous_entry = previous_entry;
-            previous_entry = entry;
+            pre_prev_ent = prev_ent;
+            prev_ent = ent;
         }
     }
     std::cout<<"Amount of local maxmimums: " <<loc_max_count<<"\n";
-    std::cout<<"Amount of entries that are smaller than the previous entry and bigger than the current entry: " <<entries_that_are_smaller_than_the_previous_entry_and_bigger_than_the_current_entry<<"\n";
+    std::cout<<"Amount of enties that are smaller than the previous ent and bigger than the current ent: " \
+    <<enties_smaller_prev_ent_and_bigger_cur_ent<<"\n";
     return 0;
 }
