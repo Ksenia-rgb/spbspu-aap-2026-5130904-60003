@@ -15,7 +15,7 @@ bool parseTaskNumber(char const* text, int& task)
         return false;
     if (value != 1 && value != 2)
         return false;
-    task = static_cast<int>(value);
+    task = static_cast< int >(value);
     return true;
 }
 
@@ -30,7 +30,7 @@ bool readMatrix(std::istream& stream, int* elements, long long count)
 bool hasExtraData(std::istream& stream)
 {
     char extra = '\0';
-    return static_cast<bool>(stream >> extra);
+    return static_cast< bool >(stream >> extra);
 }
 
 int countLocalMinima(int const* matrix, int rows, int cols)
@@ -39,33 +39,33 @@ int countLocalMinima(int const* matrix, int rows, int cols)
     for (int i = 1; i + 1 < rows; ++i) {
         for (int j = 1; j + 1 < cols; ++j) {
             int const value = matrix[i * cols + j];
-            bool isLocalMinimum = true;
-            for (int di = -1; di <= 1 && isLocalMinimum; ++di) {
-                for (int dj = -1; dj <= 1 && isLocalMinimum; ++dj) {
+            bool is_local_minimum = true;
+            for (int di = -1; di <= 1 && is_local_minimum; ++di) {
+                for (int dj = -1; dj <= 1 && is_local_minimum; ++dj) {
                     if (di == 0 && dj == 0)
                         continue;
                     if (value >= matrix[(i + di) * cols + (j + dj)])
-                        isLocalMinimum = false;
+                        is_local_minimum = false;
                 }
             }
-            if (isLocalMinimum)
+            if (is_local_minimum)
                 ++count;
         }
     }
     return count;
 }
 
-int processAndWrite(char const* outputPath, std::istream& input, int* matrix, int rows, int cols)
+int processAndWrite(char const* output_path, std::istream& input, int* matrix, int rows, int cols)
 {
-    long long const elementCount = static_cast<long long>(rows) * static_cast<long long>(cols);
+    long long const elementCount = static_cast< long long >(rows) * static_cast< long long >(cols);
     if (!readMatrix(input, matrix, elementCount) || hasExtraData(input)) {
         std::cerr << "Error: file content cannot be interpreted as a two-dimensional array\n";
         return 2;
     }
 
-    std::ofstream output(outputPath);
+    std::ofstream output(output_path);
     if (!output) {
-        std::cerr << "Error: cannot open output file \"" << outputPath << "\"\n";
+        std::cerr << "Error: cannot open output file \"" << output_path << "\"\n";
         return 2;
     }
 
@@ -104,7 +104,7 @@ int run(int argc, char* argv[])
     }
 
     if (task == 1) {
-        if (static_cast<long long>(rows) * cols > kMaxFixedElements) {
+        if (static_cast< long long >(rows) * cols > kMaxFixedElements) {
             std::cerr << "Error: matrix is too large for a fixed-size array\n";
             return 2;
         }
@@ -112,10 +112,10 @@ int run(int argc, char* argv[])
         return processAndWrite(argv[3], input, storage, rows, cols);
     }
 
-    long long const elementCount = static_cast<long long>(rows) * static_cast<long long>(cols);
+    long long const elementCount = static_cast< long long >(rows) * static_cast< long long >(cols);
     int* matrix = nullptr;
     try {
-        matrix = new int[static_cast<std::size_t>(elementCount)];
+        matrix = new int[static_cast< std::size_t >(elementCount)];
     } catch (...) {
         std::cerr << "Error: cannot allocate memory for the matrix\n";
         return 2;
