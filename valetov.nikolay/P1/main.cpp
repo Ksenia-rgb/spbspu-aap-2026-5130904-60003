@@ -51,8 +51,7 @@ int main() {
             prev_ent = ent;
         }
     }
-    std::cout<<"Amount of local maxmimums: " <<loc_max_count<<"\n";
-    std::cout<<"Amount of enties that are smaller than the previous ent and bigger than the current ent: " \
-    <<enties_smaller_prev_ent_and_bigger_cur_ent<<"\n";
+    std::cout<<"First Answer: " <<loc_max_count<<"\n";
+    std::cout<<"Second answer: " << enties_smaller_prev_ent_and_bigger_cur_ent<<"\n";
     return 0;
 }
