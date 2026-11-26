@@ -7,11 +7,11 @@ class Diamond: public Shape
 {
 public:
   Diamond(double d1, double d2, const point_t& center);
-  double getArea() const;
-  rectangle_t getFrameRect() const;
-  void move(const point_t& new_pos);
-  void move(double dx, double dy);
-  void scale(double ratio);
+  double getArea() const override;
+  rectangle_t getFrameRect() const override;
+  void move(const point_t& new_pos) override;
+  void move(double dx, double dy) override;
+  void scale(double ratio) override;
 
 private:
   double d1_;

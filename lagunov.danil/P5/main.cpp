@@ -129,6 +129,9 @@ int main()
   catch (const std::exception& e)
   {
     std::cerr << e.what() << '\n';
+    deleteShapes(shapes, SIZE);
+
+    return 1;
   }
 
   std::cout << "After scale:\n";
