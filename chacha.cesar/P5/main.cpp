@@ -35,6 +35,7 @@ int main()
 
     std::cout << "Square area: " << sq.getArea() << "\n";
     std::cout << "Diamond area: " << dm.getArea() << "\n";
+
   }
   catch (const std::exception& e)
   {
