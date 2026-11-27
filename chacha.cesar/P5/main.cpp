@@ -15,17 +15,21 @@ int main()
 
   try
   {
-    Square sq(sq_side, sq_pos);
-    Diamond dm(dm_h_diag, dm_v_diag, dm_pos);
+    const Square sq(sq_side, sq_pos);
+    const Diamond dm(dm_h_diag, dm_v_diag, dm_pos);
 
-    double scale;
+    double scale = 1.0;
     if (!(std::cin >> scale))
     {
+      std::cout << "Square area: " << sq.getArea() << "\n";
+      std::cout << "Diamond area: " << dm.getArea() << "\n";
       throw std::invalid_argument("Error: invalid input");
     }
 
     if (scale <= 0)
     {
+      std::cout << "Square area: " << sq.getArea() << "\n";
+      std::cout << "Diamond area: " << dm.getArea() << "\n";
       throw std::invalid_argument("Error: scale must be positive");
     }
 
