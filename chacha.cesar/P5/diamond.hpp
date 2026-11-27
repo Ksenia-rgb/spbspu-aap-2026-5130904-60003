@@ -3,15 +3,16 @@
 
 #include "shape.hpp"
 
-namespace chacha {
-class Diamond : public Shape {
+namespace chacha
+{
+class Diamond : public Shape
+{
  public:
   Diamond(double h_diag, double v_diag, const point_t& center);
-
   double getArea() const override;
   rectangle_t getFrameRect() const override;
   void move(double dx, double dy) override;
-  void move(const point_t& newPos) override;
+  void move(const point_t& new_pos) override;
 
  private:
   double h_diag_;
@@ -19,5 +20,4 @@ class Diamond : public Shape {
   point_t center_;
 };
 }  // namespace chacha
-
 #endif

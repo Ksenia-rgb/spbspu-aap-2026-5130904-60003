@@ -1,40 +1,40 @@
-#include "diamond.hpp"
-#include "square.hpp"
 #include <iostream>
+#include <stdexcept>
+#include "square.hpp"
+#include "diamond.hpp"
 
 int main()
 {
   using namespace chacha;
 
+  const double sq_side = 5.0;
+  const point_t sq_pos = {0.0, 0.0};
+  const double dm_h_diag = 4.0;
+  const double dm_v_diag = 6.0;
+  const point_t dm_pos = {1.0, 1.0};
+
   try
   {
-    std::cout << "--- PROBANDO SQUARE (Cuadrado) ---\n";
-    Square sq(5.0, {0.0, 0.0});
+    Square sq(sq_side, sq_pos);
+    Diamond dm(dm_h_diag, dm_v_diag, dm_pos);
 
-    std::cout << "Area: " << sq.getArea() << "\n";
+    double scale;
+    if (!(std::cin >> scale))
+    {
+      throw std::invalid_argument("Error: invalid input");
+    }
 
-    rectangle_t frameSq = sq.getFrameRect();
-    std::cout << "FrameRect Ancho: " << frameSq.width << " (Posicion X: " << frameSq.pos.x << ")\n";
+    if (scale <= 0)
+    {
+      throw std::invalid_argument("Error: scale must be positive");
+    }
 
-    sq.move(2.0, 3.0);
-    std::cout << "Nueva Posicion (mover relativo): " << sq.getFrameRect().pos.x << ", " << sq.getFrameRect().pos.y
-              << "\n";
-
-    std::cout << "\n--- PROBANDO DIAMOND (Rombo) ---\n";
-    Diamond dm(4.0, 6.0, {1.0, 1.0});
-
-    std::cout << "Area: " << dm.getArea() << "\n";
-
-    rectangle_t frameDm = dm.getFrameRect();
-    std::cout << "FrameRect Ancho: " << frameDm.width << " | Alto: " << frameDm.height << "\n";
-
-    dm.move({10.0, 10.0});
-    std::cout << "Nueva Posicion (mover absoluto): " << dm.getFrameRect().pos.x << ", " << dm.getFrameRect().pos.y
-              << "\n";
+    std::cout << "Square area: " << sq.getArea() << "\n";
+    std::cout << "Diamond area: " << dm.getArea() << "\n";
   }
-  catch (const std::exception &e)
+  catch (const std::exception& e)
   {
-    std::cerr << "Error inesperado: " << e.what() << "\n";
+    std::cerr << e.what() << "\n";
     return 1;
   }
 
