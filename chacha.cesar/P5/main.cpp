@@ -18,8 +18,11 @@ int main()
     const Square sq(sq_side, sq_pos);
     const Diamond dm(dm_h_diag, dm_v_diag, dm_pos);
 
+    double x = 0.0;
+    double y = 0.0;
     double scale = 1.0;
-    if (!(std::cin >> scale))
+
+    if (!(std::cin >> x >> y >> scale))
     {
       std::cout << "Square area: " << sq.getArea() << "\n";
       std::cout << "Diamond area: " << dm.getArea() << "\n";
@@ -35,7 +38,6 @@ int main()
 
     std::cout << "Square area: " << sq.getArea() << "\n";
     std::cout << "Diamond area: " << dm.getArea() << "\n";
-
   }
   catch (const std::exception& e)
   {
