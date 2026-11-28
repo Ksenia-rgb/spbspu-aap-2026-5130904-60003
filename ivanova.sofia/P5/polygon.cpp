@@ -63,8 +63,8 @@ double Polygon::getArea() const
 {
   double total = 0.0;
   for (size_t i = 0; i < count_; i++)
-  const size_t next = (i + 1) % count_;
   {
+    const size_t next = (i + 1) % count_;
     total += ptr_[i].x_ * ptr_[next].y_ - ptr_[next].x_ * ptr_[i].y_;
   }
   total *= 0.5;
