@@ -20,6 +20,6 @@ public:
 
   void move(const double delta_x, const double delta_y) override;
 
-  void scale(double factor) override; 
+  void scale(double factor) override;
 
 };
