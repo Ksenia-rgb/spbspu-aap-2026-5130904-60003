@@ -95,7 +95,7 @@ void freeShapes(Shape* shapes[], int count)
 
 int main()
 {
-  const int count = 4;
+  const int count = 3;
   Shape* shapes[count] = {nullptr, nullptr, nullptr};
 
   point_t pts[3] = {{2.0, 2.0}, {6.0, 2.0}, {4.0, 6.0}};
